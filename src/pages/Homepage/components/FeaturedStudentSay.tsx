@@ -40,7 +40,7 @@ const FeaturedStudentSay = () => {
   return (
     <div className="mt-16 w-full px-20 pt-5">
       <p className="items-center pb-5 text-center text-5xl">What Student's say</p>
-      <div className="mt-5 w-full grid grid-cols-5 gap-4 border border-black ">
+      <div className="mt-5 w-full grid grid-cols-5 gap-4">
         {data.map((student) => (
           <Student key={student.id} studentProps={student} />
         ))}

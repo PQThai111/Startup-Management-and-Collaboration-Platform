@@ -2,7 +2,7 @@ import LogoFPT from '../../src/assets/FPT.png';
 
 const Footer = () => {
   return (
-    <div className="h-[300px] bg-[#FCF3E4] mt-28 grid grid-cols-7">
+    <div className="h-[300px] bg-[#FCF3E4] grid grid-cols-7">
       <div className="mx-10 mt-10 col-start-1 col-span-1 ">
         <img src={LogoFPT} alt="" />
       </div>

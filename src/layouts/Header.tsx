@@ -2,7 +2,7 @@ import Logo from '../common/components/Logo';
 
 const Header = () => {
   return (
-    <div className="grid h-16 grid-cols-10 items-center gap-10 px-20 pb-5 pt-7">
+    <div className="grid h-16 grid-cols-10 items-center gap-10 px-20 pb-5 pt-7 mb-5">
       <div className="col-span-1">
         <Logo />
       </div>

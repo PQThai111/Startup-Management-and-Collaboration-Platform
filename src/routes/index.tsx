@@ -1,6 +1,8 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Homepage from '../pages/Homepage';
 import Login from '../pages/Login';
+import EventPage from '../pages/EventPage';
+import path from '../constant/path';
 
 interface RouteType {
   path: string;
@@ -13,6 +15,10 @@ const publicRoutes: RouteType[] = [
     path: '/',
     element: <Homepage />,
   },
+  {
+    path: path.newFeed,
+    element: <EventPage />,
+  }
 ];
 
 // const authenticatedRoutes: RouteType[] = [];

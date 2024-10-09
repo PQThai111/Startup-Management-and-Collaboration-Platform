@@ -40,7 +40,7 @@ const data: MentorProps[] = [
 
 const FeaturedMentors = () => {
   return (
-    <div className="mt-16  w-full px-20 pt-5">
+    <div className="mt-16 mb-20 w-full px-20 pt-5">
       <p className="items-center pb-5 text-center text-5xl">Outsanding Mentor</p>
       <div className="mt-5 grid grid-cols-3 gap-6">
         {data.map((mentor) => (
