@@ -11,6 +11,15 @@ export interface Event {
   registrationLink: string;
 }
 
+export interface EventList {
+  data: Event[]
+  pagination: {
+    page: number
+    limit: number
+    page_size: number
+  }
+}
+
 export enum EventType {
   Seminar = 0,
   Workshop = 1,
