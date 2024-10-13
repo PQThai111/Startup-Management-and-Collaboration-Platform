@@ -3,6 +3,7 @@ import Homepage from '../pages/Homepage';
 import Login from '../pages/Login';
 import EventPage from '../pages/EventPage';
 import path from '../constant/path';
+import ProjectPage from '../pages/ProjectPage';
 
 interface RouteType {
   path: string;
@@ -18,6 +19,10 @@ const publicRoutes: RouteType[] = [
   {
     path: path.newFeed,
     element: <EventPage />,
+  },
+  {
+    path: path.project,
+    element: <ProjectPage />,
   }
 ];
 

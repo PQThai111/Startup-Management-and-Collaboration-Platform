@@ -1,4 +1,4 @@
-import ButtonSearch from './ButtonSearch'
+// import ButtonSearch from './ButtonSearch'
 import InputSearch from './InputSearch'
 import AsideFilter from './AsideFilter'
 import EventItem from './EventItem'
@@ -32,22 +32,21 @@ export default function EventList() {
 
   console.log(eventsData)
 
-
   return (
     <div className='container mb-20 px-20'>
-      <div className=' h-[32px] mb-3 grid grid-cols-12'>
-        <div className="border border-blue-600 col-span-2">
+      <div className=' h-[32px] mb-5 grid grid-cols-12'>
+        {/* <div className="border border-blue-600 col-span-2">
           <ButtonSearch/>
-        </div>
-        <div className="border border-red-600 col-span-10">
+        </div> */}
+        <div className="col-span-10">
           <InputSearch/>
         </div>
       </div>
-      <div className="body grid grid-cols-10">
-        <div className="filter-list border h-[500px] border-blue-500 col-span-2">
+      <div className="grid grid-cols-10">
+        <div className="h-[500px] col-span-2 pr-3">
           <AsideFilter/>
         </div>
-        <div className="event_list col-span-8">
+        <div className=" col-span-8">
           <EventItem eventProps={EventItemTest}/>
           <EventItem eventProps={EventItemTest}/>
           <EventItem eventProps={EventItemTest}/>

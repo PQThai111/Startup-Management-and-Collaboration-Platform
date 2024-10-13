@@ -11,7 +11,6 @@ import axios, { AxiosError, type AxiosInstance } from 'axios'
 import { HttpStatusCode } from '../constant/httpStatusCode.enum'
 import config from '../constant/config'
 
-
 class Http {
   instance: AxiosInstance
   // private accessToken: string
