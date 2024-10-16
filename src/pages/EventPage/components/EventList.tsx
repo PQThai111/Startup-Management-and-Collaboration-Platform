@@ -2,29 +2,14 @@
 import InputSearch from './InputSearch'
 import AsideFilter from './AsideFilter'
 import EventItem from './EventItem'
-import { Event, EventType } from '../../../types/event.type'
+// import { Event, EventType } from '../../../types/event.type'
 import { useQuery } from '@tanstack/react-query'
 import eventApi from '../../../apis/event.api'
 import ButtonSearch from './Buttonsearch'
 
-const EventItemTest : Event ={
-    id: '1',
-    coverImage: 'https://s3-alpha-sig.figma.com/img/0f72/2667/d6a634bbd4e7c1dfc12adaf9e8ce1984?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PZae~MRFDyeiqgAfKt4RLCHnU5~VtTfmFV7mqTlM1gH9R7oI8ORJFXCcZfRl-H71sOFoMQ~Pl2maVdMMR6ozMIJj-Qb9uXRzpGiWkFgelhVMoh0JY36zO3ZT0zB2ViscAIRuO0XmWGZLOBDs7fcF1Sb~5uOHv8dIjCdIS1QVAj8XZOM4FbD3gW5eRO4Hl8o54iOFbGqHJAfQikZGyv4cJppvIShWwk3mzuis3XhOgLRyig7YVgUn3WPhbe08kVvwttKYbVbM5gwmAkVfXBd-HWyxQ1AAkbwSz~m-cb9zXzzRjvVeTGgztWvNts6ps0yUrCaednr5RjFjGz4eVMwS3w__',
-    title: 'CƠ HỘI CÓ 1-0-2 TRÒ CHUYỆN VỀ A.I CÙNG KỸ SƯ ĐẾN TỪ AMAZON LONDON NGAY TẠI TẠI ĐH FPT',
-    description: 'Kayeon Yoo là tiến sĩ về Ngôn ngữ học từ Đại học Cambridge (Anh), hiện đang dẫn dắt dự án phát triển công nghệ giọng nói tại Amazon London. Là người đam mê không ngừng với Xử lý Ngôn ngữ Tự nhiên và sự phát triển của ngôn ngữ, Dr Yoo sẽ chia sẻ về hành trình từ một người ngoại đạo đến vị trí chuyên gia AI tại Amazon.',
-    location: 'FPT University (HCM City)',
-    endDate: new Date(),
-    startDate: new Date(),
-    registrationLink: 'https://www.figma.com/design/y7qpQN0CWVc7MCQggExeTd/SMC-WEB?node-id=62-154&node-type=frame&t=KoktOydCUnRksUFh-0',
-    type: EventType.Meeting,
-    tag: '#AllMajor',
-}
-
-
-
 export default function EventList() {
 
-  const { data : eventsData } = useQuery({
+  const { data : eventsData, isLoading } = useQuery({
     queryKey: ['events', 'queryConfig'],
     queryFn: () => {
       return eventApi.getEventss()
@@ -33,7 +18,7 @@ export default function EventList() {
     staleTime: 3 * 60 * 1000
   })
 
-  console.log(eventsData)
+  // console.log(eventsData?.data.data.data)
 
   return (
     <div className='w-full mb-20 px-20 mx-auto'>
@@ -52,16 +37,23 @@ export default function EventList() {
         <div className="h-[500px] w-[25%] pr-3">
           <AsideFilter/>
         </div>
-        <div className=" w-[75%]">
-          <EventItem eventProps={EventItemTest}/>
-          <EventItem eventProps={EventItemTest}/>
-          <EventItem eventProps={EventItemTest}/>
-          <EventItem eventProps={EventItemTest}/>
-          <EventItem eventProps={EventItemTest}/>
-          <EventItem eventProps={EventItemTest}/>
-          <EventItem eventProps={EventItemTest}/>
-          <EventItem eventProps={EventItemTest}/>
-          <EventItem eventProps={EventItemTest}/>
+        <div className=" w-[75%] flex justify-center items-center">
+          {eventsData && (
+            <div>
+              {eventsData?.data?.data?.data.map(
+                (event) => <EventItem eventProps={event}/>
+              )}
+            </div>
+          )}
+          {isLoading && (
+            <div role="status" className='mx-auto'>
+              <svg aria-hidden="true" className=" w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
+                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+              </svg>
+              <span className="sr-only">Loading...</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

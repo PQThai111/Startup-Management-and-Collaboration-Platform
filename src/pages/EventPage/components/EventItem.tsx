@@ -1,12 +1,16 @@
+import { Link } from 'react-router-dom';
 import { Event } from '../../../types/event.type';
+import path from '../../../constant/path';
 
 export default function EventItem({ eventProps }: { eventProps: Event }) {
-  const {coverImage, title, description, location, type, startDate, endDate, tag, registrationLink} = eventProps;
+  const {id, title, description, location, type, startDate, endDate, tag, registrationLink} = eventProps;
+  let start = new Date(startDate);
+  let end = new Date(endDate);
 
   return (
-      <div className="h-[340px] w-full bg-[#F7F7F7] grid grid-cols-10 p-3 border border-black rounded-md mb-3">
+      <Link to={`${path.newFeed}`+ "/" + `${id}`} className="h-[340px] w-full bg-[#F7F7F7] grid grid-cols-10 p-3 border border-black rounded-md mb-3">
         <div className="h-full col-span-3 p-2 overflow-hidden">
-          <img src={coverImage} className="h-full w-full object-cover " />
+          <img src="https://s3-alpha-sig.figma.com/img/0f72/2667/d6a634bbd4e7c1dfc12adaf9e8ce1984?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PZae~MRFDyeiqgAfKt4RLCHnU5~VtTfmFV7mqTlM1gH9R7oI8ORJFXCcZfRl-H71sOFoMQ~Pl2maVdMMR6ozMIJj-Qb9uXRzpGiWkFgelhVMoh0JY36zO3ZT0zB2ViscAIRuO0XmWGZLOBDs7fcF1Sb~5uOHv8dIjCdIS1QVAj8XZOM4FbD3gW5eRO4Hl8o54iOFbGqHJAfQikZGyv4cJppvIShWwk3mzuis3XhOgLRyig7YVgUn3WPhbe08kVvwttKYbVbM5gwmAkVfXBd-HWyxQ1AAkbwSz~m-cb9zXzzRjvVeTGgztWvNts6ps0yUrCaednr5RjFjGz4eVMwS3w__" className="h-full w-full object-cover " />
         </div>
         <div className="col-span-7 p-2">
           <div>
@@ -16,7 +20,7 @@ export default function EventItem({ eventProps }: { eventProps: Event }) {
             <p className="text-lg font-[400] truncate mb-16">{description}</p>
           </div>
           <p className="mt-2 text-ellipsis text-justify text-[#686868] truncate">
-              <span className='font-bold'>Time</span>: {startDate.getHours()}:{startDate.getMinutes()} - {endDate.getHours()}:{endDate.getMinutes()} On {endDate.getDay().toString()}.{startDate.getMonth().toString()}.{endDate.getFullYear().toString()}
+              <span className='font-bold'>Time</span>: {start.getHours()}:{start.getMinutes()} - {end.getHours()}:{end.getMinutes()} On {end.getDay().toString()}.{start.getMonth().toString()}.{end.getFullYear().toString()}
             </p>
           <p className="text-ellipsis text-justify text-[#686868] truncate">
             <span className='font-bold'>Location</span>: {location}
@@ -36,6 +40,6 @@ export default function EventItem({ eventProps }: { eventProps: Event }) {
             </a>
           </div>
         </div>
-      </div>
+      </Link>
   )
 }

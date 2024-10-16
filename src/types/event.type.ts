@@ -4,8 +4,8 @@ export interface Event {
   description: string;
   type: EventType; //seminar, workshop, meeting
   coverImage: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   location: string;
   tag: string;
   registrationLink: string;

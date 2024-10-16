@@ -4,6 +4,7 @@ import Login from '../pages/Login';
 import EventPage from '../pages/EventPage';
 import path from '../constant/path';
 import ProjectPage from '../pages/ProjectPage';
+import EventDetailPage from '../pages/EventDetailPage';
 
 interface RouteType {
   path: string;
@@ -23,6 +24,10 @@ const publicRoutes: RouteType[] = [
   {
     path: path.project,
     element: <ProjectPage />,
+  },
+  {
+    path: path.newsDetail,
+    element: <EventDetailPage />,
   }
 ];
 
