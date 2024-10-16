@@ -23,7 +23,7 @@ const ProjectItemTest : ProjectPost ={
 export default function ProjectPostList() {
 
   return (
-    <div className='container mb-20 px-20 mx-auto'>
+    <div className='container mb-20 px-20 pt-7 mx-auto'>
       <div className=' h-8 mb-5 grid grid-cols-12'>
         <div className="col-span-10">
           <InputSearch/>

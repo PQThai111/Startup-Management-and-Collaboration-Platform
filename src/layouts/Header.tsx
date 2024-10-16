@@ -1,3 +1,4 @@
+import { Link, Navigate, NavLink } from 'react-router-dom';
 import Logo from '../common/components/Logo';
 
 const Header = () => {
@@ -8,14 +9,20 @@ const Header = () => {
       </div>
       <div className="col-span-7 pl-20">
         <ul className="flex gap-7">
-          <li className="text-main krona-one-regular font-semibold underline decoration-yellow-500 underline-offset-4">
-            Home
+          <li >
+            <NavLink className="text-main krona-one-regular font-semibold underline decoration-yellow-500 underline-offset-4" to="/">
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className="text-main krona-one-regular font-semibold underline decoration-yellow-500 underline-offset-4" to="/news">
+              New feed
+            </NavLink>
           </li>
           <li className="text-main krona-one-regular font-semibold decoration-yellow-500 hover:underline hover:underline-offset-4">
-            New Feed
-          </li>
-          <li className="text-main krona-one-regular font-semibold decoration-yellow-500 hover:underline hover:underline-offset-4">
-            Projects
+            <NavLink className="text-main krona-one-regular font-semibold underline decoration-yellow-500 underline-offset-4" to="/project">
+              Projects
+            </NavLink>
           </li>
         </ul>
       </div>

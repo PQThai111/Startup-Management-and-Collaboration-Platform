@@ -19,6 +19,8 @@ const EventItemTest : Event ={
     tag: '#AllMajor',
 }
 
+
+
 export default function EventList() {
 
   const { data : eventsData } = useQuery({
@@ -33,7 +35,7 @@ export default function EventList() {
   console.log(eventsData)
 
   return (
-    <div className='container mb-20 px-20'>
+    <div className='w-full mb-20 px-20 mx-auto'>
       <div className=' h-[32px] mb-5 grid grid-cols-12'>
         {/* <div className="border border-blue-600 col-span-2">
           <ButtonSearch/>
@@ -42,11 +44,11 @@ export default function EventList() {
           <InputSearch/>
         </div>
       </div>
-      <div className="grid grid-cols-10">
-        <div className="h-[500px] col-span-2 pr-3">
+      <div className="flex w-full">
+        <div className="h-[500px] w-[25%] pr-3">
           <AsideFilter/>
         </div>
-        <div className=" col-span-8">
+        <div className=" w-[75%]">
           <EventItem eventProps={EventItemTest}/>
           <EventItem eventProps={EventItemTest}/>
           <EventItem eventProps={EventItemTest}/>
