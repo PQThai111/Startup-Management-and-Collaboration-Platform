@@ -71,7 +71,7 @@ const data = [
         </div>
       ))}
       <div className="flex justify-end">
-        <button className="bg-black w-28 text-white rounded-md">
+        <button className="bg-black w-full p-1.5 text-white rounded-md">
           Apply Filter
         </button>
       </div>

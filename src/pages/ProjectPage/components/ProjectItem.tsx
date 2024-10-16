@@ -1,8 +1,8 @@
 import { ProjectPost } from '../../../types/project.type';
 
 export default function ProjectPostItem({ projectPostProps }: { projectPostProps: ProjectPost }) {
-  const {id,projectName,description,leader,lecturer,mentor,memberWanted,projectDetails,type,coverImage,startDate,endDate} = projectPostProps;
-
+  const {projectName,description,leader,lecturer,mentor,memberWanted,projectDetails,type,coverImage,startDate,endDate} = projectPostProps;
+  //id,
   return (
       <div className="h-[340px] bg-[rgb(247,247,247)] col-span-5 grid grid-cols-12 p-1 border border-black rounded-md mb-3">
         <div className="h-full col-span-4 p-2 overflow-hidden">

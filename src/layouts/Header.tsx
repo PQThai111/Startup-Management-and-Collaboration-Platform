@@ -1,7 +1,11 @@
-import { Link, Navigate, NavLink } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Logo from '../common/components/Logo';
+import path from '../constant/path';
+import classNames from 'classnames';
 
 const Header = () => {
+  let pathname = useLocation().pathname
+
   return (
     <div className="grid h-16 grid-cols-10 items-center gap-10 px-20 pb-5 pt-7 mb-5">
       <div className="col-span-1">
@@ -10,19 +14,28 @@ const Header = () => {
       <div className="col-span-7 pl-20">
         <ul className="flex gap-7">
           <li >
-            <NavLink className="text-main krona-one-regular font-semibold underline decoration-yellow-500 underline-offset-4" to="/">
+            <Link to={path.home} className={classNames('text-main krona-one-regular font-semibold', {
+              'underline decoration-yellow-500 underline-offset-4': pathname == path.home,
+              '': pathname != path.home,
+            })}>
               Home
-            </NavLink>
+            </Link>
           </li>
           <li>
-            <NavLink className="text-main krona-one-regular font-semibold underline decoration-yellow-500 underline-offset-4" to="/news">
+            <Link to={path.newFeed} className={classNames('text-main krona-one-regular font-semibold', {
+                'underline decoration-yellow-500 underline-offset-4': pathname == path.newFeed,
+                '': pathname != path.newFeed,
+              })}>
               New feed
-            </NavLink>
+            </Link>
           </li>
           <li className="text-main krona-one-regular font-semibold decoration-yellow-500 hover:underline hover:underline-offset-4">
-            <NavLink className="text-main krona-one-regular font-semibold underline decoration-yellow-500 underline-offset-4" to="/project">
+            <Link to={path.project} className={classNames('text-main krona-one-regular font-semibold', {
+                'underline decoration-yellow-500 underline-offset-4': pathname == path.project,
+                '': pathname != path.project,
+              })}>
               Projects
-            </NavLink>
+            </Link>
           </li>
         </ul>
       </div>

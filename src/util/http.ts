@@ -1,5 +1,5 @@
 // import axios, { AxiosError, type AxiosInstance } from 'axios'
-import axios, { AxiosError, type AxiosInstance } from 'axios'
+import axios, { type AxiosInstance } from 'axios'
 // import { AuthResponse } from 'src/types/auth.type'
 // import {
 //   clearLS,
@@ -8,7 +8,7 @@ import axios, { AxiosError, type AxiosInstance } from 'axios'
 //   saveAccessTokenAndRefreshTokenToLS,
 //   setProfileToLS
 // } from './auth'
-import { HttpStatusCode } from '../constant/httpStatusCode.enum'
+
 import config from '../constant/config'
 
 class Http {

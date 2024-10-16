@@ -5,6 +5,7 @@ import EventItem from './EventItem'
 import { Event, EventType } from '../../../types/event.type'
 import { useQuery } from '@tanstack/react-query'
 import eventApi from '../../../apis/event.api'
+import ButtonSearch from './Buttonsearch'
 
 const EventItemTest : Event ={
     id: '1',
@@ -42,6 +43,9 @@ export default function EventList() {
         </div> */}
         <div className="col-span-10">
           <InputSearch/>
+        </div>
+        <div className="col-span-2">
+          <ButtonSearch/>
         </div>
       </div>
       <div className="flex w-full">
