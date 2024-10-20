@@ -5,6 +5,7 @@ import EventPage from '../pages/EventPage';
 import path from '../constant/path';
 import ProjectPage from '../pages/ProjectPage';
 import EventDetailPage from '../pages/EventDetailPage';
+import CreateProjectPage from '../pages/CreateProjectPage';
 
 interface RouteType {
   path: string;
@@ -28,6 +29,10 @@ const publicRoutes: RouteType[] = [
   {
     path: path.newsDetail,
     element: <EventDetailPage />,
+  },
+  {
+    path: path.createProject,
+    element: <CreateProjectPage />,
   }
 ];
 

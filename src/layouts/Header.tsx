@@ -39,8 +39,10 @@ const Header = () => {
           </li>
         </ul>
       </div>
-      <div className='col-span-1 '>
-        Create project
+      <div className='col-span-1 w-36'>
+        <Link to={path.createProject} className='text-main h-9 font-bold'>
+          Create a project
+        </Link>
       </div>
       <div className="col-span-2 flex justify-end gap-5">
         <button className="text-main border-main h-9 w-24 rounded-3xl border-2 px-2 py-1 font-semibold">
