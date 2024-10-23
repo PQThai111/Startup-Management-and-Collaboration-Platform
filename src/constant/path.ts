@@ -3,6 +3,8 @@ const path = {
   newFeed: "/news",
   project: "/project",
   newsDetail: "/news/:newId",
-  createProject: "/createProject"
+  createProject: "/createProject",
+  myProject: "/myProject",
+  login:"/login"
 }
 export default path

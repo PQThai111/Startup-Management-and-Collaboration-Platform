@@ -14,16 +14,20 @@ export default function CreateProject() {
           <p> Tui</p>
         </div>
 
-        <div className="my-4 border-b-2 pb-4">
+        <div className="my-4 border-b-2 pb-2">
           <p>
-          <span className="font-semibold" >Project name:</span>
-        </p>
-          <input type="text" className="w-[500px] h-[30px] mb-1 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=" Both English name and Vietnamese name of project"/>
+            <span className="font-semibold" >Project name:</span>
+          </p>
+          <input type="text" className="w-[500px] h-[30px] mb-2 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=" English name of project"/>
+          <input type="text" className="w-[500px] h-[30px] mb-2 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=" Vietnamese name of project"/>
         </div>
 
         <div className="my-4 border-b-2 pb-4">
           <p className="font-semibold">
             Description:
+          </p>
+          <p className="text-gray-500">
+            * The description includes context, problem, solution, features,...
           </p>
           <textarea id="message" className="block p-2.5 w-[500px] h-[200px] text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none" placeholder="Write your thoughts here..." defaultValue={""} />
 
@@ -44,7 +48,7 @@ export default function CreateProject() {
               >
                 EXE 1
               </label>
-              <p className="text-sm">Mô tả mô tả nè</p>
+              <p className="text-sm">(Experiential Entrepreneurship 1)</p>
             </div>
           </div>
 
@@ -62,7 +66,7 @@ export default function CreateProject() {
               >
                 EXE 2
               </label>
-              <p className="text-sm">Mô tả mô tả nè</p>
+              <p className="text-sm">(Experiential Entrepreneurship 2)</p>
             </div>
           </div>
         </div>
@@ -77,17 +81,20 @@ export default function CreateProject() {
             Desired lecture:
           </p>
           <select id="countries" className="w-[500px] h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <option selected>Choose a country</option>
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
+            <option selected>Choose a lecturer</option>
+            <option value="1">Miss Thảo</option>
+            <option value="2">Miss Grand</option>
+            <option value="3">Miss Univer</option>
+            <option value="4">Mr. Khầy</option>
           </select>
         </div>
       </div>
       <div>
-        <button className="w-20 border-main border-2 text-main font-semibold rounded-sm">
+        <button className="w-20 border-main border-2 text-main font-semibold rounded-sm mr-5">
           Create
+        </button>
+        <button className="w-20 border-main border-2 text-white bg-main font-semibold rounded-sm">
+          Cancel
         </button>
       </div>
     </div>

@@ -7,7 +7,7 @@ const Header = () => {
   let pathname = useLocation().pathname
 
   return (
-    <div className="grid h-16 grid-cols-10 items-center gap-9 px-20 pb-5 pt-7 mb-5">
+    <div className="grid h-16 grid-cols-11 items-center gap-9 px-20 pb-5 pt-7 mb-5">
       <div className="col-span-1">
         <Logo />
       </div>
@@ -40,14 +40,21 @@ const Header = () => {
         </ul>
       </div>
       <div className='col-span-1 w-36'>
+        <Link to={path.myProject} className='text-main h-9 font-bold'>
+          My project
+        </Link>
+      </div>
+      <div className='col-span-1 w-36'>
         <Link to={path.createProject} className='text-main h-9 font-bold'>
           Create a project
         </Link>
       </div>
       <div className="col-span-2 flex justify-end gap-5">
+      <Link to={path.login} className='text-main h-9 font-bold'>
         <button className="text-main border-main h-9 w-24 rounded-3xl border-2 px-2 py-1 font-semibold">
           Login
         </button>
+      </Link>
         <button className="bg-main h-9 w-24 rounded-3xl border px-2 py-1 font-semibold text-white">
           Signup
         </button>

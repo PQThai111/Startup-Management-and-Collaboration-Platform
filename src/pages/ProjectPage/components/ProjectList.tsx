@@ -2,6 +2,7 @@ import InputSearch from '../../EventPage/components/InputSearch'
 import { ProjectPost, PROJECT_POST_TYPE } from '../../../types/project.type'
 // import { useQuery } from '@tanstack/react-query'
 import ProjectPostItem from './ProjectItem'
+import ButtonSearch from '../../EventPage/components/Buttonsearch'
 
 const ProjectItemTest : ProjectPost ={
     id: '1',
@@ -27,6 +28,9 @@ export default function ProjectPostList() {
       <div className=' h-8 mb-5 grid grid-cols-12'>
         <div className="col-span-10">
           <InputSearch/>
+        </div>
+        <div className="col-span-2">
+          <ButtonSearch/>
         </div>
       </div>
       <div className="grid grid-cols-10 gap-3">
