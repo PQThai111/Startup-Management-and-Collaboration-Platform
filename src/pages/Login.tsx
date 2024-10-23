@@ -16,7 +16,7 @@ const Login = (): JSX.Element => {
   const {
     register,
     handleSubmit,
-    setError,
+    //setError,
     formState: { errors }
   } = useForm<FormData>({
     resolver: yupResolver(loginSchema)
