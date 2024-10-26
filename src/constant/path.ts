@@ -5,6 +5,7 @@ const path = {
   newsDetail: "/news/:newId",
   createProject: "/createProject",
   myProject: "/myProject",
-  login:"/login"
+  login:"/login",
+  register:"/register"
 }
 export default path

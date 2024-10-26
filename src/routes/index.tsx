@@ -7,6 +7,7 @@ import ProjectPage from '../pages/ProjectPage';
 import EventDetailPage from '../pages/EventDetailPage';
 import CreateProjectPage from '../pages/CreateProjectPage';
 import MyProjectPage from '../pages/MyProjectPage';
+import Register from '../pages/Register';
 
 interface RouteType {
   path: string;
@@ -38,11 +39,14 @@ const publicRoutes: RouteType[] = [
   {
     path: path.myProject,
     element: <MyProjectPage/>,
-  }
-  ,
+  },
   {
     path: path.login,
     element: <Login/>,
+  },
+  {
+    path: path.register,
+    element: <Register/>,
   }
 ];
 

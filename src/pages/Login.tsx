@@ -53,7 +53,7 @@ const Login = (): JSX.Element => {
 
   return <>
   <div className="container7">
-    <div className="my-10 mx-auto w-[600px] h-[630px] bg-[#013C5A] p-5 px-14">
+    <div className="my-9 mx-auto w-[600px] h-[630px] bg-[#013C5A] p-5 px-14">
       <div className=" flex justify-center mt-5">
         <Logo isLogin/>
       </div>
