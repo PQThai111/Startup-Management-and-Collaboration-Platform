@@ -18,8 +18,12 @@ export default function CreateProject() {
           <p>
             <span className="font-semibold" >Project name:</span>
           </p>
-          <input type="text" className="w-[500px] h-[30px] mb-2 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=" English name of project"/>
-          <input type="text" className="w-[500px] h-[30px] mb-2 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=" Vietnamese name of project"/>
+          <div>
+            <input type="text" className="w-[500px] h-[30px] mb-2 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=" English name of project"/>
+          </div>
+          <div>
+            <input type="text" className="w-[500px] h-[30px] mb-2 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=" Vietnamese name of project"/>
+          </div>
         </div>
 
         <div className="my-4 border-b-2 pb-4">
@@ -54,14 +58,14 @@ export default function CreateProject() {
 
           <div className="flex ps-4">
             <input
-              id="bordered-radio-1"
+              id="bordered-radio-2"
               type="radio"
               name="bordered-radio"
               className="mt-[2px] w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
             <div className="flex flex-col w-full ms-2 space-y-0">
               <label
-                htmlFor="bordered-radio-1"
+                htmlFor="bordered-radio-2"
                 className="font-medium text-gray-900 dark:text-gray-300"
               >
                 EXE 2

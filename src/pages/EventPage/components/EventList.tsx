@@ -18,7 +18,7 @@ export default function EventList() {
     staleTime: 3 * 60 * 1000
   })
 
-  // console.log(eventsData?.data.data.data)
+  console.log(eventsData?.data.data.data)
 
   return (
     <div className='w-full mb-20 px-20 mx-auto'>

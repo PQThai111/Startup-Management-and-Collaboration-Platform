@@ -28,12 +28,12 @@ export default function Register() {
               id="bordered-radio-1"
               type="radio"
               name="bordered-radio"
-              className="w-4 h-4"
+              className="mt-[2px] w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
             <div className="flex flex-col w-full ms-2 space-y-0">
               <label
                 htmlFor="bordered-radio-1"
-                className="font-medium text-white"
+                className="font-medium text-white dark:text-gray-300"
               >
                 Student
               </label>
@@ -42,14 +42,14 @@ export default function Register() {
 
           <div className="flex ps-4 mb-1">
             <input
-              id="bordered-radio-1"
+              id="bordered-radio-2"
               type="radio"
               name="bordered-radio"
               className="w-4 h-4"
             />
             <div className="flex flex-col w-full ms-2 space-y-0">
               <label
-                htmlFor="bordered-radio-1"
+                htmlFor="bordered-radio-2"
                 className="font-medium text-white"
               >
                 Lecturer
@@ -58,14 +58,14 @@ export default function Register() {
           </div>
           <div className="flex ps-4 mb-1">
             <input
-              id="bordered-radio-1"
+              id="bordered-radio-3"
               type="radio"
               name="bordered-radio"
               className="w-4 h-4"
             />
             <div className="flex flex-col w-full ms-2 space-y-0">
               <label
-                htmlFor="bordered-radio-1"
+                htmlFor="bordered-radio-3"
                 className="font-medium text-white"
               >
                 Mentor
@@ -73,7 +73,6 @@ export default function Register() {
             </div>
           </div>
         </div>
-
         <div className="text-white">
           Gmail:
         </div>

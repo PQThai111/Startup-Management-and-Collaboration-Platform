@@ -29,7 +29,7 @@ const Login = (): JSX.Element => {
   const onSubmit = handleSubmit((data) => {
     loginAccountMutation.mutate(data, {
       onSuccess: (data) => {
-        console.log(data)
+        console.log(data.data.data.access_token)
         navigate(path.home)
         // setIsAuthenticated(true)
         // setProfile(data.data.data.user)

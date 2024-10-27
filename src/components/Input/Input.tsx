@@ -74,8 +74,9 @@ export default function Input({
           <path strokeLinecap='round' strokeLinejoin='round' d='M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z' />
         </svg>
       )}
-
-      <div className={classNameError}>{errorMessage}</div>
+      <div className={classNameError}>
+        {errorMessage}
+      </div>
     </div>
   )
 }
