@@ -1,13 +1,13 @@
-export interface ProjectPost {
+export interface Project {
 // phần hiển thị trên items
   id: string;
 //  status: boolean;//còn tuyển người / không còn
   projectName: string;
   projectDetails: string;//mô tả về project
-  description: string;//caption của chủ post
-  type: PROJECT_POST_TYPE; //exe1, exe2,
+  // description: string;//caption của chủ post
+  type: PROJECT_TYPE; //exe1, exe2,
   coverImage?: string;
-  startDate: Date;
+  startDate: Date;//sẽ đổi thành học kỳ
   endDate: Date;
   mentor: string;
   lecturer: string;
@@ -18,15 +18,15 @@ export interface ProjectPost {
   memberRoles?: string;
   timeLine: number;
 }
-export interface ProjectPostList {
-  data: ProjectPost[]
+export interface ProjectList {
+  data: Project[]
   pagination: {
     page: number
     limit: number
     page_size: number
   }
 }
-export enum PROJECT_POST_TYPE {
+export enum PROJECT_TYPE {
   exe1 = 0,
   exe2 = 1
 }

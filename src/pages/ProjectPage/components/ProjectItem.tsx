@@ -1,17 +1,18 @@
-import { ProjectPost } from '../../../types/project.type';
+import { Project } from '../../../types/project.type';
 
-export default function ProjectPostItem({ projectPostProps }: { projectPostProps: ProjectPost }) {
-  const {projectName,description,leader,lecturer,mentor,memberWanted,projectDetails,type,coverImage,startDate,endDate} = projectPostProps;
+export default function ProjectItem({ projectProps }: { projectProps: Project }) {
+  const {projectName,leader,lecturer,mentor,memberWanted,projectDetails,type,coverImage,startDate,endDate} = projectProps;
+  let start = new Date(startDate);
+  let end = new Date(endDate);
   //id,
   return (
-      <div className="h-[340px] bg-[rgb(247,247,247)] col-span-5 p-1 border border-black rounded-md mb-3">
-        <div className=" p-2">
+      <div className="h-[340px] bg-[rgb(247,247,247)] col-span-5 p-3 border border-black rounded-md mb-3">
           <div className='flex justify-between'>
             <p className="text-ellipsis text-justify text-[#686868] ">
               {type === 0 ? "exe1" : "exe2"}
             </p>
             <p className="mt-2 text-ellipsis text-justify text-[#686868] truncate">
-              <span className='font-bold'>Time</span>: {startDate.getHours()}:{startDate.getMinutes()} - {endDate.getHours()}:{endDate.getMinutes()} On {endDate.getDay().toString()}.{startDate.getMonth().toString()}.{endDate.getFullYear().toString()}
+            <span className='font-bold'>Time</span>: {start.getHours()}:{start.getMinutes()} - {end.getHours()}:{end.getMinutes()} On {end.getDay().toString()}.{start.getMonth().toString()}.{end.getFullYear().toString()}
             </p>
           </div>
           <div className='flex items-center'>
@@ -22,7 +23,7 @@ export default function ProjectPostItem({ projectPostProps }: { projectPostProps
               <span className='font-bold'></span>{leader}
             </p>
           </div>
-            <p className="text-lg font-[400] truncate mb-5">{description}</p>
+            {/* <p className="text-lg font-[400] truncate mb-5">{description}</p> */}
           <div>
             <p className="text-3xl font-[500]">{projectName}</p>
           </div>
@@ -43,7 +44,6 @@ export default function ProjectPostItem({ projectPostProps }: { projectPostProps
               Apply
             </button>
           </div>
-        </div>
       </div>
   )
 }

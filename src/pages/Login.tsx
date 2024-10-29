@@ -5,7 +5,7 @@ import Input from "../components/Input";
 import { schema, Schema } from '../util/rules'
 import authApi from "../apis/auth.api";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import path from "../constant/path";
 
 type FormData = Pick<Schema, 'email' | 'password'>
@@ -80,9 +80,11 @@ const Login = (): JSX.Element => {
       </form>
       <div className=" w-[490px]">
         <p className="mt-5 text-center text-white">Or?</p>
-        <button className=" w-full bg-white rounded-lg mt-5 text-center text-main h-9 font-bold text-[20px]">
-          Sign up
-        </button>
+        <Link to={path.register}>
+          <button className=" w-full bg-white rounded-lg mt-5 text-center text-main h-9 font-bold text-[20px]">
+            Sign up
+          </button>
+        </Link>
       </div>
     </div>
   </div>;

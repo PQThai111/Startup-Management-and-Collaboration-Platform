@@ -50,14 +50,16 @@ const Header = () => {
         </Link>
       </div>
       <div className="col-span-2 flex justify-end gap-5">
-      <Link to={path.login} className='text-main h-9 font-bold'>
-        <button className="text-main border-main h-9 w-24 rounded-3xl border-2 px-2 py-1 font-semibold">
-          Login
-        </button>
-      </Link>
-        <button className="bg-main h-9 w-24 rounded-3xl border px-2 py-1 font-semibold text-white">
-          Signup
-        </button>
+        <Link to={path.login} className='text-main h-9 font-bold'>
+          <button className="text-main border-main h-9 w-24 rounded-3xl border-2 px-2 py-1 font-semibold">
+            Login
+          </button>
+        </Link>
+        <Link to={path.register} className='text-main h-9 font-bold'>
+          <button className="bg-main h-9 w-24 rounded-3xl border px-2 py-1 font-semibold text-white">
+            Signup
+          </button>
+        </Link>
       </div>
     </div>
   );
