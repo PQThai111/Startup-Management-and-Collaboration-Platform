@@ -1,7 +1,7 @@
 // import axios, { AxiosError, type AxiosInstance } from 'axios'
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import config from '../constant/config'
-import { AuthResponse } from '../types/auth.type'
+// import { AuthResponse } from '../types/auth.type'
 import { clearLS, getAccessTokenToLS, getRefreshTokenToLS, saveAccessTokenAndRefreshTokenToLS } from './auth'
 import { HttpStatusCode } from '../constant/httpStatusCode.enum'
 
