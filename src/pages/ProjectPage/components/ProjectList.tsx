@@ -28,9 +28,9 @@ export default function ProjectList() {
           <ButtonSearch/>
         </div>
       </div>
-      <div className="grid grid-cols-10 gap-3">
+      <div >
         {projectsData && (
-          <div>
+          <div className="grid grid-cols-10 gap-3">
             {projectsData?.data?.data?.data.map(
                 (project) => <ProjectItem projectProps={project}/>
             )}

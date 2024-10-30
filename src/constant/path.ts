@@ -6,6 +6,12 @@ const path = {
   createProject: "/createProject",
   myProject: "/myProject",
   login:"/login",
-  register:"/register"
+  register:"/register",
+  profile:"/profile",
+  projectManagement:"projectManagement",
+  timeLine: "timeLine",
+  calendarMentor: "calendarMentor",
+  financialReport: "financialReport",
+  projectDetail: ":projectId"
 }
 export default path

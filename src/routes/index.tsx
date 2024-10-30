@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { createBrowserRouter, Navigate, Route, RouteObject, RouterProvider, Routes } from 'react-router-dom';
 import Homepage from '../pages/Homepage';
 import Login from '../pages/Login';
 import EventPage from '../pages/EventPage';
@@ -8,14 +8,15 @@ import EventDetailPage from '../pages/EventDetailPage';
 import CreateProjectPage from '../pages/CreateProjectPage';
 import MyProjectPage from '../pages/MyProjectPage';
 import Register from '../pages/Register';
+import ProfilePage from '../pages/ProfilePage';
+import ProjectManagementPage from '../pages/ProjectManagementPage';
+import TaskManagement from '../pages/TaskManagement';
+import Timeline from '../pages/Timeline';
+import CalendarMentor from '../pages/CalendarMentor';
+import FinancialReport from '../pages/FinancialReport';
+import ProjectDetail from '../pages/ProjectDetail';
 
-interface RouteType {
-  path: string;
-  element: JSX.Element;
-  children?: RouteType[];
-}
-
-const publicRoutes: RouteType[] = [
+const publicRoutes: RouteObject[] = [
   {
     path: '/',
     element: <Homepage />,
@@ -47,22 +48,53 @@ const publicRoutes: RouteType[] = [
   {
     path: path.register,
     element: <Register/>,
+  },
+  {
+    path: path.profile,
+    element: <ProfilePage/>,
+  }
+  ,
+  {
+    path: path.projectManagement,
+    element: <ProjectManagementPage/>,
+    children: [
+      {
+        element: <TaskManagement/>,
+        index: true,
+      },
+      {
+        element: <Timeline/>,
+        path: path.timeLine
+      },
+      {
+        element: <CalendarMentor/>,
+        path: path.calendarMentor
+      },
+      {
+        element: <FinancialReport/>,
+        path: path.financialReport
+      },
+      {
+        element: <ProjectDetail/>,
+        path: path.projectDetail
+      }
+    ]
   }
 ];
 
 // const authenticatedRoutes: RouteType[] = [];
 
-const unauthenticatedRoutes: RouteType[] = [
+const unauthenticatedRoutes: RouteObject[] = [
   {
     path: '/login',
     element: <Login />,
   },
 ];
 
-const Router = (): JSX.Element => {
+const AppRouter = (): React.ReactElement => {
   // const { token } = useAuth();
 
-  const router = [
+  const router = createBrowserRouter([
     ...publicRoutes,
     ...unauthenticatedRoutes,
     // ...(token ? authenticatedRoutes : unauthenticatedRoutes),
@@ -70,15 +102,9 @@ const Router = (): JSX.Element => {
       path: '*',
       element: <Navigate to="/404" />,
     },
-  ];
+  ]);
 
-  return (
-    <Routes>
-      {router.map((route) => (
-        <Route key={route.path} path={route.path} element={route.element} />
-      ))}
-    </Routes>
-  );
+  return <RouterProvider router={router} />;
 };
 
-export default Router;
+export default AppRouter;
