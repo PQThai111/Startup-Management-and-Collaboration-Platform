@@ -3,6 +3,9 @@ import Logo from '../common/components/Logo';
 import { Avatar, AvatarImage } from '../components/ui/avatar';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { VscMail } from 'react-icons/vsc';
+import { Link, useLocation } from 'react-router-dom';
+import path from '../constant/path';
+import classNames from 'classnames';
 
 const user = {
   name: 'John Doe',
@@ -11,6 +14,7 @@ const user = {
 };
 
 const Header = () => {
+  let pathname = useLocation().pathname;
   return (
     <div className="grid h-16 grid-cols-10 items-center gap-10 px-20 pb-5 pt-7">
       <div className="col-span-1">
@@ -18,22 +22,61 @@ const Header = () => {
       </div>
       <div className="col-span-6 pl-20">
         <ul className="flex gap-7">
-          <li className="krona-one-regular font-semibold text-main underline decoration-yellow-500 underline-offset-4">
-            Home
+          <li>
+            <Link
+              to={path.home}
+              className={classNames(
+                'krona-one-regular font-semibold text-main',
+                {
+                  'underline decoration-yellow-500 underline-offset-4':
+                    pathname == path.home,
+                  '': pathname != path.home,
+                },
+              )}
+            >
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={path.newFeed}
+              className={classNames(
+                'krona-one-regular font-semibold text-main',
+                {
+                  'underline decoration-yellow-500 underline-offset-4':
+                    pathname == path.newFeed,
+                  '': pathname != path.newFeed,
+                },
+              )}
+            >
+              New feed
+            </Link>
           </li>
           <li className="krona-one-regular font-semibold text-main decoration-yellow-500 hover:underline hover:underline-offset-4">
-            New Feed
-          </li>
-          <li className="krona-one-regular font-semibold text-main decoration-yellow-500 hover:underline hover:underline-offset-4">
-            Projects
+            <Link
+              to={path.project}
+              className={classNames(
+                'krona-one-regular font-semibold text-main',
+                {
+                  'underline decoration-yellow-500 underline-offset-4':
+                    pathname == path.project,
+                  '': pathname != path.project,
+                },
+              )}
+            >
+              Projects
+            </Link>
           </li>
         </ul>
       </div>
       {user ? (
         <div className="col-span-3 flex items-center justify-end gap-5">
-          <button className="h-9 w-40 rounded-3xl border-2 border-main px-2 py-1 font-semibold text-main">
+          <Link
+            to={path.createProject}
+            className="h-9 w-40 rounded-3xl border-2 border-main px-2 py-1 text-center font-semibold text-main"
+          >
             Create A Project
-          </button>
+          </Link>
           <IconWithNum
             Icon={VscMail}
             number={0}
