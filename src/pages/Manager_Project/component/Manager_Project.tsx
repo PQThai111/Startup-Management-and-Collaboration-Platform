@@ -2,7 +2,6 @@ import InputSearch from '../../EventPage/components/InputSearch';
 import ButtonSearch from '../../EventPage/components/Buttonsearch';
 import projectApi from '../../../apis/project.api';
 import { useQuery } from '@tanstack/react-query';
-import ProjectItem from './Manager_ProjectItem';
 import { Link } from 'react-router-dom';
 import path from '../../../constant/path';
 import Manager_Project_Item from './Manager_Project_Item';
