@@ -49,7 +49,7 @@ const Header = () => {
                 },
               )}
             >
-              New feed
+              Events
             </Link>
           </li>
           <li className="krona-one-regular font-semibold text-main decoration-yellow-500 hover:underline hover:underline-offset-4">

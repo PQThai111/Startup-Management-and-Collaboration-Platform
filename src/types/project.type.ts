@@ -1,23 +1,34 @@
 export interface Project {
-// phần hiển thị trên items
   id: string;
-//  status: boolean;//còn tuyển người / không còn
   projectName: string;
   projectDetails: string;//mô tả về project
-  // description: string;//caption của chủ post
-  type: PROJECT_TYPE; //exe1, exe2,
+  projectProgress: number;
+  projectStatus: number; // Trạng thái của project Pending-0 Approvaled-1 Started-2 Done-3
+  type: PROJECT_TYPE; //exe101, exe201,
   coverImage?: string;
-  startDate: Date;//sẽ đổi thành học kỳ
-  endDate: Date;
-  mentor: string;
-  lecturer: string;
-  leader: string;
+  semester: string;
+  mentorName: string;
+  lecturerName: string;
+  leaderName: string;
   memberWanted: string;//mô tả yêu cầu tuyển thành viên
-// phần detail mới có
-  members?: string; //BE trả ra mã thì members: string[] / BE trả ra object thì phải tạo một interface Member riêng
-  memberRoles?: string;
-  timeLine: number;
+  memberWantedStatus: boolean // Status còn tuyển hay không ?
+  members?: Member[];
+  team: Team;
+  isDeleted: boolean;
+  lastUpdateDate: Date
 }
+
+type Member = {
+  memberName: string
+  memberRole: string
+}
+
+type Team = {
+  teamId: string
+  teamName: string
+  startUpIdea: string
+}
+
 export interface ProjectList {
   data: Project[]
   pagination: {

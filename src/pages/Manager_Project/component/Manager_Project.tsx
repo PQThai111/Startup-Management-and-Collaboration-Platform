@@ -7,14 +7,16 @@ import path from '../../../constant/path';
 import Manager_Project_Item from './Manager_Project_Item';
 
 export default function Manager_Project() {
-  // const { data : projectsData, isLoading } = useQuery({
-  //   queryKey: ['projects', 'queryConfig'],
-  //   queryFn: () => {
-  //     return projectApi.getProjectss()
-  //   },
-  //   placeholderData: (prevData) => prevData,
-  //   staleTime: 3 * 60 * 1000
-  // })
+  const { data: projectsData, isLoading } = useQuery({
+    queryKey: ['projects', 'queryConfig'],
+    queryFn: () => {
+      return projectApi.getProjectss();
+    },
+    placeholderData: (prevData) => prevData,
+    staleTime: 3 * 60 * 1000,
+  });
+
+  console.log(projectsData?.data.data.data);
 
   return (
     <div className="container h-[580px] rounded-lg border border-slate-300 bg-slate-200 p-3 shadow-md">
@@ -46,14 +48,13 @@ export default function Manager_Project() {
           Action
         </div>
       </div>
-      <Manager_Project_Item />
-      <Manager_Project_Item />
-      <Manager_Project_Item />
-      <Manager_Project_Item />
-      <Manager_Project_Item />
-      <Manager_Project_Item />
-      <Manager_Project_Item />
-      <Manager_Project_Item />
+      {projectsData && (
+        <>
+          {projectsData?.data?.data?.data.map((project) => (
+            <Manager_Project_Item key={project.id} projectProps={project} />
+          ))}
+        </>
+      )}
       <div className="text-center">Phaan ne</div>
     </div>
   );
