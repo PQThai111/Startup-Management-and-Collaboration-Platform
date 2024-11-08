@@ -8,7 +8,6 @@ const path = {
   login:"/login",
   register:"/register",
   profile:"/profile",
-  Profile_edit: "editProfile",
   projectManagement:"projectManagement",
   timeLine: "timeLine",
   calendarMentor: "calendarMentor",
@@ -16,7 +15,9 @@ const path = {
   projectDetail: ":projectId",
   manager_project_management: "/manager",
   manager_event_management: "event",
-  manager_approval_management: "approval"
+  manager_approval_management: "approval",
+  admin_account_management: "/admin",
+  admin_dashboard:"dashboard"
 
 }
 export default path

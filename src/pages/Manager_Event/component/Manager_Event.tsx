@@ -2,19 +2,19 @@ import { useQuery } from '@tanstack/react-query';
 import AsideFilter from '../../EventPage/components/AsideFilter';
 import ButtonSearch from '../../EventPage/components/Buttonsearch';
 import eventApi from '../../../apis/event.api';
-import EventItem from './Manager_EventItem';
 import InputSearch from '../../EventPage/components/InputSearch';
 import CreateButton from './CreateButton';
+import Event_Item from './Manager_EventItem';
 
 export default function Manager_Event() {
-  // const { data : eventsData, isLoading } = useQuery({
-  //   queryKey: ['events', 'queryConfig'],
-  //   queryFn: () => {
-  //     return eventApi.getEventss()
-  //   },
-  //   placeholderData: (prevData) => prevData,
-  //   staleTime: 3 * 60 * 1000
-  // })
+  const { data: eventsData, isLoading } = useQuery({
+    queryKey: ['events', 'queryConfig'],
+    queryFn: () => {
+      return eventApi.getEventss();
+    },
+    placeholderData: (prevData) => prevData,
+    staleTime: 3 * 60 * 1000,
+  });
 
   return (
     <div className="container h-[580px] rounded-lg border border-slate-300 bg-slate-200 p-3 shadow-md">
@@ -49,14 +49,13 @@ export default function Manager_Event() {
           Action
         </div>
       </div>
-      <EventItem />
-      <EventItem />
-      <EventItem />
-      <EventItem />
-      <EventItem />
-      <EventItem />
-      <EventItem />
-      <EventItem />
+      {eventsData && (
+        <>
+          {eventsData?.data?.data?.data.map((event) => (
+            <Event_Item key={event.id} eventProps={event} />
+          ))}
+        </>
+      )}
 
       <div className="text-center">Phaan ne</div>
     </div>

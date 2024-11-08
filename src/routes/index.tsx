@@ -1,4 +1,11 @@
-import { createBrowserRouter, Navigate, Route, RouteObject, RouterProvider, Routes } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Navigate,
+  Route,
+  RouteObject,
+  RouterProvider,
+  Routes,
+} from 'react-router-dom';
 import Homepage from '../pages/Homepage';
 import Login from '../pages/Login';
 import EventPage from '../pages/EventPage';
@@ -20,7 +27,9 @@ import Manager_Project_Layout from '../pages/Manager_Project';
 import Manager_Event_Layout from '../pages/Manager_Event';
 import Manager_Approval_Layout from '../pages/Manager_Approval';
 import ProfileInformation from '../pages/ProfilePage/component/ProfileInformation';
-import EditProfile from '../pages/ProfilePage/component/EditProfile';
+import SideBarAdmin from '../layouts/SideBarAdmin';
+import Admin_account_management from '../pages/Admin_account_management';
+import Admin_dashboard from '../pages/Admin_dashboard';
 
 const publicRoutes: RouteObject[] = [
   {
@@ -45,75 +54,84 @@ const publicRoutes: RouteObject[] = [
   },
   {
     path: path.myProject,
-    element: <MyProjectPage/>,
+    element: <MyProjectPage />,
   },
   {
     path: path.login,
-    element: <Login/>,
+    element: <Login />,
   },
   {
     path: path.register,
-    element: <Register/>,
+    element: <Register />,
   },
   {
-    path: path.profile,
-    element: <ProfilePage/>,
-    children: [
-      {
-        element: <ProfileInformation/>,
-        index: true,
-      },
-      {
-        element: <EditProfile/>,
-        path: path.Profile_edit
-      }
-    ]
-  }
-  ,
-  {
     path: path.projectManagement,
-    element: <ProjectManagementPage/>,
+    element: <ProjectManagementPage />,
     children: [
       {
-        element: <TaskManagement/>,
+        element: <TaskManagement />,
         index: true,
       },
       {
-        element: <Timeline/>,
-        path: path.timeLine
+        element: <Timeline />,
+        path: path.timeLine,
       },
       {
-        element: <CalendarMentor/>,
-        path: path.calendarMentor
+        element: <CalendarMentor />,
+        path: path.calendarMentor,
       },
       {
-        element: <FinancialReport/>,
-        path: path.financialReport
+        element: <FinancialReport />,
+        path: path.financialReport,
       },
       {
-        element: <ProjectDetail/>,
-        path: path.projectDetail
-      }
-    ]
+        element: <ProjectDetail />,
+        path: path.projectDetail,
+      },
+    ],
   },
   {
     path: path.manager_project_management,
-    element: <SideBarLayout/>,
+    element: <SideBarLayout />,
     children: [
       {
-        element: <Manager_Project_Layout/>,
+        element: <Manager_Project_Layout />,
         index: true,
       },
       {
-        element: <Manager_Event_Layout/>,
-        path: path.manager_event_management
+        element: <Manager_Event_Layout />,
+        path: path.manager_event_management,
       },
       {
-        element: <Manager_Approval_Layout/>,
-        path: path.manager_approval_management
-      }
-    ]
-  }
+        element: <Manager_Approval_Layout />,
+        path: path.manager_approval_management,
+      },
+    ],
+  },
+  {
+    path: path.profile,
+    element: <ProfilePage />,
+    children: [
+      {
+        element: <ProfileInformation />,
+        index: true,
+      },
+    ],
+  },
+  {
+    path: path.admin_account_management,
+    element: <SideBarAdmin />,
+    children: [
+      {
+        element: <Admin_account_management />,
+        index: true,
+      },
+      {
+        element: <Admin_dashboard />,
+        path: path.admin_dashboard,
+      },
+    ],
+  },
 ];
 
 // const authenticatedRoutes: RouteType[] = [];
