@@ -14,4 +14,30 @@ export const schema = yup.object({
     .max(160, 'Can not exceed 160 characters')
 })
 
+export const projectSchema = yup.object({
+  "CourseId" : yup
+    .string()
+    .required('CourseId is Required !'),
+  StartupIdeaTitle : yup
+    .string()
+    .required('Title is Required !')
+    .min(5, 'Can not under 5 characters')
+    .max(200, 'Can not exceed 160 characters'),
+  StartupIdeaDescription : yup
+    .string()
+    .required('Description is Required !')
+    .min(5, 'Can not under 5 characters')
+    .max(200, 'Can not exceed 160 characters'),
+  "StartupIdea.Category" : yup
+    .number()
+    .positive("Must be positive number"),
+  StartupIdeaCoverImage: yup
+    .mixed()
+    .required('CoverImage is Required !'),
+  "DesiredLecturerId" : yup
+    .string()
+    .required('DesiredLecturerId is Required !')
+})
+
 export type Schema = yup.InferType<typeof schema>
+export type ProjectSchema = yup.InferType<typeof projectSchema>

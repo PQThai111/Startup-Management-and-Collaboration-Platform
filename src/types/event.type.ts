@@ -25,3 +25,9 @@ export enum EventType {
   Workshop = 1,
   Meeting = 2
 }
+
+export interface QueryConfig {
+  SearchTerm?: string
+  PageNumber?: number | string
+  PageSize?: number | string
+}

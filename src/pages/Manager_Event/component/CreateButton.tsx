@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function CreateButton() {
   return (
     <div className="ml-3 rounded-md border border-black text-center">

@@ -1,20 +1,41 @@
 import { useQuery } from '@tanstack/react-query';
-import AsideFilter from '../../EventPage/components/AsideFilter';
 import ButtonSearch from '../../EventPage/components/Buttonsearch';
 import eventApi from '../../../apis/event.api';
 import InputSearch from '../../EventPage/components/InputSearch';
 import CreateButton from './CreateButton';
 import Event_Item from './Manager_EventItem';
+import { QueryConfig as ConfigPaging, Event } from '../../../types/event.type';
+import { useEventQueryConfig } from '../../../hooks/useQueryConfig';
+import Pagination from '../../../components/pagination';
+import path from '../../../constant/path';
+import { useState } from 'react';
+
+export type QueryConfig = {
+  [key in keyof ConfigPaging]: string;
+};
 
 export default function Manager_Event() {
-  const { data: eventsData, isLoading } = useQuery({
-    queryKey: ['events', 'queryConfig'],
+  const [isOpen, setIsOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState<Event>();
+  const queryConfig = useEventQueryConfig();
+  //isLoading
+  const { data: eventsData } = useQuery({
+    queryKey: ['events', queryConfig],
     queryFn: () => {
-      return eventApi.getEventss();
+      return eventApi.getEvents(queryConfig as QueryConfig);
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,
   });
+
+  const handleClose = (_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleSelect = (mentor: Event) => {
+    setIsOpen(!isOpen);
+    setIsEdit(mentor);
+  };
 
   return (
     <div className="container h-[580px] rounded-lg border border-slate-300 bg-slate-200 p-3 shadow-md">
@@ -49,15 +70,28 @@ export default function Manager_Event() {
           Action
         </div>
       </div>
-      {eventsData && (
-        <>
-          {eventsData?.data?.data?.data.map((event) => (
-            <Event_Item key={event.id} eventProps={event} />
-          ))}
-        </>
-      )}
+      <div className="min-h-[420px]">
+        {eventsData && (
+          <>
+            {eventsData?.data?.data?.data.map((event) => (
+              <Event_Item
+                key={event.id}
+                eventProps={event}
+                handleClose={handleClose}
+                handleSelect={handleSelect}
+                isOpen={isOpen}
+                isEdit={isEdit as Event}
+              />
+            ))}
+          </>
+        )}
+      </div>
 
-      <div className="text-center">Phaan ne</div>
+      <Pagination
+        queryConfig={queryConfig}
+        PageSize={eventsData?.data.data.pagination.limit as number}
+        pathName={path.manager_project_management + '/event'}
+      />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { Project, ProjectList } from "../types/project.type"
+import { Project, ProjectConfig, ProjectList } from "../types/project.type"
 import { SuccessResponse } from "../types/utils.type"
 import http from "../util/http"
 
@@ -7,7 +7,7 @@ const projectApi = {
   getProjectss(){
     return http.get<SuccessResponse<ProjectList>>(URL)
   },
-  getProjects(params: any){
+  getProjects(params: ProjectConfig){
     return http.get<SuccessResponse<ProjectList>>(URL, {
       params
     })

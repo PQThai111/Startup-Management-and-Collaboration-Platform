@@ -5,9 +5,21 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import path from '../../../constant/path';
 import Manager_Project_Item from './Manager_Project_Item';
+import Pagination from '../../../components/pagination';
+import { Project, ProjectConfig } from '../../../types/project.type';
+import { useState } from 'react';
+import { useProjectQueryConfig } from '../../../hooks/useQueryConfig';
+
+export type QueryConfig = {
+  [key in keyof ProjectConfig]: string;
+};
 
 export default function Manager_Project() {
-  const { data: projectsData, isLoading } = useQuery({
+  const [isOpen, setIsOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState<Project>();
+  const queryConfig = useProjectQueryConfig();
+  //, isLoading
+  const { data: projectsData } = useQuery({
     queryKey: ['projects', 'queryConfig'],
     queryFn: () => {
       return projectApi.getProjectss();
@@ -16,7 +28,14 @@ export default function Manager_Project() {
     staleTime: 3 * 60 * 1000,
   });
 
-  console.log(projectsData?.data.data.data);
+  const handleClose = (_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleSelect = (project: Project) => {
+    setIsOpen(!isOpen);
+    setIsEdit(project);
+  };
 
   return (
     <div className="container h-[580px] rounded-lg border border-slate-300 bg-slate-200 p-3 shadow-md">
@@ -48,14 +67,27 @@ export default function Manager_Project() {
           Action
         </div>
       </div>
-      {projectsData && (
-        <>
-          {projectsData?.data?.data?.data.map((project) => (
-            <Manager_Project_Item key={project.id} projectProps={project} />
-          ))}
-        </>
-      )}
-      <div className="text-center">Phaan ne</div>
+      <div className="min-h-[420px]">
+        {projectsData && (
+          <>
+            {projectsData?.data?.data?.data.map((project) => (
+              <Manager_Project_Item
+                key={project.id}
+                projectProps={project}
+                handleClose={handleClose}
+                handleSelect={handleSelect}
+                isOpen={isOpen}
+                isEdit={isEdit as Project}
+              />
+            ))}
+          </>
+        )}
+      </div>
+      <Pagination
+        queryConfig={queryConfig}
+        PageSize={projectsData?.data.data.pagination.limit as number}
+        pathName={path.manager_project_management + '/project'}
+      />
     </div>
   );
 }

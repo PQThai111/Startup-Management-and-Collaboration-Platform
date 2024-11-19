@@ -1,4 +1,4 @@
-import { EventList } from "../types/event.type"
+import { QueryConfig, EventList } from "../types/event.type"
 import { SuccessResponse } from "../types/utils.type"
 import http from "../util/http"
 
@@ -7,7 +7,7 @@ const eventApi = {
   getEventss(){
     return http.get<SuccessResponse<EventList>>(URL)
   },
-  getEvents(params: any){
+  getEvents(params: QueryConfig){
     return http.get<SuccessResponse<EventList>>(URL, {
       params
     })

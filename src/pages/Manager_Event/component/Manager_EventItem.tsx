@@ -1,8 +1,22 @@
-import { Link } from 'react-router-dom';
 import { Event, EventType } from '../../../types/event.type';
 import classNames from 'classnames';
+import Popover from '../../../components/popover';
+import { Button } from '../../../components/ui/button';
+import Manager_Event_Detail from './Manager_Event_Detail';
 
-export default function Event_Item({ eventProps }: { eventProps: Event }) {
+export default function Event_Item({
+  eventProps,
+  handleClose,
+  handleSelect,
+  isOpen,
+  isEdit,
+}: {
+  eventProps: Event;
+  isOpen: boolean;
+  isEdit: Event;
+  handleClose: (_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleSelect: (mentor: Event) => void;
+}) {
   const { title, location, startDate, type, endDate } = eventProps;
   var eventType;
   if (type == EventType.Seminar) {
@@ -30,7 +44,7 @@ export default function Event_Item({ eventProps }: { eventProps: Event }) {
   const hours = startHandle.getHours().toString().padStart(2, '0');
   const minutes = startHandle.getMinutes().toString().padStart(2, '0');
   const day = startHandle.getDate().toString().padStart(2, '0');
-  const month = (startHandle.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because getMonth() returns zero-based month
+  const month = (startHandle.getMonth() + 1).toString().padStart(2, '0');
   const year = startHandle.getFullYear();
 
   const formattedTime = `${hours}:${minutes}   ${day}-${month}-${year}`;
@@ -62,16 +76,44 @@ export default function Event_Item({ eventProps }: { eventProps: Event }) {
             'bg-green-500':
               new Date(startDate) <= new Date() &&
               new Date() <= new Date(endDate),
-            'bg-red-500': new Date(endDate) < new Date(),
+            'bg-red-500 text-white': new Date(endDate) < new Date(),
           })}
         >
           {status}
         </div>
       </div>
       <div className="col-span-2 flex items-center justify-center">
-        <Link to={''} className="rounded-sm bg-slate-400 px-3 py-1 text-white">
-          Show detail
-        </Link>
+        <Popover
+          initialOpen={isOpen}
+          renderPopover={
+            isEdit && (
+              <Manager_Event_Detail event={isEdit} handleOpen={handleClose} />
+            )
+          }
+        >
+          <Button
+            className="bg-slate-500"
+            onClick={() => handleSelect(eventProps)}
+          >
+            <div className="flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                />
+              </svg>
+              <div className="text-medium ml-2">Details</div>
+            </div>
+          </Button>
+        </Popover>
       </div>
     </div>
   );
