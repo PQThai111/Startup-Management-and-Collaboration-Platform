@@ -1,40 +1,36 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import courseApi from '../../../apis/course.api';
 import accountApi from '../../../apis/account.api';
 import { QueryAccount } from '../../../types/account.type';
 import { projectSchema, ProjectSchema } from '../../../util/rules';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import startupRequestsApi from '../../../apis/startupRequest.api';
 
 type FormData = Pick<
   ProjectSchema,
   | 'CourseId'
   | 'DesiredLecturerId'
-  | 'StartupIdea.Category'
-  | 'StartupIdeaCoverImage'
+  | 'StartupIdeaCategory'
   | 'StartupIdeaDescription'
   | 'StartupIdeaTitle'
 >;
-//  & {
-//   StartupIdeaCoverImage: File | undefined;
-// };
 
 const schema = projectSchema.pick([
   'CourseId',
   'DesiredLecturerId',
-  'StartupIdea.Category',
-  'StartupIdeaCoverImage',
+  'StartupIdeaCategory',
   `StartupIdeaDescription`,
   `StartupIdeaTitle`,
 ]);
 
 export default function CreateProject() {
-  const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File | null>(null);
 
-  const previewImage = useMemo(() => {
-    return file ? URL.createObjectURL(file) : '';
-  }, [file]);
+  const createRequestMutation = useMutation({
+    mutationFn: startupRequestsApi.createStartupRequests,
+  });
 
   const { data: coursesData, isPending: coursePending } = useQuery({
     queryKey: ['courses'],
@@ -66,34 +62,42 @@ export default function CreateProject() {
     handleSubmit,
     formState: { errors },
     control,
-    // setError,
-    watch,
+    // watch,
     reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
       CourseId: '',
       DesiredLecturerId: '',
-      'StartupIdea.Category': 1,
+      StartupIdeaCategory: 1,
       StartupIdeaDescription: '',
       StartupIdeaTitle: '',
     },
   });
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
-  });
+    const formData = new FormData();
+    formData.append('courseId', data.CourseId);
+    formData.append('desiredLecturerId', data.DesiredLecturerId);
+    formData.append(
+      'startupIdea.category',
+      data.StartupIdeaCategory.toString(),
+    );
+    formData.append('startupIdea.description', data.StartupIdeaDescription);
+    formData.append('startupIdea.title', data.StartupIdeaTitle);
+    if (file) {
+      formData.append('startupIdea.coverImage', file);
+    }
 
-  console.log(watch(`StartupIdeaCoverImage`));
-  console.log(errors);
+    createRequestMutation.mutate(formData);
+  });
 
   useEffect(() => {
     if (courses.length > 0 && accounts.length > 0) {
       reset({
         CourseId: courses[0]?.id,
         DesiredLecturerId: accounts[0]?.lecturer?.accountId,
-        'StartupIdea.Category': 1,
-        StartupIdeaCoverImage: undefined,
+        StartupIdeaCategory: 1,
         StartupIdeaDescription: '',
         StartupIdeaTitle: '',
       });
@@ -161,7 +165,7 @@ export default function CreateProject() {
               <div className="col-span-3 mt-2 flex ps-4" key={index}>
                 <Controller
                   control={control}
-                  name="StartupIdea.Category"
+                  name="StartupIdeaCategory"
                   render={({ field }) => (
                     <>
                       <input
@@ -222,6 +226,8 @@ export default function CreateProject() {
               control={control}
               name="StartupIdeaDescription"
               render={({ field }) => (
+                // Ben tren cai nao cung giong nhau
+                // Khac nhau trong cai render
                 <textarea
                   id="message"
                   className="block h-[200px] w-[500px] resize-none rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
@@ -242,20 +248,14 @@ export default function CreateProject() {
             <p>
               <span className="font-semibold">Cover image : </span>
             </p>
-            <Controller
-              control={control}
-              name="StartupIdeaCoverImage"
-              render={({ field: { onChange, value, ref, ...field } }) => (
-                <input
-                  type="file"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    onChange(file); // Update form value
-                  }}
-                  ref={ref}
-                  {...field}
-                />
-              )}
+            <input
+              type="file"
+              onChange={(e) => {
+                const selectedFile = e.target?.files?.[0] as File; // Get the first selected file
+                if (selectedFile) {
+                  setFile(selectedFile);
+                }
+              }}
             />
           </div>
           {/* //Desired lecture */}
@@ -292,6 +292,7 @@ export default function CreateProject() {
             <button
               type="submit"
               className="mr-5 w-20 rounded-sm border-2 border-main bg-main font-semibold text-white"
+              disabled={createRequestMutation.isPending}
             >
               Create
             </button>
@@ -300,8 +301,7 @@ export default function CreateProject() {
                 reset({
                   CourseId: courses[0]?.id || '',
                   DesiredLecturerId: accounts[0]?.lecturer?.accountId || '',
-                  'StartupIdea.Category': 1,
-                  StartupIdeaCoverImage: '',
+                  StartupIdeaCategory: 1,
                   StartupIdeaDescription: '',
                   StartupIdeaTitle: '',
                 })

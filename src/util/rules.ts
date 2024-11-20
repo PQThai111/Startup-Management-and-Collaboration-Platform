@@ -15,7 +15,7 @@ export const schema = yup.object({
 })
 
 export const projectSchema = yup.object({
-  "CourseId" : yup
+  CourseId : yup
     .string()
     .required('CourseId is Required !'),
   StartupIdeaTitle : yup
@@ -28,13 +28,11 @@ export const projectSchema = yup.object({
     .required('Description is Required !')
     .min(5, 'Can not under 5 characters')
     .max(200, 'Can not exceed 160 characters'),
-  "StartupIdea.Category" : yup
+    StartupIdeaCategory : yup
     .number()
+    .required('Category is Required !')
     .positive("Must be positive number"),
-  StartupIdeaCoverImage: yup
-    .mixed()
-    .required('CoverImage is Required !'),
-  "DesiredLecturerId" : yup
+  DesiredLecturerId : yup
     .string()
     .required('DesiredLecturerId is Required !')
 })
