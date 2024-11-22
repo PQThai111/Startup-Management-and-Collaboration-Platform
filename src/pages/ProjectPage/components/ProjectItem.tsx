@@ -7,14 +7,12 @@ export default function ProjectItem({
 }) {
   const {
     projectName,
-    leaderName,
-    lecturerName,
-    mentorName,
+    team,
+    mentorsAndLecturers,
     memberWanted,
-    projectDetails,
-    type,
+    projectDetail,
+    semesterAndCourse,
     coverImage,
-    semester,
   } = projectProps;
 
   //id,
@@ -22,10 +20,11 @@ export default function ProjectItem({
     <div className="col-span-5 mb-3 h-[340px] rounded-md border border-black bg-[rgb(247,247,247)] p-3">
       <div className="flex justify-between">
         <p className="text-ellipsis text-justify text-[#686868]">
-          {type === 0 ? 'exe1' : 'exe2'}
+          {semesterAndCourse.course}
         </p>
         <p className="mt-2 truncate text-ellipsis text-justify text-[#686868]">
-          <span className="font-bold">Semester</span>: {semester}
+          <span className="font-bold">Semester</span>:{' '}
+          {semesterAndCourse.semester}
         </p>
       </div>
       <div className="flex items-center">
@@ -34,7 +33,7 @@ export default function ProjectItem({
         </div>
         <p className="text-ellipsis text-justify text-[#686868]">
           <span className="font-bold"></span>
-          {leaderName}
+          {team.members.find((mem) => mem.isLeader == true)?.studentName}
         </p>
       </div>
       {/* <p className="text-lg font-[400] truncate mb-5">{description}</p> */}
@@ -42,13 +41,15 @@ export default function ProjectItem({
         <p className="text-3xl font-[500]">{projectName}</p>
       </div>
       <p className="text-ellipsis text-justify text-[#686868]">
-        <span className="font-bold">Lecturer</span>: {lecturerName}
+        <span className="font-bold">Lecturer</span>:{' '}
+        {mentorsAndLecturers.find((men) => men.roleType === 'Lecturer')?.name}
       </p>
       <p className="text-ellipsis text-justify text-[#686868]">
-        <span className="font-bold">Mentor</span>: {mentorName}
+        <span className="font-bold">Mentor</span>:{' '}
+        {mentorsAndLecturers.find((men) => men.roleType === 'Mentor')?.name}
       </p>
       <p className="truncate text-ellipsis text-justify text-[#686868]">
-        <span className="font-bold">Mo ta</span>: {projectDetails}
+        <span className="font-bold">Mo ta</span>: {projectDetail}
       </p>
       <p className="text-ellipsis text-justify text-[#686868]">
         <span className="font-bold">Recruitment requirements</span>:{' '}

@@ -20,7 +20,7 @@ const Header = () => {
       <div className="col-span-1">
         <Logo />
       </div>
-      <div className="col-span-6 pl-20">
+      <div className="col-span-5 pl-20">
         <ul className="flex gap-7">
           <li>
             <Link
@@ -70,10 +70,10 @@ const Header = () => {
         </ul>
       </div>
       {user ? (
-        <div className="col-span-3 flex items-center justify-end gap-5">
+        <div className="col-span-4 flex items-center justify-end gap-5">
           <Link
             to={path.createProject}
-            className="h-9 w-40 rounded-3xl border-2 border-main px-2 py-1 text-center font-semibold text-main"
+            className="h-9 w-[50%] truncate rounded-3xl border-2 border-main px-2 py-1 text-center text-[110%] font-semibold text-main"
           >
             Create A Project
           </Link>

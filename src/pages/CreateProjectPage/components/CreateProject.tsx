@@ -5,8 +5,10 @@ import { QueryAccount } from '../../../types/account.type';
 import { projectSchema, ProjectSchema } from '../../../util/rules';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import startupRequestsApi from '../../../apis/startupRequest.api';
+import { toast } from 'react-toastify';
+import { AppContext } from '../../../context/app.context';
 
 type FormData = Pick<
   ProjectSchema,
@@ -26,10 +28,21 @@ const schema = projectSchema.pick([
 ]);
 
 export default function CreateProject() {
+  const { profile } = useContext(AppContext);
   const [file, setFile] = useState<File | null>(null);
 
   const createRequestMutation = useMutation({
     mutationFn: startupRequestsApi.createStartupRequests,
+    onError: (_) => {
+      toast.error('Fail to create request !', {
+        autoClose: 500,
+      });
+    },
+    onSuccess: () => {
+      toast.success('Create request successfully !', {
+        autoClose: 500,
+      });
+    },
   });
 
   const { data: coursesData, isPending: coursePending } = useQuery({
@@ -105,15 +118,15 @@ export default function CreateProject() {
   }, [courses, accounts, reset]);
 
   return (
-    <div className="container mx-auto mt-8 bg-slate-100 px-56 py-5">
-      <div className="my-10 rounded-sm border bg-white p-7">
+    <div className="container mx-auto mt-8 grid grid-cols-10 bg-slate-100 py-5">
+      <div className="col-span-6 col-start-3 my-10 rounded-sm border bg-white p-7">
         <h1 className="mb-3 text-2xl font-bold text-main">Create a Project</h1>
         <form onSubmit={onSubmit} className="mb-3 px-3">
           <div className="mb-1 flex justify-start">
             <p>
-              <span className="font-semibold">Leader : </span>
+              <span className="font-semibold">Leader: </span>
             </p>
-            <p> Tui</p>
+            <p className="ml-2">{profile?.email}</p>
           </div>
           <div className="my-2 border-b-2 py-4">
             <p className="font-semibold">Course:</p>
@@ -124,7 +137,7 @@ export default function CreateProject() {
               render={({ field }) => (
                 <select
                   id="courses"
-                  className="block h-[35px] w-[500px] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                  className="block h-[35px] w-[50%] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   {...field}
                   onChange={field.onChange}
                   defaultValue={courses[0]?.id}
@@ -200,7 +213,7 @@ export default function CreateProject() {
                 render={({ field }) => (
                   <input
                     type="text"
-                    className="mb-2 h-[30px] w-[500px] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    className="mb-2 h-[30px] w-[50%] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     placeholder=" English name of project"
                     {...field}
                     onChange={field.onChange}
@@ -230,7 +243,7 @@ export default function CreateProject() {
                 // Khac nhau trong cai render
                 <textarea
                   id="message"
-                  className="block h-[200px] w-[500px] resize-none rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                  className="block h-[200px] w-[80%] resize-none rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   placeholder="Write your thoughts here..."
                   {...field}
                   onChange={field.onChange}
@@ -267,20 +280,20 @@ export default function CreateProject() {
               render={({ field }) => (
                 <select
                   id="lecturer"
-                  className="block h-[35px] w-[500px] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                  className="block h-[35px] w-[50%] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   {...field}
                   onChange={field.onChange}
-                  value={field.value || accounts[0]?.lecturer.accountId}
+                  value={field.value || accounts[0]?.lecturer?.accountId}
                 >
                   {lecturerPending ? (
                     <option>Loading...</option>
                   ) : (
                     accounts.map((account) => (
                       <option
-                        key={account.lecturer.accountId}
-                        value={account.lecturer.accountId}
+                        key={account.lecturer?.accountId}
+                        value={account.lecturer?.accountId}
                       >
-                        {account.lecturer.lecturerName}
+                        {account.lecturer?.lecturerName}
                       </option>
                     ))
                   )}

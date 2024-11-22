@@ -37,5 +37,18 @@ export const projectSchema = yup.object({
     .required('DesiredLecturerId is Required !')
 })
 
+export const requestSchema = yup.object({
+  RequestId : yup
+    .string()
+    .required('RequestId is Required !'),
+  MentorId : yup
+    .string()
+    .required('MentorId is Required !'),
+  LecturerId : yup
+    .string()
+    .required('LecturerId is Required !')
+})
+
 export type Schema = yup.InferType<typeof schema>
 export type ProjectSchema = yup.InferType<typeof projectSchema>
+export type RequestSchema = yup.InferType<typeof requestSchema>

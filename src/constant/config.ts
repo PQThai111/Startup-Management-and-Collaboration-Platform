@@ -1,5 +1,5 @@
 const config = {
-    baseURL: "http://103.185.184.35:6969/api/"
+    baseURL: "https://smnc.site/api/"
 }
 
 export default config

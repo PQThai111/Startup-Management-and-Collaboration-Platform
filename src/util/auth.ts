@@ -1,3 +1,5 @@
+import { User } from "../types/auth.type"
+
 export const localStorageEventTarget = new EventTarget()
 
 export const saveAccessTokenAndRefreshTokenToLS = (access_token: string, refresh_token: string) => {
@@ -16,7 +18,7 @@ export const removeAccessTokenToLS = () => {
 export const clearLS = () => {
   localStorage.removeItem('access_token')
   localStorage.removeItem('refresh_token')
-  localStorage.removeItem('profile')
+  localStorage.removeItem('user')
   const clearLSEvent = new Event('clearLS')
   localStorageEventTarget.dispatchEvent(clearLSEvent)
 }
@@ -25,10 +27,10 @@ export const getAccessTokenToLS = () => localStorage.getItem('access_token') || 
 export const getRefreshTokenToLS = () => localStorage.getItem('access_token') || ''
 
 export const getProfileFromLS = () => {
-  const result = localStorage.getItem('profile')
+  const result = localStorage.getItem('user')
   return result ? JSON.parse(result) : null
 }
 
-// export const setProfileToLS = (profile: Employee) => {
-//   localStorage.setItem('profile', JSON.stringify(profile))
-// }
+export const setProfileToLS = (profile: User) => {
+  localStorage.setItem('user', JSON.stringify(profile))
+}

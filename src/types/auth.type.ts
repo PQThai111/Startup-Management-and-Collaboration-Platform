@@ -4,5 +4,15 @@ export interface AuthResponse {
   expires:string
   expire:string
   refresh_token_expires:string
-  // user: User
+  user: User
+}
+
+export interface User {
+  id: string;
+  email: string;
+  role: number;
+  avatarUrl?: string
+  status: number;
+  isDeleted: boolean;
+  lastUpdateDate: string;
 }

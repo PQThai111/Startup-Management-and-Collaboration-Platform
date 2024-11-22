@@ -1,3 +1,4 @@
+import { QueryRequest, Request } from "../types/request.type"
 import { SuccessResponse } from "../types/utils.type"
 import http from "../util/http"
 
@@ -8,6 +9,18 @@ const startupRequestsApi = {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
+    })
+  },
+  getRequests(params: QueryRequest){
+    return http.get<SuccessResponse<{
+      data: Request[],
+      pagination: {
+        page: number
+        limit: number
+        page_size: number
+      }
+    }>>(URL, {
+      params
     })
   }
 }

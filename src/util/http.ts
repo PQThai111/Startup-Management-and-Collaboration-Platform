@@ -2,8 +2,10 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import config from '../constant/config'
 // import { AuthResponse } from '../types/auth.type'
-import { clearLS, getAccessTokenToLS, getRefreshTokenToLS, saveAccessTokenAndRefreshTokenToLS } from './auth'
+import { clearLS, getAccessTokenToLS, getRefreshTokenToLS, saveAccessTokenAndRefreshTokenToLS, setProfileToLS } from './auth'
 import { HttpStatusCode } from '../constant/httpStatusCode.enum'
+import { AuthResponse } from '../types/auth.type'
+
 
 class Http {
   instance: AxiosInstance
@@ -39,7 +41,7 @@ class Http {
           this.accessToken = response.data.data.access_token
           this.refreshToken = response.data.data.refresh_token
           saveAccessTokenAndRefreshTokenToLS(this.accessToken, this.refreshToken)
-          // setProfileToLS((response.data as AuthResponse).data.employeeDto)
+          setProfileToLS((response.data.data as AuthResponse).user)
         }
         // else if (url === path.logout) {
         //   this.accessToken = ''
@@ -53,7 +55,6 @@ class Http {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           // const data: any | undefined = error.response?.data
           // const message = data?.message || error.message
-          // toast.error(message)
         }
         if (error.response?.status === HttpStatusCode.Unauthorized) {
           clearLS()
