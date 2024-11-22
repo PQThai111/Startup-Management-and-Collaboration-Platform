@@ -71,10 +71,8 @@ export default function Manager_Approval() {
 
   const {
     handleSubmit,
-    formState: { errors },
     control,
     // watch,
-    reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -102,6 +100,7 @@ export default function Manager_Approval() {
     //   formData.append('startupIdea.coverImage', file);
     // }
     // createRequestMutation.mutate(formData);
+    console.log(data);
   });
 
   // useEffect(() => {

@@ -1,4 +1,3 @@
-import React from 'react';
 import Logo from '../common/components/Logo';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import path from '../constant/path';

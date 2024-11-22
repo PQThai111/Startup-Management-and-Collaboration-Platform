@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import ProfileInformation from './ProfileInformation';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import path from '../../../constant/path';
 

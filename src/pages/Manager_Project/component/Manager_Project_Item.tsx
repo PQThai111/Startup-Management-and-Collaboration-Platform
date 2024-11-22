@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { Project } from '../../../types/project.type';
 import classNames from 'classnames';
 import Popover from '../../../components/popover';
