@@ -1,0 +1,18 @@
+export enum StartupCategory {
+  'Healthcare',
+  'Fin Tech',
+  'Sharing',
+  'Economy',
+  'Ed Tech',
+  'E-commerce',
+  'SaaS',
+  'GreenTech',
+  'AI & Machine Learning',
+  'Prop Tech',
+  'Ag Tech',
+  'Logistics & Supply Chain',
+  'Entertainment & Media',
+  'Mobility',
+  'Cybersecurity',
+  'Others',
+}

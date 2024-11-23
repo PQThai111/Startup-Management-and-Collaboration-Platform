@@ -12,7 +12,7 @@ const path = {
   timeLine: "timeLine",
   calendarMentor: "calendarMentor",
   financialReport: "financialReport",
-  projectDetail: ":projectId",
+  projectDetail: "projectManagement/:projectId",
   manager_project_management: "/manager",
   manager_event_management: "event",
   manager_approval_management: "approval",

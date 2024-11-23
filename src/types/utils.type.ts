@@ -10,6 +10,21 @@ export interface SuccessResponse<Data> {
   data: Data
 }
 
+export interface ErrorrResponse {
+  status: boolean;
+  message: string;
+  errors: string[];
+}
+
+export interface AxiosError {
+  code: string;
+  message: string;
+  status: number;
+  response: {
+    data: ErrorrResponse;
+  };
+}
+
 // -? loại bỏ undefined của key optional
 // handle?
 export type NoUndefinedField<T> = {

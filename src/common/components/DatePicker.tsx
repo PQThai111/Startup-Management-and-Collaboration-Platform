@@ -1,14 +1,14 @@
 import { cn } from '../../lib/utils';
 import { format } from 'date-fns';
 import { useState } from 'react';
+import { CalendarIcon } from '@radix-ui/react-icons';
 import {
-  Button,
-  Calendar,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '../../components/ui';
-import { CalendarIcon } from '@radix-ui/react-icons';
+} from '../../components/ui/popover';
+import { Button } from '../../components/ui/button';
+import { Calendar } from '../../components/ui/calendar';
 
 const DatePicker = ({ width }: { width?: string }) => {
   const [date, setDate] = useState<Date>();
