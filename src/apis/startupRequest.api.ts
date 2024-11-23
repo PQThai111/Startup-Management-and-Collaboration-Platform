@@ -22,7 +22,10 @@ const startupRequestsApi = {
     }>>(URL, {
       params
     })
-  }
+  },
+  approveStartupRequests( id: string, body: { mentorId: string, lecturerId: string}){
+    return http.post<SuccessResponse<any>>(`${URL}/${id}/ApproveRequest`, body)
+  },
 }
 
 export default startupRequestsApi
