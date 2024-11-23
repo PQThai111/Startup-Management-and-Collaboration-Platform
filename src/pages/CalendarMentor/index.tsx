@@ -3,7 +3,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 // import { Label } from '../../components/ui/label';
 // import { Input } from '../../components/ui/input';
-import ContentContainer from '../ProjectManagementPage/components/ContentContainer';
+import ContentContainer from '../ProjectDetaill/components/ContentContainer';
 
 const times = [
   '7:00 - 7:30',

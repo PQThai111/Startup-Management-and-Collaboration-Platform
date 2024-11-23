@@ -9,7 +9,7 @@ import {
 } from '../../components/ui/select';
 import { ITask, TaskColor } from '../../types/task.type';
 import GanttChart from './components/GanttChart';
-import ContentContainer from '../ProjectManagementPage/components/ContentContainer';
+import ContentContainer from '../ProjectDetaill/components/ContentContainer';
 
 const tasks: ITask[] = [
   {

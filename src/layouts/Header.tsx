@@ -9,8 +9,7 @@ import classNames from 'classnames';
 
 const user = {
   name: 'John Doe',
-  avatar_url:
-    'https://cdn.kona-blue.com/upload/kona-blue_com/post/images/2024/08/13/356/avatar-vo-tri-meo-3.jpg',
+  avatar_url: 'http://localhost:5173/src/assets/welcome.jpg',
 };
 
 const Header = () => {

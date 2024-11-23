@@ -5,7 +5,7 @@ import { Avatar, AvatarImage } from '../../components/ui/avatar';
 import { useState } from 'react';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import DroppableField from './components/DroppableField';
-import ContentContainer from '../ProjectManagementPage/components/ContentContainer';
+import ContentContainer from '../ProjectDetaill/components/ContentContainer';
 
 const TaskManagement = () => {
   const [tasks, setTasks] = useState<TaskItemProps[]>([
