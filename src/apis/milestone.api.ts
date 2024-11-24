@@ -12,13 +12,13 @@ export interface MilestoneApiProps {
 
 const milestoneApi = {
   addNewMilestone(data: MilestoneApiProps) {
-    return http.post(URL, [
+    return http.post(URL,
       {
         ...data,
         startDate: data.startDate.toISOString(),
         endDate: data.endDate.toISOString(),
       },
-    ]);
+    );
   },
 };
 
