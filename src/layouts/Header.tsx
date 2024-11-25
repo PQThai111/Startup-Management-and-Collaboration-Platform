@@ -6,6 +6,14 @@ import { VscMail } from 'react-icons/vsc';
 import { Link, useLocation } from 'react-router-dom';
 import path from '../constant/path';
 import classNames from 'classnames';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../components/ui/dropdown-menu';
 
 const user = {
   name: 'John Doe',
@@ -86,9 +94,25 @@ const Header = () => {
             number={1}
             onClick={() => console.log('ahihi')}
           />
-          <Avatar>
-            <AvatarImage src={user.avatar_url} alt="avatar" />
-          </Avatar>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar>
+                <AvatarImage src={user.avatar_url} alt="avatar" />
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  <a href="/profile">Profile</a>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <a href="/projectManagement">My Projects</a>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Log out</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       ) : (
         <div className="col-span-3 flex justify-end gap-5">
