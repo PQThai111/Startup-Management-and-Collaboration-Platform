@@ -26,6 +26,9 @@ const startupRequestsApi = {
   approveStartupRequests( id: string, body: { mentorId: string, lecturerId: string}){
     return http.post<SuccessResponse<any>>(`${URL}/${id}/ApproveRequest`, body)
   },
+  rejectStartupRequests( id: string, body: { reason: string, notifyByEmail: boolean}){
+    return http.put<SuccessResponse<any>>(`${URL}/${id}/RejectRequest`, body)
+  },
 }
 
 export default startupRequestsApi

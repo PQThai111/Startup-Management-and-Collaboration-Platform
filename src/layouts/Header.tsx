@@ -17,7 +17,7 @@ import {
 
 const user = {
   name: 'John Doe',
-  avatar_url: 'http://localhost:5173/src/assets/welcome.jpg',
+  avatar_url: 'https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg',
 };
 
 const Header = () => {
@@ -97,7 +97,11 @@ const Header = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar>
-                <AvatarImage src={user.avatar_url} alt="avatar" />
+                <AvatarImage
+                  className="border"
+                  src={user.avatar_url}
+                  alt="avatar"
+                />
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">

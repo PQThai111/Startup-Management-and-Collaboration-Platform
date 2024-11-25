@@ -6,14 +6,16 @@ import IconWithNum from '../common/components/IconWithNum';
 import { Avatar, AvatarImage } from '../components/ui/avatar';
 import { VscMail } from 'react-icons/vsc';
 import { IoMdNotificationsOutline } from 'react-icons/io';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../components/ui/dropdown-menu';
 
 export default function SideBarLayout() {
-  const user = {
-    name: 'John Doe',
-    avatar_url:
-      'https://cdn.kona-blue.com/upload/kona-blue_com/post/images/2024/08/13/356/avatar-vo-tri-meo-3.jpg',
-  };
-
   let pathName = useLocation().pathname;
   return (
     <div className="grid h-[100vh] grid-cols-12">
@@ -125,8 +127,10 @@ export default function SideBarLayout() {
         </div>
       </div>
       <div className="col-span-10 h-full">
-        <div className="w-full bg-slate-100 py-3">
-          <div className="flex items-center justify-end gap-5 pr-10">
+        <div className="grid h-16 grid-cols-10 items-center gap-10 px-20 pb-5 pt-7">
+          <div className="col-span-1"></div>
+          <div className="col-span-5 pl-20"></div>
+          <div className="col-span-4 flex items-center justify-end gap-5">
             <IconWithNum
               Icon={VscMail}
               number={0}
@@ -137,9 +141,31 @@ export default function SideBarLayout() {
               number={1}
               onClick={() => console.log('ahihi')}
             />
-            <Avatar>
-              <AvatarImage src={user.avatar_url} alt="avatar" />
-            </Avatar>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar>
+                  <AvatarImage
+                    className="border"
+                    src={
+                      'https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg'
+                    }
+                    alt="avatar"
+                  />
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <a href="/profile">Profile</a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <a href="/projectManagement">My Projects</a>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Log out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
         <div className="h-[90%] p-10">

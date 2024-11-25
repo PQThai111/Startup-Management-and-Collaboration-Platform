@@ -47,8 +47,17 @@ export const requestSchema = yup.object({
   LecturerId : yup
     .string()
     .required('LecturerId is Required !')
-})
+  })
+
+  export const rejectSchema = yup.object({
+    Reason : yup
+      .string()
+      .required('Reason is Required !')
+      .min(5, 'Can not under 5 characters')
+      .max(200, 'Can not exceed 160 characters'),
+    })
 
 export type Schema = yup.InferType<typeof schema>
 export type ProjectSchema = yup.InferType<typeof projectSchema>
 export type RequestSchema = yup.InferType<typeof requestSchema>
+export type RejectSchema = yup.InferType<typeof rejectSchema>

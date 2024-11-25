@@ -75,7 +75,6 @@ export default function CreateProject() {
     handleSubmit,
     formState: { errors },
     control,
-    watch,
     reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),

@@ -114,7 +114,6 @@ export default function Manager_Approval() {
   };
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
     approveStartupRequestsMutation.mutate(data, {
       onSuccess: (data) => {
         queryClient.invalidateQueries({
@@ -261,6 +260,7 @@ export default function Manager_Approval() {
                 }
               >
                 <button
+                  type="button"
                   onClick={(_) => onChooseReject()}
                   className="rounded-md bg-red-600 px-3 py-1 text-2xl text-white"
                 >
