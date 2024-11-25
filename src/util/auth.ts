@@ -24,7 +24,7 @@ export const clearLS = () => {
 }
 
 export const getAccessTokenToLS = () => localStorage.getItem('access_token') || ''
-export const getRefreshTokenToLS = () => localStorage.getItem('access_token') || ''
+export const getRefreshTokenToLS = () => localStorage.getItem('refresh_token') || ''
 
 export const getProfileFromLS = () => {
   const result = localStorage.getItem('user')

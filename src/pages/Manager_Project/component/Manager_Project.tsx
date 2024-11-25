@@ -21,7 +21,7 @@ export default function Manager_Project() {
   const { data: projectsData } = useQuery({
     queryKey: ['projects', 'queryConfig'],
     queryFn: () => {
-      return projectApi.getProjectss();
+      return projectApi.getProjects(queryConfig as QueryConfig);
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,
@@ -85,7 +85,7 @@ export default function Manager_Project() {
       <Pagination
         queryConfig={queryConfig}
         PageSize={projectsData?.data.data.pagination.limit as number}
-        pathName={path.manager_project_management + '/project'}
+        pathName={path.manager_project_management}
       />
     </div>
   );

@@ -7,11 +7,14 @@ import authApi from '../apis/auth.api';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import path from '../constant/path';
+import { useContext } from 'react';
+import { AppContext } from '../context/app.context';
 
 type FormData = Pick<Schema, 'email' | 'password'>;
 const loginSchema = schema.pick(['email', 'password']);
 
 const Login = (): JSX.Element => {
+  const { setIsAuthenticated, setProfile } = useContext(AppContext);
   const navigate = useNavigate();
   const {
     register,
@@ -29,10 +32,15 @@ const Login = (): JSX.Element => {
   const onSubmit = handleSubmit((data) => {
     loginAccountMutation.mutate(data, {
       onSuccess: (data) => {
-        console.log(data.data.data.access_token);
-        navigate(path.home);
-        // setIsAuthenticated(true)
-        // setProfile(data.data.data.user)
+        setIsAuthenticated(true);
+        setProfile(data.data.data.user);
+        if (data.data.data.user.role == 1) {
+          navigate(path.manager_project_management);
+        } else if (data.data.data.user.role == 2) {
+          navigate('/');
+        } else if (data.data.data.user.role == 3) {
+          navigate('/');
+        }
       },
       onError: (error) => {
         console.log(error);

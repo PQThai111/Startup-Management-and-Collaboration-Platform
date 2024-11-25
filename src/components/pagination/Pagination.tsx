@@ -51,11 +51,8 @@ export default function Pagination({ queryConfig, PageSize, pathName }: Props) {
           PageNumber > page + RANGE &&
           PageNumber < PageSize - RANGE + 1
         ) {
-          //Trường Hợp ... chỉ xuất hiện duy nhất Ở sau
-          //Page nó nằm ở khúc đầu
           return renderDotAfter(index);
         } else if (page > RANGE * 2 + 1 && page < PageSize - RANGE * 2) {
-          //Page nó nằm ở khúc giữa
           if (PageNumber < page - RANGE && PageNumber > RANGE) {
             return renderDotBefore(index);
           } else if (
@@ -69,8 +66,6 @@ export default function Pagination({ queryConfig, PageSize, pathName }: Props) {
           PageNumber > RANGE &&
           PageNumber < page - RANGE
         ) {
-          //Trường Hợp ... chỉ xuất hiện duy nhất Ở đầu
-          //Page nó nằm ở khúc cuối
           return renderDotBefore(index);
         }
         return (

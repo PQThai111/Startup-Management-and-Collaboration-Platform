@@ -75,7 +75,7 @@ export default function CreateProject() {
     handleSubmit,
     formState: { errors },
     control,
-    // watch,
+    watch,
     reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -109,7 +109,7 @@ export default function CreateProject() {
     if (courses.length > 0 && accounts.length > 0) {
       reset({
         CourseId: courses[0]?.id,
-        DesiredLecturerId: accounts[0]?.lecturer?.accountId,
+        DesiredLecturerId: accounts[0]?.lecturer?.id,
         StartupIdeaCategory: 1,
         StartupIdeaDescription: '',
         StartupIdeaTitle: '',
@@ -283,15 +283,15 @@ export default function CreateProject() {
                   className="block h-[35px] w-[50%] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   {...field}
                   onChange={field.onChange}
-                  value={field.value || accounts[0]?.lecturer?.accountId}
+                  value={field.value || accounts[0]?.lecturer?.id}
                 >
                   {lecturerPending ? (
                     <option>Loading...</option>
                   ) : (
                     accounts.map((account) => (
                       <option
-                        key={account.lecturer?.accountId}
-                        value={account.lecturer?.accountId}
+                        key={account.lecturer?.id}
+                        value={account.lecturer?.id}
                       >
                         {account.lecturer?.lecturerName}
                       </option>
@@ -313,7 +313,7 @@ export default function CreateProject() {
               onClick={(_) =>
                 reset({
                   CourseId: courses[0]?.id || '',
-                  DesiredLecturerId: accounts[0]?.lecturer?.accountId || '',
+                  DesiredLecturerId: accounts[0]?.lecturer?.id || '',
                   StartupIdeaCategory: 1,
                   StartupIdeaDescription: '',
                   StartupIdeaTitle: '',

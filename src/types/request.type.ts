@@ -35,5 +35,5 @@ export interface SenderInfo {
   phoneNumber: string
 }
 export interface QueryRequest {
-  status: number
+  RequestStatus: number
 }

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Manager_Approval_Detail from './Manager_Approval_Detail';
 import Manager_Approval_Item from './Manager_Approval_Item';
 import { QueryRequest, Request } from '../../../types/request.type';
@@ -11,7 +11,7 @@ import accountApi from '../../../apis/account.api';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { requestSchema, RequestSchema } from '../../../util/rules';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Popover from '../../../components/popover';
 
 import Manager_Approval_Reject from './Manager_Approval_Reject';
@@ -24,9 +24,10 @@ const schema = requestSchema.pick(['RequestId', 'MentorId', 'LecturerId']);
 export default function Manager_Approval() {
   const [request, setRequest] = useState<Request | undefined>(undefined);
   const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const param: QueryRequest = {
-    status: 0,
+    RequestStatus: 0,
   };
 
   const { data: requestsData, isPending: requestPending } = useQuery({
@@ -71,7 +72,7 @@ export default function Manager_Approval() {
   });
   const mentors = mentorsData?.data?.data || [];
 
-  const { handleSubmit, control, setValue } = useForm<FormData>({
+  const { handleSubmit, control, setValue, reset } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
       RequestId: '',
@@ -79,6 +80,15 @@ export default function Manager_Approval() {
       MentorId: '',
     },
   });
+
+  useEffect(() => {
+    if (lecturers.length > 0 && mentors.length > 0) {
+      reset({
+        LecturerId: lecturers[0].lecturer?.id,
+        MentorId: mentors[0]?.mentor?.id,
+      });
+    }
+  }, [lecturers, mentors, reset]);
 
   const approveStartupRequestsMutation = useMutation({
     mutationFn: (body: FormData) =>
@@ -107,10 +117,20 @@ export default function Manager_Approval() {
     console.log(data);
     approveStartupRequestsMutation.mutate(data, {
       onSuccess: (data) => {
+        queryClient.invalidateQueries({
+          queryKey: ['requests', param],
+          exact: true,
+        });
+        toast.success('Approve Successfully !', {
+          autoClose: 500,
+        });
         console.log(data);
       },
       onError: (error) => {
         console.log(error);
+        toast.success('Approve Fail !', {
+          autoClose: 500,
+        });
       },
     });
   });
@@ -137,6 +157,7 @@ export default function Manager_Approval() {
               requests &&
               requests.map((request) => (
                 <Manager_Approval_Item
+                  key={request.id}
                   request={request}
                   onChooseRequest={onChooseRequest}
                 />
@@ -147,7 +168,7 @@ export default function Manager_Approval() {
           <Pagination
             queryConfig={queryConfig}
             PageSize={requestsData?.data.data.pagination.limit as number}
-            pathName={path.manager_approval_management + '/approval'}
+            pathName={path.manager_project_management + '/approval'}
           />
         </div>
         <div className="col-span-6 grid h-full grid-rows-12 gap-3 rounded-md">

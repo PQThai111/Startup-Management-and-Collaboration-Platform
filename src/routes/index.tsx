@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   Navigate,
+  Outlet,
   RouteObject,
   RouterProvider,
 } from 'react-router-dom';
@@ -12,7 +13,6 @@ import ProjectPage from '../pages/ProjectPage';
 import EventDetailPage from '../pages/EventDetailPage';
 import CreateProjectPage from '../pages/CreateProjectPage';
 import MyProjectPage from '../pages/MyProjectPage';
-import Register from '../pages/Register';
 import ProfilePage from '../pages/ProfilePage';
 import SideBarLayout from '../layouts/SideBarLayout';
 import Manager_Project_Layout from '../pages/Manager_Project';
@@ -25,12 +25,36 @@ import Admin_dashboard from '../pages/Admin_dashboard';
 import ProjectOverview from '../pages/ProjectOverview';
 import ProjectManagementPage from '../pages/ProjectManagementPage';
 import ProjectDetail from '../pages/ProjectDetail';
+import { useContext } from 'react';
+import { AppContext } from '../context/app.context';
+
+function ProtectedRoute() {
+  const { isAuthenticated } = useContext(AppContext);
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+}
+
+function RejectedRoute() {
+  const { isAuthenticated, profile } = useContext(AppContext);
+  console.log(isAuthenticated);
+  console.log(profile);
+
+  return !isAuthenticated ? (
+    <Outlet />
+  ) : profile?.role == 1 ? (
+    <Navigate to={path.manager_project_management} />
+  ) : (
+    <Navigate to={path.home} />
+  );
+}
 
 const publicRoutes: RouteObject[] = [
   {
     path: '/',
     element: <Homepage />,
   },
+];
+
+const authenticatedRoutes: RouteObject[] = [
   {
     path: path.newFeed,
     element: <EventPage />,
@@ -50,14 +74,6 @@ const publicRoutes: RouteObject[] = [
   {
     path: path.myProject,
     element: <MyProjectPage />,
-  },
-  {
-    path: path.login,
-    element: <Login />,
-  },
-  {
-    path: path.register,
-    element: <Register />,
   },
   {
     element: <ProjectDetail />,
@@ -141,6 +157,12 @@ const publicRoutes: RouteObject[] = [
 
 // const authenticatedRoutes: RouteType[] = [];
 
+const protectRoute: RouteObject = {
+  path: '',
+  element: <ProtectedRoute />,
+  children: authenticatedRoutes,
+};
+
 const unauthenticatedRoutes: RouteObject[] = [
   {
     path: '/login',
@@ -148,13 +170,19 @@ const unauthenticatedRoutes: RouteObject[] = [
   },
 ];
 
+const rejectRoute: RouteObject = {
+  path: '',
+  element: <RejectedRoute />,
+  children: unauthenticatedRoutes,
+};
+
 const AppRouter = (): React.ReactElement => {
   // const { token } = useAuth();
 
   const router = createBrowserRouter([
     ...publicRoutes,
-    ...unauthenticatedRoutes,
-    // ...(token ? authenticatedRoutes : unauthenticatedRoutes),
+    protectRoute,
+    rejectRoute,
     {
       path: '*',
       element: <Navigate to="/404" />,
