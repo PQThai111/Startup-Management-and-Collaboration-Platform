@@ -14,6 +14,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../components/ui/dropdown-menu';
+import { useContext } from 'react';
+import { AppContext } from '../context/app.context';
+import { toast } from 'react-toastify';
+import { clearLS } from '../util/auth';
 
 const user = {
   name: 'John Doe',
@@ -22,6 +26,14 @@ const user = {
 
 const Header = () => {
   let pathname = useLocation().pathname;
+  const { setIsAuthenticated, setProfile } = useContext(AppContext);
+  const handleLogout = () => {
+    clearLS();
+    setIsAuthenticated(false);
+    setProfile(null);
+    toast.success('Logout Successfully !', { autoClose: 1000 });
+  };
+
   return (
     <div className="grid h-16 grid-cols-10 items-center gap-10 px-20 pb-5 pt-7">
       <div className="col-span-1">
@@ -114,7 +126,9 @@ const Header = () => {
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Log out</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>
+                Log out
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
