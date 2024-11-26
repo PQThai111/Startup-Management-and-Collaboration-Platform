@@ -10,6 +10,9 @@ const projectApi = {
       params
     })
   },
+  getProjectss(){
+    return http.get<SuccessResponse<ProjectList>>(URL)
+  },
   getProjectDetail(id: string){
     return http.get<SuccessResponse<Project>>(`${URL}/${id}`)
   },

@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import path from '../constant/path';
 import { useContext } from 'react';
 import { AppContext } from '../context/app.context';
+import { toast } from 'react-toastify';
 
 type FormData = Pick<Schema, 'email' | 'password'>;
 const loginSchema = schema.pick(['email', 'password']);
@@ -45,7 +46,10 @@ const Login = (): JSX.Element => {
         }
       },
       onError: (error) => {
-        console.log(error);
+        console.log((error as any).response.data.message);
+        toast.error(`${(error as any).response.data.message}`, {
+          autoClose: 500,
+        });
         // if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
         //   const formError = error.response?.data.data
         //   if (formError) {
@@ -90,7 +94,7 @@ const Login = (): JSX.Element => {
               name="password"
               type="password"
               placeholder=" Password"
-              className="mb-8 h-10 w-[490px] rounded-sm"
+              className="relative mb-8 h-10 w-[490px] rounded-sm"
               errorMessage={errors.password?.message}
             />
             <a href="" className="text-white underline">
