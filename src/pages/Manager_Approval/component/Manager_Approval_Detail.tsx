@@ -29,13 +29,13 @@ export default function Manager_Approval_Detail({
       <div className="mb-2 grid w-full grid-cols-10">
         <p className="col-span-2 flex items-center">Leader Name:</p>
         <div className="col-span-8 border bg-white py-2 pl-2">
-          {request != undefined ? request.senderInfo.studentName : 'aaa'}
+          {request != undefined ? request.senderInfo.studentName : '.'}
         </div>
       </div>
       <div className="mb-2 grid w-full grid-cols-10">
         <p className="col-span-2 flex items-center">Project Name:</p>
         <div className="col-span-8 border bg-white py-2 pl-2">
-          {request != undefined ? request.startupIdea.title : 'aaa'}
+          {request != undefined ? request.startupIdea.title : '.'}
         </div>
       </div>
       <div className="mb-2 grid w-full grid-cols-10">
@@ -43,19 +43,19 @@ export default function Manager_Approval_Detail({
         <div className="col-span-8 border bg-white py-2 pl-2">
           {request != undefined
             ? categoryMap.get(request.startupIdea.category)
-            : 'aaa'}
+            : '.'}
         </div>
       </div>
       <div className="mb-2 grid w-full grid-cols-10">
         <p className="col-span-2 flex items-center">Project Type:</p>
         <div className="col-span-8 border bg-white py-2 pl-2">
-          {request != undefined ? request.semesterAndCourse.course : 'aaa'}
+          {request != undefined ? request.semesterAndCourse.course : '.'}
         </div>
       </div>
       <div className="mb-2 grid w-full grid-cols-10">
         <p className="col-span-2 flex items-center">Mentor despise:</p>
         <div className="col-span-8 border bg-white py-2 pl-2">
-          {request != undefined ? request.desiredLecturerId : 'aaa'}
+          {request != undefined ? request.desiredLecturerName : '.'}
         </div>
       </div>
       <div className="mb-1">
@@ -64,7 +64,7 @@ export default function Manager_Approval_Detail({
           id="message"
           className="block h-[200px] w-full resize-none rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
           placeholder="Write your thoughts here..."
-          value={request != undefined ? request.startupIdea.description : 'aaa'}
+          value={request != undefined ? request.startupIdea.description : '.'}
           readOnly
         />
       </div>

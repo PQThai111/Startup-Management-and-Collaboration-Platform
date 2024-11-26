@@ -55,9 +55,22 @@ export const requestSchema = yup.object({
       .required('Reason is Required !')
       .min(5, 'Can not under 5 characters')
       .max(200, 'Can not exceed 160 characters'),
-    })
+  })
+
+  export const mentorTimeBookingSchema = yup.object({
+    Note : yup
+      .string()
+      .min(5, 'Can not under 5 characters')
+      .max(200, 'Can not exceed 160 characters'),
+    MeetingAddress : yup
+    .string()
+    .required('MeetingAddress is Required !')
+    .min(5, 'Can not under 5 characters')
+    .max(200, 'Can not exceed 160 characters'),
+  })
 
 export type Schema = yup.InferType<typeof schema>
 export type ProjectSchema = yup.InferType<typeof projectSchema>
 export type RequestSchema = yup.InferType<typeof requestSchema>
 export type RejectSchema = yup.InferType<typeof rejectSchema>
+export type MentorTimeBookingSchema = yup.InferType<typeof mentorTimeBookingSchema>

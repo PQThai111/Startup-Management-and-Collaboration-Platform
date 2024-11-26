@@ -40,6 +40,8 @@ const Login = (): JSX.Element => {
           navigate('/');
         } else if (data.data.data.user.role == 3) {
           navigate('/');
+        } else if (data.data.data.user.role == 4) {
+          navigate(path.mentor_project_management);
         }
       },
       onError: (error) => {

@@ -27,6 +27,7 @@ import ProjectManagementPage from '../pages/ProjectManagementPage';
 import ProjectDetail from '../pages/ProjectDetail';
 import { useContext } from 'react';
 import { AppContext } from '../context/app.context';
+import Mentor_Schedule_Layout from '../pages/Mentor_Schedule';
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext);
@@ -126,6 +127,20 @@ const authenticatedRoutes: RouteObject[] = [
       {
         element: <Manager_Approval_Layout />,
         path: path.manager_approval_management,
+      },
+    ],
+  },
+  {
+    path: path.mentor_project_management,
+    element: <SideBarLayout />,
+    children: [
+      {
+        element: <Manager_Project_Layout />,
+        index: true,
+      },
+      {
+        element: <Mentor_Schedule_Layout />,
+        path: path.mentor_schedule_management,
       },
     ],
   },

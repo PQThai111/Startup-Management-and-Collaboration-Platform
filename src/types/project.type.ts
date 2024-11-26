@@ -31,49 +31,6 @@ export interface Project {
   createdDate: string;
 }
 
-// type MentorsAndLecturers ={
-//   accountId: string
-//   name: string
-//   roleType: string
-//   description: string
-// }
-
-// type SemesterAndCourse ={
-//   semesterId: string
-//   semester: string
-//   courseId:string
-//   course: string
-// }
-
-// type Team = {
-//   teamId: string
-//   teamName: string
-//   desiredMentorSessions: number
-//   startUpIdea: StartUpIdea
-//   members: Member[]
-//   status: number
-//   isDeleted: boolean
-// }
-
-// type Member = {
-//   id: string
-//   studentName: string
-//   studentcode: string
-//   memberRole: string
-//   isLeader: boolean
-//   status: number
-//   note: string,
-//   isDeleted: boolean
-// }
-
-// type StartUpIdea = {
-//   id: string
-//   title: string
-//   description: string
-//   category: number
-//   coverImage: string
-// }
-
 export interface ProjectList {
   data: Project[]
   pagination: {
@@ -82,10 +39,6 @@ export interface ProjectList {
     page_size: number
   }
 }
-// export enum PROJECT_TYPE {
-//   exe1 = 0,
-//   exe2 = 1
-// }
 
 export interface ProjectConfig {
   SearchTerm?: string
@@ -93,12 +46,3 @@ export interface ProjectConfig {
   PageSize?: number | string
 }
 
-// export interface Milestone {
-//   name: string
-//   description: string
-//   startDate: string
-//   endDate: string
-//   id: string
-//   status: number
-//   isDeleted: boolean
-// }

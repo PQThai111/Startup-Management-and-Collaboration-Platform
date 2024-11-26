@@ -19,7 +19,7 @@ export default function Manager_Project() {
   const queryConfig = useProjectQueryConfig();
   //, isLoading
   const { data: projectsData } = useQuery({
-    queryKey: ['projects', 'queryConfig'],
+    queryKey: ['projects', queryConfig],
     queryFn: () => {
       return projectApi.getProjects(queryConfig as QueryConfig);
     },
@@ -35,6 +35,8 @@ export default function Manager_Project() {
     setIsOpen(!isOpen);
     setIsEdit(project);
   };
+
+  console.log(projectsData?.data.data.data);
 
   return (
     <div className="container h-[580px] rounded-lg border border-slate-300 bg-slate-200 p-3 shadow-md">

@@ -33,7 +33,7 @@ export default function Manager_Project_Item({
   if (isDeleted == true) {
     status = 'Deleted';
   } else if (projectStatus == 0) {
-    status = 'Pending';
+    status = 'Not Start';
   } else if (projectStatus == 1) {
     status = 'Approved';
   } else if (projectStatus == 2) {

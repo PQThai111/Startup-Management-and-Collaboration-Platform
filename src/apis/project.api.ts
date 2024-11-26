@@ -5,9 +5,6 @@ import { convertToFormData } from "../util/util"
 
 const URL = 'Projects'
 const projectApi = {
-  getProjectss(){
-    return http.get<SuccessResponse<ProjectList>>(URL)
-  },
   getProjects(params: ProjectConfig){
     return http.get<SuccessResponse<ProjectList>>(URL, {
       params

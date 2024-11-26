@@ -86,7 +86,6 @@ export default function Manager_Event() {
           </>
         )}
       </div>
-
       <Pagination
         queryConfig={queryConfig}
         PageSize={eventsData?.data.data.pagination.limit as number}

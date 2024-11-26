@@ -115,7 +115,7 @@ export default function Manager_Approval() {
 
   const onSubmit = handleSubmit((data) => {
     approveStartupRequestsMutation.mutate(data, {
-      onSuccess: (data) => {
+      onSuccess: (_) => {
         queryClient.invalidateQueries({
           queryKey: ['requests', param],
           exact: true,
@@ -123,7 +123,7 @@ export default function Manager_Approval() {
         toast.success('Approve Successfully !', {
           autoClose: 500,
         });
-        console.log(data);
+        setRequest(undefined);
       },
       onError: (error) => {
         console.log(error);

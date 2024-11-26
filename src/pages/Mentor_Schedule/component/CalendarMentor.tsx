@@ -3,9 +3,12 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 // import { Label } from '../../components/ui/label';
 // import { Input } from '../../components/ui/input';
-import ContentContainer from '../ProjectDetaill/components/ContentContainer';
-import { getWeekDates, getWeekOfMonth } from '../../util/util';
-import { AppContext } from '../../context/app.context';
+import ContentContainer from '../../ProjectDetaill/components/ContentContainer';
+import { getWeekDates, getWeekOfMonth } from '../../../util/util';
+import { AppContext } from '../../../context/app.context';
+import Popover from '../../../components/popover';
+import Mentor_Schedule_Save from './Mentor_Schedule_Save';
+import { toast } from 'react-toastify';
 
 const times = [
   '7:00 - 7:30',
@@ -52,6 +55,11 @@ const CalendarMentor = () => {
   const { profile } = useContext(AppContext);
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
   const [cursorTime, setCursorTime] = useState<Date>(new Date());
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = (_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setIsOpen(!isOpen);
+  };
 
   const handleMoveTime = (isMonth: boolean) => (isPlus: boolean) => {
     if (isMonth) {
@@ -104,9 +112,32 @@ const CalendarMentor = () => {
     <ContentContainer>
       <div className="flex items-center justify-between">
         <p className="text-4xl font-bold">Calendar Mentor</p>
-        <button className="rounded-lg border bg-[#EBEBEB] px-8 py-2 text-2xl font-semibold">
-          Save
-        </button>
+        <Popover
+          initialOpen={isOpen}
+          renderPopover={
+            selectedTimes.length > 0 && (
+              <Mentor_Schedule_Save
+                schedules={selectedTimes}
+                handleOpen={handleClose}
+              />
+            )
+          }
+        >
+          <button
+            onClick={(_) => {
+              if (selectedTimes.length > 0) {
+                setIsOpen(true);
+              } else {
+                toast.error('Please choose at least one time slot', {
+                  autoClose: 500,
+                });
+              }
+            }}
+            className="rounded-lg border bg-[#EBEBEB] px-8 py-2 text-2xl font-semibold"
+          >
+            Save
+          </button>
+        </Popover>
       </div>
       <div className="mt-5 flex items-center justify-between pl-20">
         <div className="flex gap-5">
@@ -165,7 +196,7 @@ const CalendarMentor = () => {
               <tr key={time}>
                 <td className="items-center py-2 text-lg">{time}</td>
                 {getWeekDates(cursorTime).map((day) => {
-                  const timeSlot = `${day}-${time}`;
+                  const timeSlot = `${day} - ${time}`;
                   return (
                     <td
                       key={timeSlot}
@@ -188,16 +219,6 @@ const CalendarMentor = () => {
           </tbody>
         </table>
       </div>
-      {/* {selectedTimes.length > 0 && (
-        <div className="mt-4">
-          <p className="font-semibold">Selected Times:</p>
-          <ul>
-            {selectedTimes.map((slot) => (
-              <li key={slot}>{slot}</li>
-            ))}
-          </ul>
-        </div>
-      )} */}
     </ContentContainer>
 
     // <div className="mt-4">

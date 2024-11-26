@@ -4,6 +4,7 @@ export interface Request {
   isDeleted: boolean
   startupIdea: StartupIdea
   desiredLecturerId: string
+  desiredLecturerName: string
   semesterAndCourse: SemesterAndCourse
   senderInfo: SenderInfo
 }
