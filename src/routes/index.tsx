@@ -27,6 +27,8 @@ import ProjectManagementPage from '../pages/ProjectManagementPage';
 import ProjectDetail from '../pages/ProjectDetail';
 import { useContext } from 'react';
 import { AppContext } from '../context/app.context';
+import TaskManagement from '../pages/TaskManagement';
+import ProjectTaskDetail from '../pages/ProjectTaskDetail';
 import Mentor_Schedule_Layout from '../pages/Mentor_Schedule';
 
 function ProtectedRoute() {
@@ -77,6 +79,10 @@ const authenticatedRoutes: RouteObject[] = [
     element: <MyProjectPage />,
   },
   {
+    path: path.projectManagement,
+    element: <ProjectManagementPage />,
+  },
+  {
     element: <ProjectDetail />,
     path: path.projectDetail,
     children: [
@@ -84,33 +90,25 @@ const authenticatedRoutes: RouteObject[] = [
         element: <ProjectOverview />,
         index: true,
       },
+      {
+        element: (
+          <>
+            <Outlet />
+          </>
+        ),
+        path: path.taskManagement,
+        children: [
+          {
+            element: <TaskManagement />,
+            index: true,
+          },
+          {
+            element: <ProjectTaskDetail />,
+            path: path.projectTaskDetail,
+          },
+        ],
+      },
     ],
-  },
-  {
-    path: path.projectManagement,
-    element: <ProjectManagementPage />,
-    // children: [
-    //   {
-    //     element: <TaskManagement />,
-    //     index: true,
-    //   },
-    //   {
-    //     element: <Timeline />,
-    //     path: path.timeLine,
-    //   },
-    //   {
-    //     element: <CalendarMentor />,
-    //     path: path.calendarMentor,
-    //   },
-    //   {
-    //     element: <FinancialReport />,
-    //     path: path.financialReport,
-    //   },
-    //   {
-    //     element: <ProjectDetail />,
-    //     path: path.projectDetail,
-    //   },
-    // ],
   },
   {
     path: path.manager_project_management,
@@ -198,10 +196,10 @@ const AppRouter = (): React.ReactElement => {
     ...publicRoutes,
     protectRoute,
     rejectRoute,
-    {
-      path: '*',
-      element: <Navigate to="/404" />,
-    },
+    // {
+    //   path: '*',
+    //   element: <Navigate to="/404" />,
+    // },
   ]);
 
   return <RouterProvider router={router} />;

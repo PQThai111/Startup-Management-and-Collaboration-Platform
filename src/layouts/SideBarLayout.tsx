@@ -16,10 +16,19 @@ import {
 } from '../components/ui/dropdown-menu';
 import { useContext } from 'react';
 import { AppContext } from '../context/app.context';
+import { clearLS } from '../util/auth';
+import { toast } from 'react-toastify';
 
 export default function SideBarLayout() {
-  const { profile } = useContext(AppContext);
   let pathName = useLocation().pathname;
+  const { setIsAuthenticated, setProfile, profile } = useContext(AppContext);
+  const handleLogout = () => {
+    clearLS();
+    setIsAuthenticated(false);
+    setProfile(null);
+    toast.success('Logout Successfully !', { autoClose: 1000 });
+  };
+
   return (
     <div className="grid h-[100vh] grid-cols-12">
       <div className="col-span-2 col-start-1 h-full bg-slate-200 px-2 py-4">
@@ -240,7 +249,9 @@ export default function SideBarLayout() {
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Log out</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Log out
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

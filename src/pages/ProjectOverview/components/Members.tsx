@@ -23,6 +23,7 @@ import { toast } from 'react-toastify';
 import { Member } from '../../../types/team.type';
 import { AxiosError } from '../../../types/utils.type';
 import { MAX_TEAM_SIZE } from '../../../constant/team';
+import { ScrollArea } from '../../../components/ui/scroll-area';
 
 const Members = ({
   team,
@@ -39,7 +40,7 @@ const Members = ({
 
   const debounce = useDebouncedCallback((value) => {
     setQuery(value);
-  }, 2000);
+  }, 1000);
 
   const findStudent = useMutation({
     mutationFn: ({
@@ -201,7 +202,7 @@ const Members = ({
                 className="col-span-3"
               />
             </div>
-            <div>
+            <ScrollArea className="h-96">
               {students &&
                 students.map((student) => (
                   <button
@@ -225,7 +226,7 @@ const Members = ({
                     </div>
                   </button>
                 ))}
-            </div>
+            </ScrollArea>
           </div>
           <DialogFooter>
             <Button type="button" onClick={handleInviteStudent}>

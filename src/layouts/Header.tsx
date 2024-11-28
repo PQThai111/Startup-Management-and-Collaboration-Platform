@@ -19,14 +19,9 @@ import { AppContext } from '../context/app.context';
 import { toast } from 'react-toastify';
 import { clearLS } from '../util/auth';
 
-const user = {
-  name: 'John Doe',
-  avatar_url: 'https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg',
-};
-
 const Header = () => {
   let pathname = useLocation().pathname;
-  const { setIsAuthenticated, setProfile } = useContext(AppContext);
+  const { setIsAuthenticated, setProfile, profile } = useContext(AppContext);
   const handleLogout = () => {
     clearLS();
     setIsAuthenticated(false);
@@ -88,7 +83,7 @@ const Header = () => {
           </li>
         </ul>
       </div>
-      {user ? (
+      {profile ? (
         <div className="col-span-4 flex items-center justify-end gap-5">
           <Link
             to={path.createProject}
@@ -111,7 +106,10 @@ const Header = () => {
               <Avatar>
                 <AvatarImage
                   className="border"
-                  src={user.avatar_url}
+                  src={
+                    profile.avatarUrl ||
+                    'https://fastly.picsum.photos/id/367/200/300.jpg?hmac=9v6fvZlygxFPleXOePw645QmRd9ytp91VGVQaolJKIk'
+                  }
                   alt="avatar"
                 />
               </Avatar>
@@ -133,10 +131,13 @@ const Header = () => {
           </DropdownMenu>
         </div>
       ) : (
-        <div className="col-span-3 flex justify-end gap-5">
-          <button className="h-9 w-24 rounded-3xl border-2 border-main px-2 py-1 font-semibold text-main">
+        <div className="col-span-4 flex justify-end gap-5">
+          <Link
+            to={path.login}
+            className="h-9 w-24 rounded-3xl border-2 border-main px-2 py-1 text-center font-semibold text-main"
+          >
             Login
-          </button>
+          </Link>
           <button className="h-9 w-24 rounded-3xl border bg-main px-2 py-1 font-semibold text-white">
             Signup
           </button>

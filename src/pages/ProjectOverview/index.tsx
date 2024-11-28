@@ -14,7 +14,11 @@ const ProjectOverview = () => {
   const projectId = useParams<{ projectId: string }>().projectId;
   const [project, setProject] = useState<Project>();
   const getProjectDetail = useMutation({
-    mutationFn: (projectId: string) => projectApi.getProjectDetail(projectId),
+    mutationFn: (projectId: string) =>
+      projectApi.getProjectDetail({
+        id: projectId,
+        orderMilestoneByStartDate: true,
+      }),
   });
   const nav = useNavigate();
 

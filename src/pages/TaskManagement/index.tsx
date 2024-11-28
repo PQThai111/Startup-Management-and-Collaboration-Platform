@@ -1,326 +1,146 @@
-import { FaPlus } from 'react-icons/fa6';
 import { HiDotsHorizontal } from 'react-icons/hi';
-import TaskItem, { TaskItemProps, TaskStatus } from './components/TaskItem';
-import { Avatar, AvatarImage } from '../../components/ui/avatar';
-import { useState } from 'react';
-import { DndContext, DragEndEvent } from '@dnd-kit/core';
-import DroppableField from './components/DroppableField';
-import ContentContainer from '../ProjectDetaill/components/ContentContainer';
+import TaskItem from './components/TaskItem';
+import { useEffect, useState } from 'react';
+import ContentContainer from '../ProjectDetail/components/ContentContainer';
+import { useMutation } from '@tanstack/react-query';
+import projectTaskApi from '../../apis/project-task.api';
+import AddTask from './components/AddTask';
+import projectApi from '../../apis/project.api';
+import { Project } from '../../types/project.type';
+import { ProjectTaskByWeek } from '../../types/project-task.type';
+
+type ExeType = 'EXE1' | 'EXE2';
+
+const ExeId: Record<ExeType, string> = {
+  EXE1: '694DDA50-03D1-432C-B8E0-C40AF047A93B',
+  EXE2: '3C841B5C-9EFB-43F8-9E9D-1960B6CC9E5A',
+};
+
+const WeekByExeType: Record<ExeType, number> = {
+  EXE1: 10,
+  EXE2: 14,
+};
+
+const SemesterId = '419311F5-3932-4EBE-BD2B-8300D656750D';
 
 const TaskManagement = () => {
-  const [tasks, setTasks] = useState<TaskItemProps[]>([
-    {
-      id: '1',
-      header: 'Moodboard 1',
-      tag: 'Design',
-      status: 'doing',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat',
-      users: [
-        {
-          name: 'simmy',
-          avatar_url:
-            'https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474095hSm/anh-avatar-con-meo-cute_051723184.jpg',
-        },
-        {
-          name: 'pika pika',
-          avatar_url: 'https://lacdau.com/media/product/250-2332-4.jpg',
-        },
-        {
-          name: 'zo tri',
-          avatar_url:
-            'https://cdn.diendanxaydung.net.vn/wp-content/uploads/2024/09/avatar-vo-tri-cute-meo-1.jpg',
-        },
-      ],
-      comments: [
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-      ],
-      files: [new File([''], 'file1'), new File([''], 'file2')],
-    },
-    {
-      id: '2',
-      header: 'Moodboard 2',
-      tag: 'Development',
-      status: 'todo',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat',
-      users: [
-        {
-          name: 'simmy',
-          avatar_url:
-            'https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474095hSm/anh-avatar-con-meo-cute_051723184.jpg',
-        },
-        {
-          name: 'pika pika',
-          avatar_url: 'https://lacdau.com/media/product/250-2332-4.jpg',
-        },
-        {
-          name: 'zo tri',
-          avatar_url:
-            'https://cdn.diendanxaydung.net.vn/wp-content/uploads/2024/09/avatar-vo-tri-cute-meo-1.jpg',
-        },
-      ],
-      comments: [
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-      ],
-      files: [new File([''], 'file1'), new File([''], 'file2')],
-    },
-    {
-      id: '3',
-      header: 'Moodboard3',
-      tag: 'Design',
-      status: 'todo',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat',
-      users: [
-        {
-          name: 'simmy',
-          avatar_url:
-            'https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474095hSm/anh-avatar-con-meo-cute_051723184.jpg',
-        },
-        {
-          name: 'pika pika',
-          avatar_url: 'https://lacdau.com/media/product/250-2332-4.jpg',
-        },
-        {
-          name: 'zo tri',
-          avatar_url:
-            'https://cdn.diendanxaydung.net.vn/wp-content/uploads/2024/09/avatar-vo-tri-cute-meo-1.jpg',
-        },
-      ],
-      comments: [
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-      ],
-      files: [new File([''], 'file1'), new File([''], 'file2')],
-    },
-    {
-      id: '4',
-      header: 'Moodboard 4',
-      tag: 'Development',
-      status: 'done',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat',
-      users: [
-        {
-          name: 'simmy',
-          avatar_url:
-            'https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474095hSm/anh-avatar-con-meo-cute_051723184.jpg',
-        },
-        {
-          name: 'pika pika',
-          avatar_url: 'https://lacdau.com/media/product/250-2332-4.jpg',
-        },
-        {
-          name: 'zo tri',
-          avatar_url:
-            'https://cdn.diendanxaydung.net.vn/wp-content/uploads/2024/09/avatar-vo-tri-cute-meo-1.jpg',
-        },
-      ],
-      comments: [
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-      ],
-      files: [new File([''], 'file1'), new File([''], 'file2')],
-    },
-    {
-      id: '5',
-      header: 'Moodboard 5',
-      tag: 'Development',
-      status: 'todo',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat',
-      users: [
-        {
-          name: 'simmy',
-          avatar_url:
-            'https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474095hSm/anh-avatar-con-meo-cute_051723184.jpg',
-        },
-        {
-          name: 'pika pika',
-          avatar_url: 'https://lacdau.com/media/product/250-2332-4.jpg',
-        },
-        {
-          name: 'zo tri',
-          avatar_url:
-            'https://cdn.diendanxaydung.net.vn/wp-content/uploads/2024/09/avatar-vo-tri-cute-meo-1.jpg',
-        },
-      ],
-      comments: [
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-        {
-          author: 'ahihi',
-          content: 'ahihi',
-        },
-      ],
-      files: [new File([''], 'file1'), new File([''], 'file2')],
-    },
-  ]);
+  const [tasksByWeek, setTasksByWeek] = useState<ProjectTaskByWeek[]>();
+  const [project, setProject] = useState<Project>();
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (over) {
-      const newTasks = tasks.map((task) => {
-        if (task.id === active.id) {
-          return { ...task, status: over?.id as TaskStatus };
-        }
-        return task;
-      });
-      over && setTasks(newTasks);
-    }
+  const getAllProjectTask = useMutation({
+    mutationFn: ({
+      projectId,
+      // milestoneId,
+      teamId,
+    }: {
+      projectId: string;
+      // milestoneId: string;
+      teamId: string;
+    }) =>
+      projectTaskApi.getProjectTasks({
+        // milestoneId,
+        projectId,
+        teamId,
+      }),
+  });
+
+  const getCurrentProject = useMutation({
+    mutationFn: ({
+      courseId,
+      semesterId,
+    }: {
+      courseId: string;
+      semesterId: string;
+    }) => projectApi.getCurrentProject({ courseId, semesterId }),
+  });
+
+  const handleUpdateTask = () => {
+    getAllProjectTask.mutate(
+      {
+        projectId: project?.id as string,
+        // milestoneId: data.data.data[0].milestones[0].id,
+        teamId: project?.team.teamId as string,
+      },
+      {
+        onSuccess: (data) => {
+          setTasksByWeek(data.data.data);
+          console.log(data.data.data);
+        },
+        onError: (err) => {
+          console.log(err);
+        },
+      },
+    );
   };
+
+  useEffect(() => {
+    getCurrentProject.mutate(
+      { courseId: ExeId.EXE1, semesterId: SemesterId },
+      {
+        onSuccess: (data) => {
+          console.log(data.data.data);
+          setProject(data.data.data[0]);
+          getAllProjectTask.mutate(
+            {
+              projectId: data.data.data[0].id,
+              // milestoneId: data.data.data[0].milestones[0].id,
+              teamId: data.data.data[0].team.teamId,
+            },
+            {
+              onSuccess: (data) => {
+                setTasksByWeek(data.data.data);
+                console.log(data.data.data);
+              },
+              onError: (err) => {
+                console.log(err);
+              },
+            },
+          );
+        },
+        onError: (err) => {
+          console.log(err);
+        },
+      },
+    );
+  }, []);
 
   return (
     <ContentContainer>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-5">
         <p className="text-4xl font-bold">Task Management</p>
-        <div className="flex items-center gap-2">
-          <div className="flex h-fit items-center justify-center rounded bg-[#3099E5] bg-opacity-20 p-0.5">
-            <FaPlus className="text-[8px] text-[#16425B]" />
-          </div>
-          <p className="text-lg">Invite</p>
-          <div className="flex">
-            <Avatar className="h-8 w-8 border-2 border-white">
-              <AvatarImage
-                src="https://cdn.kona-blue.com/upload/kona-blue_com/post/images/2024/08/13/356/avatar-vo-tri-meo-3.jpg"
-                alt="avatar"
-              />
-            </Avatar>
-            <Avatar className="h-8 w-8 -translate-x-2 border-2 border-white">
-              <AvatarImage
-                src="https://cdn.kona-blue.com/upload/kona-blue_com/post/images/2024/08/13/356/avatar-vo-tri-meo-3.jpg"
-                alt="avatar"
-              />
-            </Avatar>
-          </div>
-        </div>
+        {project && (
+          <AddTask handleUpdateTask={handleUpdateTask} projectId={project.id} />
+        )}
       </div>
-      <div className="mt-2 grid grid-cols-4 gap-4">
-        <DndContext onDragEnd={handleDragEnd}>
-          <div className="h-fit rounded-xl bg-[#EEF2F5] px-3 py-3">
+      <div className="mb-5 mt-2 flex h-fit gap-4 overflow-auto pb-3 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar]:h-3">
+        {Array.from(
+          {
+            length:
+              project?.semesterAndCourse.course === 'EXE101'
+                ? WeekByExeType.EXE1
+                : WeekByExeType.EXE2,
+          },
+          (_, index) => index + 1,
+        ).map((item) => (
+          <div
+            key={item}
+            className="h-full min-h-[80vh] min-w-96 rounded-xl bg-[#EEF2F5] px-3 py-3"
+          >
             <div className="mb-3 flex items-center justify-between">
-              <p className="font-bold">To do</p>
+              <p className="font-bold">Week {item}</p>
               <div className="flex gap-2">
-                <FaPlus />
                 <HiDotsHorizontal />
               </div>
             </div>
-            <DroppableField key="todo" id="todo">
-              {tasks
-                .filter((task) => task.status === 'todo')
-                .map((task) => (
-                  <TaskItem key={task.id} props={task} />
-                ))}
-            </DroppableField>
-          </div>
-          <div className="h-fit rounded-xl bg-[#EEF2F5] px-3 py-3">
-            <div className="mb-3 flex items-center justify-between">
-              <p className="font-bold">Doing</p>
-              <div className="flex gap-2">
-                <FaPlus />
-                <HiDotsHorizontal />
-              </div>
-            </div>
-            <DroppableField key="doing" id="doing">
-              {tasks
-                .filter((task) => task.status === 'doing')
-                .map((task) => (
-                  <TaskItem key={task.id} props={task} />
-                ))}
-            </DroppableField>
-          </div>
-          <div className="h-fit rounded-xl bg-[#EEF2F5] px-3 py-3">
-            <div className="mb-3 flex items-center justify-between">
-              <p className="font-bold">Done</p>
-              <div className="flex gap-2">
-                <FaPlus />
-                <HiDotsHorizontal />
-              </div>
-            </div>
-            <DroppableField key="done" id="done">
-              {tasks
-                .filter((task) => task.status === 'done')
-                .map((task) => (
-                  <TaskItem key={task.id} props={task} />
-                ))}
-            </DroppableField>
-          </div>
-          <div className="h-fit rounded-xl bg-[#EEF2F5] px-3 py-3">
-            <div className="mb-3 flex items-center gap-1">
-              <FaPlus className="text-sm" />
-              <p className="font-bold">Add to cart</p>
+            <div>
+              {tasksByWeek &&
+                tasksByWeek
+                  .find((week) => week.weekNumber === item)
+                  ?.tasks.filter((item) => item.isDeleted === false)
+                  .map((task) => <TaskItem key={task.id} props={task} />)}
             </div>
           </div>
-        </DndContext>
+        ))}
       </div>
     </ContentContainer>
   );

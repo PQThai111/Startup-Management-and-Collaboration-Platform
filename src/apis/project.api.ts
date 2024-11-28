@@ -1,20 +1,28 @@
-import { Project, ProjectConfig, ProjectList } from "../types/project.type"
-import { SuccessResponse } from "../types/utils.type"
-import http from "../util/http"
-import { convertToFormData } from "../util/util"
+import { Project, ProjectConfig, ProjectList } from '../types/project.type';
+import { SuccessResponse } from '../types/utils.type';
+import http from '../util/http';
+import { convertToFormData } from '../util/util';
 
-const URL = 'Projects'
+const URL = 'Projects';
 const projectApi = {
-  getProjects(params: ProjectConfig){
+  getProjectss() {
+    return http.get<SuccessResponse<ProjectList>>(URL);
+  },
+  getProjects(params: ProjectConfig) {
     return http.get<SuccessResponse<ProjectList>>(URL, {
-      params
-    })
+      params,
+    });
   },
-  getProjectss(){
-    return http.get<SuccessResponse<ProjectList>>(URL)
-  },
-  getProjectDetail(id: string){
-    return http.get<SuccessResponse<Project>>(`${URL}/${id}`)
+  getProjectDetail({
+    id,
+    orderMilestoneByStartDate = false,
+  }: {
+    id: string;
+    orderMilestoneByStartDate?: boolean;
+  }) {
+    return http.get<SuccessResponse<Project>>(
+      `${URL}/${id}?orderMilestoneByStartDate=${orderMilestoneByStartDate}`,
+    );
   },
 
   getCurrentProject({
@@ -54,6 +62,6 @@ const projectApi = {
       },
     );
   },
-}
+};
 
-export default projectApi
+export default projectApi;
