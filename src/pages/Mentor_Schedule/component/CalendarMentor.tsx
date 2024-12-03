@@ -4,19 +4,28 @@ import { IoIosArrowForward } from 'react-icons/io';
 // import { Label } from '../../components/ui/label';
 // import { Input } from '../../components/ui/input';
 import ContentContainer from '../../ProjectDetaill/components/ContentContainer';
-import { getWeekDates, getWeekOfMonth } from '../../../util/util';
+import {
+  formatDate,
+  formatDateSuper,
+  getHourAndMinute,
+  getWeekDates,
+  getWeekOfMonth,
+} from '../../../util/util';
 import { AppContext } from '../../../context/app.context';
 import Popover from '../../../components/popover';
 import Mentor_Schedule_Save from './Mentor_Schedule_Save';
 import { toast } from 'react-toastify';
+import { useQuery } from '@tanstack/react-query';
+import { GetSlots } from '../../../types/mentor.type';
+import appointmentSlotsApi from '../../../apis/appointmentSlots.api';
 
 const times = [
-  '7:00 - 7:30',
-  '7:30 - 8:00',
-  '8:00 - 8:30',
-  '8:30 - 9:00',
-  '9:00 - 9:30',
-  '9:30 - 10:00',
+  '07:00 - 07:30',
+  '07:30 - 08:00',
+  '08:00 - 08:30',
+  '08:30 - 09:00',
+  '09:00 - 09:30',
+  '09:30 - 10:00',
   '10:00 - 10:30',
   '10:30 - 11:00',
   '11:00 - 11:30',
@@ -57,8 +66,35 @@ const CalendarMentor = () => {
   const [cursorTime, setCursorTime] = useState<Date>(new Date());
   const [isOpen, setIsOpen] = useState(false);
 
+  const weekDates = getWeekDates(cursorTime); // Pass in the desired date
+
+  const monday = weekDates[0]; // First index: Monday
+  const sunday = weekDates[6]; // Last index: Sunday
+
+  const requestBody: GetSlots = {
+    startTime: formatDate(monday),
+    endTime: formatDate(sunday),
+    creatorId: profile?.id,
+  };
+
+  const { data: mentorSlotsData } = useQuery({
+    queryKey: ['mentorSlots', requestBody],
+    queryFn: () => {
+      return appointmentSlotsApi.GetSlots(requestBody);
+    },
+    placeholderData: (prevData) => prevData,
+    staleTime: 3 * 60 * 1000,
+  });
+
+  console.log(mentorSlotsData?.data.data);
+
   const handleClose = (_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setIsOpen(!isOpen);
+  };
+
+  const handleClose2 = () => {
+    setIsOpen(!isOpen);
+    setSelectedTimes([]);
   };
 
   const handleMoveTime = (isMonth: boolean) => (isPlus: boolean) => {
@@ -117,6 +153,8 @@ const CalendarMentor = () => {
           renderPopover={
             selectedTimes.length > 0 && (
               <Mentor_Schedule_Save
+                getSlots={requestBody}
+                handleClose2={handleClose2}
                 schedules={selectedTimes}
                 handleOpen={handleClose}
               />
@@ -147,7 +185,7 @@ const CalendarMentor = () => {
           </p>
           <p>
             <span className="font-bold">On: </span>
-            {cursorTime.getDate()}-{cursorTime.getMonth()}-
+            {cursorTime.getDate()}-{cursorTime.getMonth() + 1}-
             {cursorTime.getFullYear()}
           </p>
         </div>
@@ -196,7 +234,31 @@ const CalendarMentor = () => {
               <tr key={time}>
                 <td className="items-center py-2 text-lg">{time}</td>
                 {getWeekDates(cursorTime).map((day) => {
+                  day.setHours(0, 0, 0, 0);
+                  const isoDateCompare = formatDate(day);
+                  const finderTimeSlot = mentorSlotsData?.data?.data.find(
+                    (x) => formatDateSuper(x.date) == isoDateCompare,
+                  );
                   const timeSlot = `${day} - ${time}`;
+                  if (finderTimeSlot != null) {
+                    const findSlot = finderTimeSlot.slot.find((x) => {
+                      const formattedTimeRange = `${getHourAndMinute(x.startTime)} - ${getHourAndMinute(x.endTime)}`;
+                      return formattedTimeRange == time;
+                    });
+                    if (findSlot != null) {
+                      return (
+                        <td
+                          key={timeSlot}
+                          className="h-full items-center justify-center py-2"
+                        >
+                          <div
+                            className={`mx-auto h-10 w-[80%] cursor-pointer rounded bg-green-400 px-9 py-2 hover:bg-green-300`}
+                            id={timeSlot}
+                          ></div>
+                        </td>
+                      );
+                    }
+                  }
                   return (
                     <td
                       key={timeSlot}

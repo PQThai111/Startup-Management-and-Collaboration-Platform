@@ -5,8 +5,8 @@ import {
   MentorTimeBookingSchema,
 } from '../../../util/rules';
 import { parseTimeSlot } from '../../../util/util';
-import { FreetimeRequest } from '../../../types/mentor.type';
-import { useMutation } from '@tanstack/react-query';
+import { FreetimeRequest, GetSlots } from '../../../types/mentor.type';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import appointmentSlotsApi from '../../../apis/appointmentSlots.api';
 import { toast } from 'react-toastify';
 
@@ -15,12 +15,17 @@ type FormData = Pick<MentorTimeBookingSchema, 'Note' | 'MeetingAddress'>;
 const schema = mentorTimeBookingSchema.pick(['Note', 'MeetingAddress']);
 
 export default function Mentor_Schedule_Save({
+  getSlots,
   schedules,
+  handleClose2,
   handleOpen,
 }: {
+  getSlots: GetSlots;
   schedules: string[];
+  handleClose2: () => void;
   handleOpen: (_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) {
+  const queryClient = useQueryClient();
   const {
     handleSubmit,
     formState: { errors },
@@ -45,8 +50,6 @@ export default function Mentor_Schedule_Save({
     [],
   );
 
-  console.log(timeObject);
-
   const addSlotsMutation = useMutation({
     mutationFn: (body: FreetimeRequest) => appointmentSlotsApi.AddSlots(body),
   });
@@ -57,10 +60,20 @@ export default function Mentor_Schedule_Save({
       meetingAddress: data.MeetingAddress,
       times: timeObject,
     };
+    console.log(request);
     addSlotsMutation.mutate(request, {
       onSuccess(_) {
         toast.success('Add free slots successfully !', {
           autoClose: 500,
+        });
+        reset({
+          MeetingAddress: '',
+          Note: '',
+        });
+        handleClose2();
+        queryClient.invalidateQueries({
+          queryKey: ['mentorSlots', getSlots],
+          exact: true,
         });
       },
       onError(_) {

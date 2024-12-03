@@ -1,4 +1,4 @@
-import { FreetimeRequest, GetSlots } from "../types/mentor.type"
+import { FreetimeRequest, GetSlots, TimeSLot } from "../types/mentor.type"
 import { SuccessResponse } from "../types/utils.type"
 import http from "../util/http"
 
@@ -8,7 +8,7 @@ const appointmentSlotsApi = {
     return http.post<SuccessResponse<any>>(`${URL}/AddSlots`, body)
   },
   GetSlots( body: GetSlots){
-    return http.post<SuccessResponse<any>>(`${URL}/Search`, body)
+    return http.post<SuccessResponse<TimeSLot[]>>(`${URL}/FESearch`, body)
   },
 }
 

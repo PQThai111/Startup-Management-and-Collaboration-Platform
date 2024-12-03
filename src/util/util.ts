@@ -134,19 +134,6 @@ export function parseTimeSlot(
       return null;
     }
 
-    const formatDate = (date: Date): string => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      const seconds = String(date.getSeconds()).padStart(2, '0');
-      const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
-
-      // Add the timezone offset manually (GMT+0700)
-      return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
-    };
-
     const startTimeString = formatDate(startTime);
     const endTimeString = formatDate(endTime);
 
@@ -155,4 +142,30 @@ export function parseTimeSlot(
     console.error('Error parsing time slot:', error);
     return null; // Return null if there's an error parsing the input string
   }
+}
+
+export function formatDate (date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
+
+  // Add the timezone offset manually (GMT+0700)
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
+};
+
+
+export function formatDateSuper (date: string): string {
+  const formattedString = date.split(" ")[1];
+  const formattedStringDate = new Date(formattedString);
+  formattedStringDate.setHours(0, 0, 0, 0);
+  return formatDate(formattedStringDate)
+};
+
+export function getHourAndMinute (date: string): string {
+  const time = date.split("T")[1].slice(0, 5);
+  return time
 }

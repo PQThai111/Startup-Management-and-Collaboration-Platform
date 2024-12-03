@@ -35,7 +35,7 @@ const Members = ({
   Pick<Project, 'team'> & { courseId: string; semesterId: string }) => {
   const [query, setQuery] = useState<string>('');
   const [students, setStudents] = useState<Student[]>([]);
-  const [leader, setLeader] = useState<Member | null>(null);
+  const [leader, setLeader] = useState<Member>();
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
   const debounce = useDebouncedCallback((value) => {
@@ -147,20 +147,18 @@ const Members = ({
         <p className="italic">{`${team.members.length} / ${MAX_TEAM_SIZE}`}</p>
       </div>
       <div className="mt-3 gap-2">
-        {team.members.find((member) => member.isLeader === true) && (
-          <div>
-            <div className="flex items-center justify-between">
-              <p className="text-lg font-semibold">{leader?.studentName}</p>
-              <p className="text-lg font-semibold italic">
-                {leader?.memberRole}
-              </p>
-            </div>
-            <div className="flex justify-between">
-              <p className="italic opacity-70">{leader?.note}</p>
-              <p className="italic">Leader</p>
-            </div>
+        {/* {team.members.find((member) => member.isLeader === true) && ( */}
+        <div>
+          <div className="flex items-center justify-between">
+            <p className="text-lg font-semibold">{leader?.studentName}</p>
+            <p className="text-lg font-semibold italic">{leader?.memberRole}</p>
           </div>
-        )}
+          <div className="flex justify-between">
+            <p className="italic opacity-70">{leader?.note}</p>
+            <p className="italic">Leader</p>
+          </div>
+        </div>
+        {/* )} */}
         {team.members
           .filter((item) => item.isLeader !== true)
           .map((member) => (
