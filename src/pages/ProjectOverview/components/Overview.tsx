@@ -50,8 +50,12 @@ interface EditOverviewProps {
 const Overview = ({
   project,
   className,
+  isMember,
   ...props
-}: HTMLAttributes<HTMLDivElement> & { project: Project }) => {
+}: HTMLAttributes<HTMLDivElement> & {
+  project: Project;
+  isMember: boolean;
+}) => {
   const [projectDetail, setProjectDetail] = useState<Project>(project);
   const nav = useNavigate();
 
@@ -140,30 +144,32 @@ const Overview = ({
       <AlertDialog>
         <div className="flex items-center justify-between">
           <p className="text-xl font-bold">Overview</p>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <BsThreeDots />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>Overview</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <button
-                  onClick={() => {
-                    setIsEditing(true);
-                  }}
-                >
-                  Edit
-                </button>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <AlertDialogTrigger>
-                  <button>Delete Project</button>
-                </AlertDialogTrigger>
-              </DropdownMenuItem>{' '}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {isMember && (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <BsThreeDots />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Overview</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <button
+                    onClick={() => {
+                      setIsEditing(true);
+                    }}
+                  >
+                    Edit
+                  </button>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <AlertDialogTrigger>
+                    <button>Delete Project</button>
+                  </AlertDialogTrigger>
+                </DropdownMenuItem>{' '}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
         {isEditing ? (
           <form className="mt-3" onSubmit={handleSubmit(onSubmit)}>

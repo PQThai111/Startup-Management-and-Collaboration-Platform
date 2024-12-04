@@ -11,6 +11,7 @@ const path = {
   projectManagement: 'projectManagement',
   timeLine: 'timeLine',
   calendarMentor: 'calendarMentor',
+  calendarLecturer: 'calendarLecturer',
   financialReport: 'financialReport',
   projectDetail: 'projectManagement/:projectId',
   manager_project_management: '/manager',

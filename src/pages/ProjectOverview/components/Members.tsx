@@ -30,9 +30,14 @@ const Members = ({
   courseId,
   semesterId,
   className,
+  isMember,
   ...props
 }: HTMLAttributes<HTMLDivElement> &
-  Pick<Project, 'team'> & { courseId: string; semesterId: string }) => {
+  Pick<Project, 'team'> & {
+    courseId: string;
+    semesterId: string;
+    isMember: boolean;
+  }) => {
   const [query, setQuery] = useState<string>('');
   const [students, setStudents] = useState<Student[]>([]);
   const [leader, setLeader] = useState<Member>();
@@ -173,66 +178,68 @@ const Members = ({
             </div>
           ))}
       </div>
-      <Dialog>
-        <DialogTrigger asChild>
-          <button className="my-2 flex items-center gap-2 hover:text-blue-500">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full border border-dashed border-black text-lg">
-              <FiUserPlus />
+      {isMember && (
+        <Dialog>
+          <DialogTrigger asChild>
+            <button className="my-2 flex items-center gap-2 hover:text-blue-500">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full border border-dashed border-black text-lg">
+                <FiUserPlus />
+              </div>
+              <p>Add member</p>
+            </button>
+          </DialogTrigger>
+          <DialogContent className="w-[600px]">
+            <DialogHeader>
+              <DialogTitle>Add member</DialogTitle>
+              <DialogDescription>Add new member to your team</DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="query" className="text-right">
+                  Code/Email
+                </Label>
+                <Input
+                  id="query"
+                  defaultValue={query}
+                  onChange={(e) => debounce(e.target.value)}
+                  placeholder="Enter Student Code or Email to find"
+                  className="col-span-3"
+                />
+              </div>
+              <ScrollArea className="h-96">
+                {students &&
+                  students.map((student) => (
+                    <button
+                      className={`mb-1 w-full rounded-md border px-2 py-2 ${selectedStudent?.id === student.id ? 'bg-blue-100' : ''}`}
+                      onClick={() => {
+                        if (selectedStudent?.id === student.id) {
+                          setSelectedStudent(null);
+                        } else {
+                          setSelectedStudent(student);
+                        }
+                      }}
+                      key={`student-${student.id}`}
+                    >
+                      <p className="text-left text-lg font-semibold">
+                        {student.studentName}
+                      </p>
+                      <div className="flex gap-3 text-sm">
+                        {student.skills.map((skill) => (
+                          <p>{skill.skillName}</p>
+                        ))}
+                      </div>
+                    </button>
+                  ))}
+              </ScrollArea>
             </div>
-            <p>Add member</p>
-          </button>
-        </DialogTrigger>
-        <DialogContent className="w-[600px]">
-          <DialogHeader>
-            <DialogTitle>Add member</DialogTitle>
-            <DialogDescription>Add new member to your team</DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="query" className="text-right">
-                Code/Email
-              </Label>
-              <Input
-                id="query"
-                defaultValue={query}
-                onChange={(e) => debounce(e.target.value)}
-                placeholder="Enter Student Code or Email to find"
-                className="col-span-3"
-              />
-            </div>
-            <ScrollArea className="h-96">
-              {students &&
-                students.map((student) => (
-                  <button
-                    className={`mb-1 w-full rounded-md border px-2 py-2 ${selectedStudent?.id === student.id ? 'bg-blue-100' : ''}`}
-                    onClick={() => {
-                      if (selectedStudent?.id === student.id) {
-                        setSelectedStudent(null);
-                      } else {
-                        setSelectedStudent(student);
-                      }
-                    }}
-                    key={`student-${student.id}`}
-                  >
-                    <p className="text-left text-lg font-semibold">
-                      {student.studentName}
-                    </p>
-                    <div className="flex gap-3 text-sm">
-                      {student.skills.map((skill) => (
-                        <p>{skill.skillName}</p>
-                      ))}
-                    </div>
-                  </button>
-                ))}
-            </ScrollArea>
-          </div>
-          <DialogFooter>
-            <Button type="button" onClick={handleInviteStudent}>
-              Invite
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <DialogFooter>
+              <Button type="button" onClick={handleInviteStudent}>
+                Invite
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };

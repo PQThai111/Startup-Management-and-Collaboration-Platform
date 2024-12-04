@@ -25,6 +25,10 @@ const projectApi = {
     );
   },
 
+  getProjectByTeamId(teamId: string) {
+    return http.get<SuccessResponse<Project>>(`${URL}/Team/${teamId}`);
+  },
+
   getCurrentProject({
     courseId,
     semesterId,

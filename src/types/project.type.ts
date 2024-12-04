@@ -1,6 +1,6 @@
-import { ProjectStatus } from "../constant/project";
-import { Milestone } from "./milestone.type";
-import { Team } from "./team.type";
+import { ProjectStatus } from '../constant/project';
+import { Milestone } from './milestone.type';
+import { Team } from './team.type';
 
 export interface Project {
   id: string;
@@ -18,6 +18,7 @@ export interface Project {
     courseId: string;
   };
   mentorsAndLecturers: {
+    accountId: string;
     name: string;
     roleType: 'Mentor' | 'Lecturer';
     description: string;
@@ -32,17 +33,16 @@ export interface Project {
 }
 
 export interface ProjectList {
-  data: Project[]
+  data: Project[];
   pagination: {
-    page: number
-    limit: number
-    page_size: number
-  }
+    page: number;
+    limit: number;
+    page_size: number;
+  };
 }
 
 export interface ProjectConfig {
-  SearchTerm?: string
-  PageNumber?: number | string
-  PageSize?: number | string
+  SearchTerm?: string;
+  PageNumber?: number | string;
+  PageSize?: number | string;
 }
-

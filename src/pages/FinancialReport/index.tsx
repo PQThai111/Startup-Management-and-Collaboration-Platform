@@ -1,8 +1,6 @@
 import ContentContainer from '../ProjectDetaill/components/ContentContainer';
 import HistoryTable from './components/HistoryTable';
-import ProjectStatistic from './components/ProjectStatistic';
 import RevExp from './components/RevExp';
-import SourceOfFunds from './components/SourceOfFunds';
 
 const FinancialReport = () => {
   return (
@@ -15,10 +13,10 @@ const FinancialReport = () => {
           <RevExp className="mb-5" />
           <HistoryTable />
         </div>
-        <div className="w-auto">
+        {/* <div className="w-auto">
           <SourceOfFunds className="mb-5" />
           <ProjectStatistic />
-        </div>
+        </div> */}
       </div>
     </ContentContainer>
   );

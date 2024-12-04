@@ -1,31 +1,23 @@
 import { HiDotsHorizontal } from 'react-icons/hi';
 import TaskItem from './components/TaskItem';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ContentContainer from '../ProjectDetail/components/ContentContainer';
 import { useMutation } from '@tanstack/react-query';
 import projectTaskApi from '../../apis/project-task.api';
 import AddTask from './components/AddTask';
-import projectApi from '../../apis/project.api';
-import { Project } from '../../types/project.type';
 import { ProjectTaskByWeek } from '../../types/project-task.type';
+import { ProjectContext } from '../../context/project.context';
 
 type ExeType = 'EXE1' | 'EXE2';
-
-const ExeId: Record<ExeType, string> = {
-  EXE1: '694DDA50-03D1-432C-B8E0-C40AF047A93B',
-  EXE2: '3C841B5C-9EFB-43F8-9E9D-1960B6CC9E5A',
-};
 
 const WeekByExeType: Record<ExeType, number> = {
   EXE1: 10,
   EXE2: 14,
 };
 
-const SemesterId = '419311F5-3932-4EBE-BD2B-8300D656750D';
-
 const TaskManagement = () => {
   const [tasksByWeek, setTasksByWeek] = useState<ProjectTaskByWeek[]>();
-  const [project, setProject] = useState<Project>();
+  const { project } = useContext(ProjectContext);
 
   const getAllProjectTask = useMutation({
     mutationFn: ({
@@ -42,16 +34,6 @@ const TaskManagement = () => {
         projectId,
         teamId,
       }),
-  });
-
-  const getCurrentProject = useMutation({
-    mutationFn: ({
-      courseId,
-      semesterId,
-    }: {
-      courseId: string;
-      semesterId: string;
-    }) => projectApi.getCurrentProject({ courseId, semesterId }),
   });
 
   const handleUpdateTask = () => {
@@ -74,35 +56,24 @@ const TaskManagement = () => {
   };
 
   useEffect(() => {
-    getCurrentProject.mutate(
-      { courseId: ExeId.EXE1, semesterId: SemesterId },
-      {
-        onSuccess: (data) => {
-          console.log(data.data.data);
-          setProject(data.data.data[0]);
-          getAllProjectTask.mutate(
-            {
-              projectId: data.data.data[0].id,
-              // milestoneId: data.data.data[0].milestones[0].id,
-              teamId: data.data.data[0].team.teamId,
-            },
-            {
-              onSuccess: (data) => {
-                setTasksByWeek(data.data.data);
-                console.log(data.data.data);
-              },
-              onError: (err) => {
-                console.log(err);
-              },
-            },
-          );
+    project &&
+      getAllProjectTask.mutate(
+        {
+          projectId: project.id,
+          // milestoneId: data.data.data[0].milestones[0].id,
+          teamId: project.team.teamId,
         },
-        onError: (err) => {
-          console.log(err);
+        {
+          onSuccess: (data) => {
+            setTasksByWeek(data.data.data);
+            console.log(data.data.data);
+          },
+          onError: (err) => {
+            console.log(err);
+          },
         },
-      },
-    );
-  }, []);
+      );
+  }, [project]);
 
   return (
     <ContentContainer>

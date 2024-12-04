@@ -2,7 +2,6 @@ import IconWithNum from '../common/components/IconWithNum';
 import Logo from '../common/components/Logo';
 import { Avatar, AvatarImage } from '../components/ui/avatar';
 import { IoMdNotificationsOutline } from 'react-icons/io';
-import { VscMail } from 'react-icons/vsc';
 import { Link, useLocation } from 'react-router-dom';
 import path from '../constant/path';
 import classNames from 'classnames';
@@ -18,6 +17,7 @@ import { useContext } from 'react';
 import { AppContext } from '../context/app.context';
 import { toast } from 'react-toastify';
 import { clearLS } from '../util/auth';
+import Invitation from './components/Invitation';
 
 const Header = () => {
   let pathname = useLocation().pathname;
@@ -91,15 +91,12 @@ const Header = () => {
           >
             Create A Project
           </Link>
-          <IconWithNum
-            Icon={VscMail}
-            number={0}
-            onClick={() => console.log('ahihi')}
-          />
+          <Invitation />
+
           <IconWithNum
             Icon={IoMdNotificationsOutline}
             number={1}
-            onClick={() => console.log('ahihi')}
+            // onClick={() => console.log('ahihi')}
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

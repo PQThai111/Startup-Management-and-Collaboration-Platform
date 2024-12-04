@@ -1,18 +1,17 @@
 import { IconType } from 'react-icons';
 
 type IconWithNumProps = {
-  onClick: () => void;
+  // onClick: () => void;
   Icon: IconType;
   bgColor?: string;
   number: number;
 };
 
-const IconWithNum = ({ bgColor, Icon, number, onClick }: IconWithNumProps) => {
+const IconWithNum = ({ bgColor, Icon, number }: IconWithNumProps) => {
   return (
     <div className="relative mx-1 h-fit translate-y-2 self-end">
       <button
         className="text-4xl leading-none text-gray-500"
-        onClick={onClick}
         aria-label="Notifications"
       >
         <Icon />

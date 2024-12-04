@@ -30,6 +30,9 @@ import { AppContext } from '../context/app.context';
 import TaskManagement from '../pages/TaskManagement';
 import ProjectTaskDetail from '../pages/ProjectTaskDetail';
 import Mentor_Schedule_Layout from '../pages/Mentor_Schedule';
+import FinancialReport from '../pages/FinancialReport';
+import CalendarMentor from '../pages/CalendarMentor';
+import CalendarLecturer from '../pages/CalendarLecturer';
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext);
@@ -107,6 +110,18 @@ const authenticatedRoutes: RouteObject[] = [
             path: path.projectTaskDetail,
           },
         ],
+      },
+      {
+        element: <FinancialReport />,
+        path: path.financialReport,
+      },
+      {
+        element: <CalendarMentor />,
+        path: path.calendarMentor,
+      },
+      {
+        element: <CalendarLecturer />,
+        path: path.calendarLecturer,
       },
     ],
   },

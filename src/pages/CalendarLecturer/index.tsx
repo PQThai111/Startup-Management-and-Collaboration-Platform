@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 // import { Label } from '../../components/ui/label';
@@ -6,10 +6,6 @@ import { IoIosArrowForward } from 'react-icons/io';
 import ContentContainer from '../ProjectDetaill/components/ContentContainer';
 import { getWeekDates, getWeekOfMonth } from '../../util/util';
 import { AppContext } from '../../context/app.context';
-import { useMutation } from '@tanstack/react-query';
-import { GetSlots } from '../../types/mentor.type';
-import appointmentSlotsApi from '../../apis/appointmentSlots.api';
-import { ProjectContext } from '../../context/project.context';
 
 const times = [
   '7:00 - 7:30',
@@ -52,17 +48,10 @@ const months = [
   'December',
 ];
 
-const CalendarMentor = () => {
+const CalendarLecturer = () => {
   const { profile } = useContext(AppContext);
-  const { project } = useContext(ProjectContext);
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
   const [cursorTime, setCursorTime] = useState<Date>(new Date());
-  const [mentor, setMentor] = useState<{
-    accountId: string;
-    description: string;
-    name: string;
-    roleType: 'Lecturer' | 'Mentor';
-  }>();
 
   const handleMoveTime = (isMonth: boolean) => (isPlus: boolean) => {
     if (isMonth) {
@@ -110,35 +99,6 @@ const CalendarMentor = () => {
       return [...prevSelectedTimes, timeSlot];
     });
   };
-
-  const getAppointmentSlots = useMutation({
-    mutationFn: (data: GetSlots) => appointmentSlotsApi.GetSlots(data),
-  });
-
-  useEffect(() => {
-    project &&
-      setMentor(
-        project.mentorsAndLecturers.find((item) => item.roleType === 'Mentor'),
-      );
-
-    getAppointmentSlots.mutate(
-      {
-        startTime: cursorTime.toISOString(),
-        endTime: new Date(
-          cursorTime.setDate(cursorTime.getDate() + 7),
-        ).toISOString(),
-        creatorId: mentor?.accountId,
-      },
-      {
-        onSuccess: (data) => {
-          console.log(data);
-        },
-        onError: (error) => {
-          console.log(error);
-        },
-      },
-    );
-  }, []);
 
   return (
     <ContentContainer>
@@ -270,4 +230,4 @@ const CalendarMentor = () => {
   );
 };
 
-export default CalendarMentor;
+export default CalendarLecturer;

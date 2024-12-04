@@ -40,8 +40,12 @@ import { ScrollArea } from '../../../components/ui/scroll-area';
 const Milestone = ({
   project,
   className,
+  isMember,
   ...props
-}: HTMLAttributes<HTMLDivElement> & { project: Project }) => {
+}: HTMLAttributes<HTMLDivElement> & {
+  project: Project;
+  isMember: boolean;
+}) => {
   const [milestoneList, setMilestoneList] = useState<MilestoneType[]>(
     project.milestones,
   );
@@ -172,11 +176,13 @@ const Milestone = ({
         <Dialog open={open} onOpenChange={setOpen}>
           <div className="flex items-center justify-between">
             <p className="text-xl font-bold">Milestone </p>
-            <DialogTrigger asChild>
-              <button onClick={handleClickAddMilestone}>
-                <FaPlus />
-              </button>
-            </DialogTrigger>
+            {isMember && (
+              <DialogTrigger asChild>
+                <button onClick={handleClickAddMilestone}>
+                  <FaPlus />
+                </button>
+              </DialogTrigger>
+            )}
           </div>
           <div className="mt-2">
             <AlertDialog>
@@ -191,28 +197,30 @@ const Milestone = ({
                             {convertToDateFormat(milestone.startDate)} -{' '}
                             {convertToDateFormat(milestone.endDate)}
                           </p>
-                          <div className="flex gap-2">
-                            <DialogTrigger asChild>
-                              <button
-                                onClick={() =>
-                                  handleClickEditMilestone({
-                                    description: milestone.description,
-                                    endDate: new Date(milestone.endDate),
-                                    id: milestone.id,
-                                    name: milestone.name,
-                                    startDate: new Date(milestone.startDate),
-                                  })
-                                }
+                          {isMember && (
+                            <div className="flex gap-2">
+                              <DialogTrigger asChild>
+                                <button
+                                  onClick={() =>
+                                    handleClickEditMilestone({
+                                      description: milestone.description,
+                                      endDate: new Date(milestone.endDate),
+                                      id: milestone.id,
+                                      name: milestone.name,
+                                      startDate: new Date(milestone.startDate),
+                                    })
+                                  }
+                                >
+                                  <MdOutlineEdit />
+                                </button>
+                              </DialogTrigger>
+                              <AlertDialogTrigger
+                                onClick={() => setSelectedId(milestone.id)}
                               >
-                                <MdOutlineEdit />
-                              </button>
-                            </DialogTrigger>
-                            <AlertDialogTrigger
-                              onClick={() => setSelectedId(milestone.id)}
-                            >
-                              <FaRegTrashCan />
-                            </AlertDialogTrigger>
-                          </div>
+                                <FaRegTrashCan />
+                              </AlertDialogTrigger>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="mb-6 ml-4 mt-2">
