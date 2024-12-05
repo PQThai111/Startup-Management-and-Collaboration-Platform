@@ -1,3 +1,5 @@
+import { Team } from "./team.type";
+
 export interface FreetimeRequest {
   times: Time[];
   note: string;
@@ -27,7 +29,7 @@ export interface Slot {
   note: string;
   meetingAddress: string;
   teamId: any;
-  team: any;
+  team?: Team;
   creatorId: string;
   creatorAccount: any;
   studentAttendances: any;

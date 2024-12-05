@@ -169,3 +169,23 @@ export function getHourAndMinute (date: string): string {
   const time = date.split("T")[1].slice(0, 5);
   return time
 }
+
+export function formatDATE (date: string): string {
+  const [startDateTime, endDateTime] = date.split(" ");
+
+  const startDate = new Date(startDateTime);
+  const endDate = new Date(endDateTime);
+
+  // Format time as HH:mm
+  const formatTime = (date: Date) =>
+    date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+
+  // Format date as DD/MM/YYYY
+  const formatDate = (date: Date) =>
+    date.toLocaleDateString("en-GB");
+
+  // Combine the formatted parts
+  const result = `${formatTime(startDate)} - ${formatTime(endDate)} ${formatDate(startDate)}`;
+
+  return result
+}

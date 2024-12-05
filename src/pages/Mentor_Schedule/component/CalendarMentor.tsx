@@ -16,8 +16,9 @@ import Popover from '../../../components/popover';
 import Mentor_Schedule_Save from './Mentor_Schedule_Save';
 import { toast } from 'react-toastify';
 import { useQuery } from '@tanstack/react-query';
-import { GetSlots } from '../../../types/mentor.type';
+import { GetSlots, Slot } from '../../../types/mentor.type';
 import appointmentSlotsApi from '../../../apis/appointmentSlots.api';
+import CalendarMentorDetail from './CalendarMentorDetail';
 
 const times = [
   '07:00 - 07:30',
@@ -65,6 +66,8 @@ const CalendarMentor = () => {
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
   const [cursorTime, setCursorTime] = useState<Date>(new Date());
   const [isOpen, setIsOpen] = useState(false);
+  const [isSlotOpen, setIsSlotOpen] = useState(false);
+  const [chooseSLot, setChooseSlot] = useState<Slot | null>(null);
 
   const weekDates = getWeekDates(cursorTime); // Pass in the desired date
 
@@ -77,7 +80,7 @@ const CalendarMentor = () => {
     creatorId: profile?.id,
   };
 
-  const { data: mentorSlotsData } = useQuery({
+  const { data: mentorSlotsData, refetch } = useQuery({
     queryKey: ['mentorSlots', requestBody],
     queryFn: () => {
       return appointmentSlotsApi.GetSlots(requestBody);
@@ -95,6 +98,10 @@ const CalendarMentor = () => {
   const handleClose2 = () => {
     setIsOpen(!isOpen);
     setSelectedTimes([]);
+  };
+
+  const handleSlotClose = () => {
+    setIsSlotOpen(!isSlotOpen);
   };
 
   const handleMoveTime = (isMonth: boolean) => (isPlus: boolean) => {
@@ -153,6 +160,7 @@ const CalendarMentor = () => {
           renderPopover={
             selectedTimes.length > 0 && (
               <Mentor_Schedule_Save
+                refetchSchedule={refetch}
                 getSlots={requestBody}
                 handleClose2={handleClose2}
                 schedules={selectedTimes}
@@ -215,71 +223,87 @@ const CalendarMentor = () => {
         </div>
       </div>
       <div className="mt-5">
-        <table className="mx-auto">
-          <thead>
-            <tr className="">
-              <th className="w-40"></th>
-              {getWeekDates(cursorTime).map((day, index) => (
-                <th className="w-40" key={index}>
-                  <div className="mx-auto w-[80%] rounded-md bg-[#DBE7FF] px-2 py-1 text-left text-xl text-[#114864]">
-                    <p>{day.getDate()}</p>
-                    <p>{days[index]}</p>
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {times.map((time) => (
-              <tr key={time}>
-                <td className="items-center py-2 text-lg">{time}</td>
-                {getWeekDates(cursorTime).map((day) => {
-                  day.setHours(0, 0, 0, 0);
-                  const isoDateCompare = formatDate(day);
-                  const finderTimeSlot = mentorSlotsData?.data?.data.find(
-                    (x) => formatDateSuper(x.date) == isoDateCompare,
-                  );
-                  const timeSlot = `${day} - ${time}`;
-                  if (finderTimeSlot != null) {
-                    const findSlot = finderTimeSlot.slot.find((x) => {
-                      const formattedTimeRange = `${getHourAndMinute(x.startTime)} - ${getHourAndMinute(x.endTime)}`;
-                      return formattedTimeRange == time;
-                    });
-                    if (findSlot != null) {
-                      return (
-                        <td
-                          key={timeSlot}
-                          className="h-full items-center justify-center py-2"
-                        >
-                          <div
-                            className={`mx-auto h-10 w-[80%] cursor-pointer rounded bg-green-400 px-9 py-2 hover:bg-green-300`}
-                            id={timeSlot}
-                          ></div>
-                        </td>
-                      );
-                    }
-                  }
-                  return (
-                    <td
-                      key={timeSlot}
-                      className="h-full items-center justify-center py-2"
-                    >
-                      <div
-                        className={`mx-auto h-10 w-[80%] cursor-pointer rounded ${
-                          selectedTimes.includes(timeSlot)
-                            ? 'bg-[#F4A258] text-white'
-                            : 'bg-slate-200 text-slate-200'
-                        } px-9 py-2 hover:bg-blue-400 hover:text-blue-400`}
-                        id={timeSlot}
-                        onClick={() => handleTimeSelection(timeSlot)}
-                      ></div>
-                    </td>
-                  );
-                })}
+        <Popover
+          initialOpen={isSlotOpen}
+          renderPopover={
+            <CalendarMentorDetail
+              refetchSchedule={refetch}
+              getSlots={requestBody}
+              handleClose={handleSlotClose}
+              slot={chooseSLot!}
+            />
+          }
+        >
+          <table className="mx-auto">
+            <thead>
+              <tr className="">
+                <th className="w-40"></th>
+                {getWeekDates(cursorTime).map((day, index) => (
+                  <th className="w-40" key={index}>
+                    <div className="mx-auto w-[80%] rounded-md bg-[#DBE7FF] px-2 py-1 text-left text-xl text-[#114864]">
+                      <p>{day.getDate()}</p>
+                      <p>{days[index]}</p>
+                    </div>
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {times.map((time) => (
+                <tr key={time}>
+                  <td className="items-center py-2 text-lg">{time}</td>
+                  {getWeekDates(cursorTime).map((day) => {
+                    day.setHours(0, 0, 0, 0);
+                    const isoDateCompare = formatDate(day);
+                    const finderTimeSlot = mentorSlotsData?.data?.data.find(
+                      (x) => formatDateSuper(x.date) == isoDateCompare,
+                    );
+                    const timeSlot = `${day} - ${time}`;
+                    if (finderTimeSlot != null) {
+                      const findSlot = finderTimeSlot.slot.find((x) => {
+                        const formattedTimeRange = `${getHourAndMinute(x.startTime)} - ${getHourAndMinute(x.endTime)}`;
+                        return formattedTimeRange == time;
+                      });
+                      if (findSlot != null && findSlot.isDeleted != true) {
+                        return (
+                          <td
+                            key={timeSlot}
+                            className="h-full items-center justify-center py-2"
+                          >
+                            <div
+                              className={`mx-auto h-10 w-[80%] cursor-pointer rounded bg-green-400 px-9 py-2 hover:bg-green-300`}
+                              id={timeSlot}
+                              onClick={(_) => {
+                                setChooseSlot(findSlot);
+                                setIsSlotOpen(true);
+                              }}
+                            ></div>
+                          </td>
+                        );
+                      }
+                    }
+                    return (
+                      <td
+                        key={timeSlot}
+                        className="h-full items-center justify-center py-2"
+                      >
+                        <div
+                          className={`mx-auto h-10 w-[80%] cursor-pointer rounded ${
+                            selectedTimes.includes(timeSlot)
+                              ? 'bg-[#F4A258] text-white'
+                              : 'bg-slate-200 text-slate-200'
+                          } px-9 py-2 hover:bg-blue-400 hover:text-blue-400`}
+                          id={timeSlot}
+                          onClick={() => handleTimeSelection(timeSlot)}
+                        ></div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Popover>
       </div>
     </ContentContainer>
 

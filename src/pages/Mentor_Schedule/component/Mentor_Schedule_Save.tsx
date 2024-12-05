@@ -5,10 +5,21 @@ import {
   MentorTimeBookingSchema,
 } from '../../../util/rules';
 import { parseTimeSlot } from '../../../util/util';
-import { FreetimeRequest, GetSlots } from '../../../types/mentor.type';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  FreetimeRequest,
+  GetSlots,
+  TimeSLot,
+} from '../../../types/mentor.type';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import appointmentSlotsApi from '../../../apis/appointmentSlots.api';
 import { toast } from 'react-toastify';
+import { AxiosResponse } from 'axios';
+import { SuccessResponse } from '../../../types/utils.type';
 
 type FormData = Pick<MentorTimeBookingSchema, 'Note' | 'MeetingAddress'>;
 
@@ -19,7 +30,13 @@ export default function Mentor_Schedule_Save({
   schedules,
   handleClose2,
   handleOpen,
+  refetchSchedule,
 }: {
+  refetchSchedule: (
+    options?: RefetchOptions,
+  ) => Promise<
+    QueryObserverResult<AxiosResponse<SuccessResponse<TimeSLot[]>, any>, Error>
+  >;
   getSlots: GetSlots;
   schedules: string[];
   handleClose2: () => void;
@@ -71,10 +88,7 @@ export default function Mentor_Schedule_Save({
           Note: '',
         });
         handleClose2();
-        queryClient.invalidateQueries({
-          queryKey: ['mentorSlots', getSlots],
-          exact: true,
-        });
+        refetchSchedule();
       },
       onError(_) {
         toast.error('Add free slots fail !', {

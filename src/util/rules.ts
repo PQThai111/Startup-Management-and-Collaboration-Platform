@@ -34,7 +34,8 @@ export const projectSchema = yup.object({
     .positive("Must be positive number"),
   DesiredLecturerId : yup
     .string()
-    .required('DesiredLecturerId is Required !')
+    .required('DesiredLecturerId is Required !'),
+    SearchTerm: yup.string().trim().required('Tên sản phẩm là bắt buộc')
 })
 
 export const requestSchema = yup.object({

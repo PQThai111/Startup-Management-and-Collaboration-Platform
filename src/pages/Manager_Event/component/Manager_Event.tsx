@@ -1,7 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import ButtonSearch from '../../EventPage/components/Buttonsearch';
 import eventApi from '../../../apis/event.api';
-import InputSearch from '../../EventPage/components/InputSearch';
 import CreateButton from './CreateButton';
 import Event_Item from './Manager_EventItem';
 import { QueryConfig as ConfigPaging, Event } from '../../../types/event.type';
@@ -9,6 +7,7 @@ import { useEventQueryConfig } from '../../../hooks/useQueryConfig';
 import Pagination from '../../../components/pagination';
 import path from '../../../constant/path';
 import { useState } from 'react';
+import useSearchEvent from '../hook/useSearchEvent';
 
 export type QueryConfig = {
   [key in keyof ConfigPaging]: string;
@@ -18,6 +17,7 @@ export default function Manager_Event() {
   const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState<Event>();
   const queryConfig = useEventQueryConfig();
+  const { register, onSubmitSearch } = useSearchEvent();
   //isLoading
   const { data: eventsData } = useQuery({
     queryKey: ['events', queryConfig],
@@ -39,17 +39,26 @@ export default function Manager_Event() {
 
   return (
     <div className="container h-[580px] rounded-lg border border-slate-300 bg-slate-200 p-3 shadow-md">
-      <div className="mb-5 grid h-8 grid-cols-12">
+      <form onSubmit={onSubmitSearch} className="mb-5 grid h-8 grid-cols-12">
         <div className="col-span-8">
-          <InputSearch />
+          <input
+            type="text"
+            placeholder="Search Any Project !"
+            className="block w-full rounded-md border border-slate-300 bg-white py-2 pl-9 shadow-sm placeholder:italic placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
+            {...register('SearchTerm')}
+          />
         </div>
         <div className="col-span-2">
-          <ButtonSearch />
+          <div className="ml-3 rounded-md border border-black text-center">
+            <button className="w-full rounded-md bg-black p-1.5 text-white">
+              Tìm kiếm
+            </button>
+          </div>
         </div>
         <div className="col-span-2">
           <CreateButton />
         </div>
-      </div>
+      </form>
       <div className="mb-4 grid h-10 grid-cols-12 rounded-md border border-slate-500 bg-slate-500 text-white">
         <div className="col-span-3 flex items-center border-r border-white pl-10">
           Name
