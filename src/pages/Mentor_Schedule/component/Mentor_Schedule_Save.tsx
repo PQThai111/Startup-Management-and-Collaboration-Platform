@@ -14,7 +14,7 @@ import {
   QueryObserverResult,
   RefetchOptions,
   useMutation,
-  useQueryClient,
+  // useQueryClient,
 } from '@tanstack/react-query';
 import appointmentSlotsApi from '../../../apis/appointmentSlots.api';
 import { toast } from 'react-toastify';
@@ -26,7 +26,7 @@ type FormData = Pick<MentorTimeBookingSchema, 'Note' | 'MeetingAddress'>;
 const schema = mentorTimeBookingSchema.pick(['Note', 'MeetingAddress']);
 
 export default function Mentor_Schedule_Save({
-  getSlots,
+  // getSlots,
   schedules,
   handleClose2,
   handleOpen,
@@ -42,7 +42,7 @@ export default function Mentor_Schedule_Save({
   handleClose2: () => void;
   handleOpen: (_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const {
     handleSubmit,
     formState: { errors },

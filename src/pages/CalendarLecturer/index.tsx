@@ -3,9 +3,9 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 // import { Label } from '../../components/ui/label';
 // import { Input } from '../../components/ui/input';
-import ContentContainer from '../ProjectDetaill/components/ContentContainer';
 import { getWeekDates, getWeekOfMonth } from '../../util/util';
 import { AppContext } from '../../context/app.context';
+import ContentContainer from '../ProjectDetail/components/ContentContainer';
 
 const times = [
   '7:00 - 7:30',

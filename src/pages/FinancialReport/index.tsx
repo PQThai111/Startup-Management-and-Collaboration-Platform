@@ -1,4 +1,4 @@
-import ContentContainer from '../ProjectDetaill/components/ContentContainer';
+import ContentContainer from '../ProjectDetail/components/ContentContainer';
 import HistoryTable from './components/HistoryTable';
 import RevExp from './components/RevExp';
 

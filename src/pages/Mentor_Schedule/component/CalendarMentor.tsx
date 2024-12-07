@@ -3,7 +3,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 // import { Label } from '../../components/ui/label';
 // import { Input } from '../../components/ui/input';
-import ContentContainer from '../../ProjectDetaill/components/ContentContainer';
+import ContentContainer from '../../ProjectDetail/components/ContentContainer';
 import {
   formatDate,
   formatDateSuper,

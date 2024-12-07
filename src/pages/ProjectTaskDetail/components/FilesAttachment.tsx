@@ -37,6 +37,7 @@ interface DocumentUploadProps {
 const FilesAttachment = ({
   files,
   taskId,
+  isLecturerOrMentor,
 }: {
   files: {
     id: string;
@@ -45,6 +46,7 @@ const FilesAttachment = ({
     description: string;
   }[];
   taskId: string;
+  isLecturerOrMentor: boolean;
 }) => {
   const { handleSubmit, register, reset } = useForm<DocumentUploadProps>();
   const [open, setOpen] = useState<boolean>(false);
@@ -129,7 +131,9 @@ const FilesAttachment = ({
   return (
     <>
       <p className="mb-3 font-bold">Files Attachment</p>
-      <ScrollArea className="h-[435px] rounded-lg bg-white px-3 py-3 text-sm">
+      <ScrollArea
+        className={`${!isLecturerOrMentor ? 'h-[435px]' : 'h-[490px]'} rounded-lg bg-white px-3 py-3 text-sm`}
+      >
         {documentList.map(({ description, fileName, id }) => (
           <div
             className="mt-2 flex items-center gap-2"
@@ -167,56 +171,58 @@ const FilesAttachment = ({
           </div>
         ))}
       </ScrollArea>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button variant="outline" className="mt-5">
-            Upload Document
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <DialogHeader>
-              <DialogTitle>Add New Document</DialogTitle>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Name <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  {...register('FileName')}
-                  id="name"
-                  className="col-span-3"
-                />
+      {!isLecturerOrMentor && (
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline" className="mt-5">
+              Upload Document
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <DialogHeader>
+                <DialogTitle>Add New Document</DialogTitle>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="name" className="text-right">
+                    Name <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    {...register('FileName')}
+                    id="name"
+                    className="col-span-3"
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="description" className="text-right">
+                    Description <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    {...register('Description')}
+                    id="description"
+                    className="col-span-3"
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="document" className="text-right">
+                    Document <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    className="col-span-3"
+                    id="document"
+                    type="file"
+                    {...register('File')}
+                  />
+                </div>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="description" className="text-right">
-                  Description <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  {...register('Description')}
-                  id="description"
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="document" className="text-right">
-                  Document <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  className="col-span-3"
-                  id="document"
-                  type="file"
-                  {...register('File')}
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button type="submit">Save changes</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+              <DialogFooter>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   );
 };

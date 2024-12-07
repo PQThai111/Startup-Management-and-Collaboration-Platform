@@ -4,9 +4,11 @@ import { Project } from '../types/project.type';
 export const ProjectContext = createContext<{
   project: Project | undefined;
   isMember: boolean;
+  isLecturerOrMentor: boolean;
 }>({
   project: undefined,
   isMember: false,
+  isLecturerOrMentor: false,
 });
 
 export const useProjectContext = () => {

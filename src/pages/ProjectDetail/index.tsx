@@ -8,11 +8,15 @@ import { useMutation } from '@tanstack/react-query';
 import projectApi from '../../apis/project.api';
 import { Project } from '../../types/project.type';
 import { AppContext } from '../../context/app.context';
+import accountApi from '../../apis/account.api';
+import { Account } from '../../types/account.type';
 
 const ProjectDetail = () => {
   const projectId = useParams<{ projectId: string }>().projectId;
   const { profile } = useContext(AppContext);
   const [project, setProject] = useState<Project>();
+  const [isLecturerOrMentor, setIsLecturerOrMentor] = useState<boolean>(false);
+  const [student, setStudent] = useState<Account>();
   const [isMember, setIsMember] = useState<boolean>(false);
   const getProjectDetail = useMutation({
     mutationFn: (projectId: string) =>
@@ -22,6 +26,10 @@ const ProjectDetail = () => {
       }),
   });
   const nav = useNavigate();
+
+  const getStudentProfile = useMutation({
+    mutationFn: () => accountApi.getAccount(profile?.id as string),
+  });
 
   useEffect(() => {
     if (!projectId) {
@@ -39,20 +47,45 @@ const ProjectDetail = () => {
       },
     });
 
-    // if (project?.team.members.includes(profile?.id)) {
-    // setIsMember(true);
-    // }
+    getStudentProfile.mutate(undefined, {
+      onSuccess: (data) => {
+        setStudent(data.data.data);
+      },
+    });
   }, []);
+
+  useEffect(() => {
+    if (
+      project &&
+      project.mentorsAndLecturers.find((item) => item.accountId === profile?.id)
+    ) {
+      setIsLecturerOrMentor(true);
+    }
+  }, [project]);
+
+  useEffect(() => {
+    const studentCode = student?.student?.studentCode;
+    const studentIndex = project?.team.members.findIndex(
+      (item) => item.studentCode === studentCode,
+    );
+    if (studentIndex !== -1) {
+      setIsMember(true);
+    } else {
+      setIsMember(false);
+    }
+  }, [student, project]);
 
   return (
     <>
       {/* <NavBar /> */}
-      <div className={`${isMember && 'ml-12'}`}>
+      <div className={`${(isMember || isLecturerOrMentor) && 'ml-12'}`}>
         <Header />
-        {isMember && <SideBar />}
+        {(isMember || isLecturerOrMentor) && <SideBar />}
         <div>
           <div className="mt-10 px-3">
-            <ProjectContext.Provider value={{ project, isMember }}>
+            <ProjectContext.Provider
+              value={{ project, isMember, isLecturerOrMentor }}
+            >
               <Outlet />
             </ProjectContext.Provider>
           </div>

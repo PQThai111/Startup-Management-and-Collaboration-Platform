@@ -16,9 +16,11 @@ import { toast } from 'react-toastify';
 const Description = ({
   id,
   description,
+  isLecturerOrMentor,
 }: {
   id: string;
   description: string;
+  isLecturerOrMentor: boolean;
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [des, setDes] = useState<string>(description);
@@ -59,23 +61,25 @@ const Description = ({
     <>
       <div className="flex items-center justify-between">
         <p className="font-bold">Description</p>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="border-none bg-transparent hover:border-none hover:bg-transparent"
-            >
-              <BsThreeDots />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>
-              <Button variant="ghost" onClick={() => setIsEditing(true)}>
-                Edit
+        {!isLecturerOrMentor && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="border-none bg-transparent hover:border-none hover:bg-transparent"
+              >
+                <BsThreeDots />
               </Button>
-            </DropdownMenuLabel>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>
+                <Button variant="ghost" onClick={() => setIsEditing(true)}>
+                  Edit
+                </Button>
+              </DropdownMenuLabel>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
       <div className="h-max rounded-lg bg-white px-3 py-3 text-justify text-sm">
         {isEditing ? (

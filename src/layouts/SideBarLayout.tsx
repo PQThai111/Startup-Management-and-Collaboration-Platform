@@ -217,16 +217,8 @@ export default function SideBarLayout() {
           <div className="col-span-1"></div>
           <div className="col-span-5 pl-20"></div>
           <div className="col-span-4 flex items-center justify-end gap-5">
-            <IconWithNum
-              Icon={VscMail}
-              number={0}
-              onClick={() => console.log('ahihi')}
-            />
-            <IconWithNum
-              Icon={IoMdNotificationsOutline}
-              number={1}
-              onClick={() => console.log('ahihi')}
-            />
+            <IconWithNum Icon={VscMail} number={0} />
+            <IconWithNum Icon={IoMdNotificationsOutline} number={1} />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Avatar>

@@ -1,10 +1,10 @@
-import ContentContainer from '../ProjectDetaill/components/ContentContainer';
+import ContentContainer from '../ProjectDetail/components/ContentContainer';
 import Overview from './components/Overview';
 import Milestone from './components/Milestone';
 import Members from './components/Members';
 import StartupIdea from './components/StartupIdea';
 import MentorLecturer from './components/MentorLecturer';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ProjectContext } from '../../context/project.context';
 import { Button } from '../../components/ui/button';
 import {
@@ -22,6 +22,17 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import teamMemberApis from '../../apis/team-member.api';
 import { toast } from 'react-toastify';
+import teamRequestApis from '../../apis/team-request.api';
+import { AppContext } from '../../context/app.context';
+import { TeamRequestStatus } from '../../constant/team-request';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../components/ui/select';
 
 interface AcceptProjectForm {
   note: string;
@@ -30,29 +41,102 @@ interface AcceptProjectForm {
 
 const ProjectOverview = () => {
   const { isMember, project } = useContext(ProjectContext);
+  const { profile } = useContext(AppContext);
+  const [requestId, setRequestId] = useState<string>('');
+  const [rejectReason, setRejectReason] = useState<string>('');
+  const [notifyByEmail, setNotifyByEmail] = useState<boolean>();
+  const [dialogStatus, setDialogStatus] = useState<'Reject' | 'Accept'>();
 
   const { register, handleSubmit } = useForm<AcceptProjectForm>();
 
   const onSubmit: SubmitHandler<AcceptProjectForm> = (data) => {
-    acceptTeamRequest.mutate(data, {
-      onSuccess: () => {
-        toast.success('Accept successfully', {
-          autoClose: 2000,
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+    acceptTeamRequest.mutate(
+      { ...data, teamRequestId: requestId },
+      {
+        onSuccess: () => {
+          toast.success('Accept successfully', {
+            autoClose: 2000,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      },
+    );
+  };
+
+  useEffect(() => {
+    getAllRequest.mutate(undefined, {
+      onSuccess: (data) => {
+        setRequestId(
+          data.data.data.data.find((item) => item.receiverId === profile?.id)
+            ?.id || '',
+        );
       },
       onError: (error) => {
         console.log(error);
       },
     });
+  }, []);
+
+  const getAllRequest = useMutation({
+    mutationFn: () =>
+      teamRequestApis.findTeamRequest({
+        PageSize: 10,
+        PageNumber: 1,
+        ReceiverId: profile?.id,
+        Status: TeamRequestStatus.Pending,
+      }),
+  });
+
+  const rejectTeamRequest = useMutation({
+    mutationFn: ({
+      id,
+      reason,
+      notifyByEmail,
+    }: {
+      id: string;
+      reason: string;
+      notifyByEmail?: boolean;
+    }) =>
+      teamRequestApis.rejectTeamRequest({
+        id,
+        notifyByEmail,
+        reason,
+      }),
+  });
+
+  const handleRejectJoiningProject = () => {
+    rejectTeamRequest.mutate(
+      { id: requestId, notifyByEmail, reason: rejectReason },
+      {
+        onSuccess: () => {
+          toast.success('Reject successfully', {
+            autoClose: 2000,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+      },
+    );
   };
 
   const acceptTeamRequest = useMutation({
-    mutationFn: ({ memberRole, note }: { memberRole: string; note: string }) =>
+    mutationFn: ({
+      memberRole,
+      note,
+      teamRequestId,
+    }: {
+      teamRequestId: string;
+      memberRole: string;
+      note: string;
+    }) =>
       teamMemberApis.acceptTeamMemberRequest({
-        teamRequestId: project?.team.teamId as string,
+        teamRequestId,
         memberRole,
         note,
       }),
@@ -62,45 +146,105 @@ const ProjectOverview = () => {
     <ContentContainer className="h-svh px-10">
       <div className="flex items-center justify-between gap-5">
         <p className="text-4xl font-bold">Overview</p>
-        {!isMember && (
+        {!isMember && requestId !== '' && (
           <div className="flex gap-3">
-            <Button variant="destructive">Reject</Button>
             <Dialog>
               <DialogTrigger asChild>
-                <Button>Accept</Button>
+                <Button
+                  onClick={() => setDialogStatus('Reject')}
+                  variant="destructive"
+                >
+                  Reject
+                </Button>
+              </DialogTrigger>
+              <DialogTrigger asChild>
+                <Button onClick={() => setDialogStatus('Accept')}>
+                  Accept
+                </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <DialogHeader>
-                    <DialogTitle>Accept Joining Project</DialogTitle>
-                    <DialogDescription></DialogDescription>
-                  </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="role" className="text-right">
-                        Role
-                      </Label>
-                      <Input
-                        {...register('memberRole')}
-                        id="role"
-                        className="col-span-3"
-                      />
+                {dialogStatus === 'Accept' ? (
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <DialogHeader>
+                      <DialogTitle>Accept Joining Project</DialogTitle>
+                      <DialogDescription></DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="role" className="text-right">
+                          Role
+                        </Label>
+                        <Input
+                          {...register('memberRole')}
+                          id="role"
+                          className="col-span-3"
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="note" className="text-right">
+                          Note
+                        </Label>
+                        <Input
+                          {...register('note')}
+                          id="note"
+                          className="col-span-3"
+                        />
+                      </div>
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="note" className="text-right">
-                        Note
-                      </Label>
-                      <Input
-                        {...register('note')}
-                        id="note"
-                        className="col-span-3"
-                      />
+                    <DialogFooter>
+                      <Button type="submit">Apply</Button>
+                    </DialogFooter>
+                  </form>
+                ) : (
+                  <div>
+                    <DialogHeader>
+                      <DialogTitle>Reject Joining Project</DialogTitle>
+                      <DialogDescription></DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="reason" className="text-right">
+                          Reason
+                        </Label>
+                        <Input
+                          value={rejectReason}
+                          onChange={(e) => setRejectReason(e.target.value)}
+                          id="reason"
+                          className="col-span-3"
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="notifyByEmail" className="text-right">
+                          NotifyByEmail
+                        </Label>
+                        <Select
+                          onValueChange={(value) =>
+                            setNotifyByEmail(value === 'true')
+                          }
+                        >
+                          <SelectTrigger className="col-span-3">
+                            <SelectValue placeholder="Notify By Email" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="true">Yes</SelectItem>
+                              <SelectItem value="false">No</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
+                    <DialogFooter>
+                      <Button
+                        onClick={handleRejectJoiningProject}
+                        type="submit"
+                        variant="destructive"
+                      >
+                        Reject
+                      </Button>
+                    </DialogFooter>
                   </div>
-                  <DialogFooter>
-                    <Button type="submit">Apply</Button>
-                  </DialogFooter>
-                </form>
+                )}
               </DialogContent>
             </Dialog>
           </div>

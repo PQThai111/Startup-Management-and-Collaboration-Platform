@@ -23,9 +23,11 @@ import { toast } from 'react-toastify';
 const Status = ({
   projectTaskId,
   status,
+  isLecturerOrMentor,
 }: {
   projectTaskId: string;
   status: number;
+  isLecturerOrMentor: boolean;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>(status.toString());
@@ -60,53 +62,65 @@ const Status = ({
     <>
       <p className="mb-3 font-bold">Project Task Status</p>
       <div className="mt-3 flex items-center justify-between gap-2 font-semibold">
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              aria-expanded={open}
-              className="w-[200px] justify-between"
-            >
-              {value
-                ? projectStatus.find((item) => item.key.toString() === value)
-                    ?.label
-                : 'Select status...'}
-              <ChevronsUpDown className="opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0">
-            <Command>
-              <CommandInput placeholder="Search framework..." className="h-9" />
-              <CommandList>
-                <CommandEmpty>No framework found.</CommandEmpty>
-                <CommandGroup>
-                  {projectStatus.map((item) => (
-                    <CommandItem
-                      key={item.key}
-                      value={item.key.toString()}
-                      onSelect={(currentValue) => {
-                        setValue(currentValue === value ? '' : currentValue);
-                        setOpen(false);
-                      }}
-                    >
-                      {item.label}
-                      <Check
-                        className={cn(
-                          'ml-auto',
-                          value === item.key.toString()
-                            ? 'opacity-100'
-                            : 'opacity-0',
-                        )}
-                      />
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        </Popover>
-        <Button onClick={handleUpdateStatus}>Submit</Button>
+        {!isLecturerOrMentor ? (
+          <>
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-[200px] justify-between"
+                >
+                  {value
+                    ? projectStatus.find(
+                        (item) => item.key.toString() === value,
+                      )?.label
+                    : 'Select status...'}
+                  <ChevronsUpDown className="opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[200px] p-0">
+                <Command>
+                  <CommandInput
+                    placeholder="Search framework..."
+                    className="h-9"
+                  />
+                  <CommandList>
+                    <CommandEmpty>No framework found.</CommandEmpty>
+                    <CommandGroup>
+                      {projectStatus.map((item) => (
+                        <CommandItem
+                          key={item.key}
+                          value={item.key.toString()}
+                          onSelect={(currentValue) => {
+                            setValue(
+                              currentValue === value ? '' : currentValue,
+                            );
+                            setOpen(false);
+                          }}
+                        >
+                          {item.label}
+                          <Check
+                            className={cn(
+                              'ml-auto',
+                              value === item.key.toString()
+                                ? 'opacity-100'
+                                : 'opacity-0',
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+            <Button onClick={handleUpdateStatus}>Submit</Button>
+          </>
+        ) : (
+          <div>{ProjectTaskStatus[status]}</div>
+        )}
       </div>
     </>
   );

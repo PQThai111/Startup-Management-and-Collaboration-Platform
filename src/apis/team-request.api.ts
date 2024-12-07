@@ -19,6 +19,7 @@ interface FindTeamRequestResponse {
     teamLeaderName: string;
     projectName: string;
     projectId: string;
+    teamRequestId: string;
   })[];
   pagination: {
     number: number;
@@ -49,6 +50,29 @@ const teamRequestApis = {
     return http.get<SuccessResponse<FindTeamRequestResponse>>(
       `${URL}/search?${new URLSearchParams(convertObjectToParam(data))}`,
     );
+  },
+
+  updateTeamRequest(data: {
+    id: string;
+    comment?: string;
+    status?: TeamRequestStatus;
+  }) {
+    return http.put(`${URL}/${data.id}`, data);
+  },
+
+  rejectTeamRequest({
+    id,
+    reason,
+    notifyByEmail = true,
+  }: {
+    id: string;
+    reason: string;
+    notifyByEmail?: boolean;
+  }) {
+    return http.put(`${URL}/${id}/RejectRequest`, {
+      reason,
+      notifyByEmail: notifyByEmail,
+    });
   },
 };
 

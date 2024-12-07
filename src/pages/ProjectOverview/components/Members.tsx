@@ -97,7 +97,7 @@ const Members = ({
     }
     inviteStudent.mutate(
       {
-        receiverId: selectedStudent.id,
+        receiverId: selectedStudent.accountId,
         teamId: team.teamId,
         type: TeamRequestType.Invite,
       },

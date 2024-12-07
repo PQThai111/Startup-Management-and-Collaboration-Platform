@@ -127,16 +127,8 @@ export default function SideBarAdmin() {
       <div className="col-span-10 h-full">
         <div className="w-full bg-slate-100 py-3">
           <div className="flex items-center justify-end gap-5 pr-10">
-            <IconWithNum
-              Icon={VscMail}
-              number={0}
-              onClick={() => console.log('ahihi')}
-            />
-            <IconWithNum
-              Icon={IoMdNotificationsOutline}
-              number={1}
-              onClick={() => console.log('ahihi')}
-            />
+            <IconWithNum Icon={VscMail} number={0} />
+            <IconWithNum Icon={IoMdNotificationsOutline} number={1} />
             <Avatar>
               <AvatarImage src={user.avatar_url} alt="avatar" />
             </Avatar>

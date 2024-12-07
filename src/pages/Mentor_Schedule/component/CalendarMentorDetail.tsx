@@ -1,11 +1,10 @@
-import classNames from 'classnames';
 import { GetSlots, Slot, TimeSLot } from '../../../types/mentor.type';
 import { formatDATE } from '../../../util/util';
 import {
   QueryObserverResult,
   RefetchOptions,
   useMutation,
-  useQueryClient,
+  // useQueryClient,
 } from '@tanstack/react-query';
 import appointmentSlotsApi from '../../../apis/appointmentSlots.api';
 import { toast } from 'react-toastify';
@@ -15,7 +14,6 @@ import { SuccessResponse } from '../../../types/utils.type';
 export default function CalendarMentorDetail({
   slot,
   handleClose,
-  getSlots,
   refetchSchedule,
 }: {
   refetchSchedule: (
@@ -27,7 +25,7 @@ export default function CalendarMentorDetail({
   slot: Slot;
   handleClose: () => void;
 }) {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   var status;
   if (slot.status === 0) {
     status = 'Available';

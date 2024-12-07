@@ -8,6 +8,7 @@ import { AppContext } from '../../context/app.context';
 import { TeamRequest } from '../../types/team-request.type';
 import { Button } from '../../components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { TeamRequestStatus } from '../../constant/team-request';
 
 const Invitation = () => {
   const { profile } = useContext(AppContext);
@@ -25,7 +26,8 @@ const Invitation = () => {
       teamRequestApis.findTeamRequest({
         PageSize: 10,
         PageNumber: 1,
-        ReceiverId: profile?.studentId,
+        ReceiverId: profile?.id,
+        Status: TeamRequestStatus.Pending,
       }),
   });
 

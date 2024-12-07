@@ -6,7 +6,7 @@ import FilesAttachment from './components/FilesAttachment';
 import ContentContainer from '../ProjectDetail/components/ContentContainer';
 import { useMutation } from '@tanstack/react-query';
 import projectTaskApi from '../../apis/project-task.api';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Member, ProjectTask } from '../../types/project-task.type';
 import Members from './components/Members';
 import { TeamMember } from '../../types/team-member.type';
@@ -22,9 +22,11 @@ import {
   AlertDialogTrigger,
 } from '../../components/ui/alert-dialog';
 import { toast } from 'react-toastify';
+import { ProjectContext } from '../../context/project.context';
 
 const ProjectTaskDetail = () => {
   const pathname = useLocation().pathname;
+  const { isLecturerOrMentor } = useContext(ProjectContext);
   const projectTaskId = pathname.split('/').pop();
   const backPath = pathname.split('/').slice(0, -1).join('/');
   const [projectDetail, setProjectDetail] = useState<ProjectTask>();
@@ -98,24 +100,26 @@ const ProjectTaskDetail = () => {
     <ContentContainer className="">
       <div className="flex items-center justify-between">
         <p className="text-4xl font-bold">{projectDetail?.name}</p>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="outline" className="text-red-500">
-              Delete
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDeleteProjectTask}>
-                Continue
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        {!isLecturerOrMentor && (
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="outline" className="text-red-500">
+                Delete
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeleteProjectTask}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
       </div>
       {projectDetail && (
         <div className="mb-4 mt-2 grid h-[80vh] grid-cols-4 gap-6">
@@ -124,20 +128,24 @@ const ProjectTaskDetail = () => {
               <Description
                 id={projectDetail.id}
                 description={projectDetail.description}
+                isLecturerOrMentor={isLecturerOrMentor}
               />
             </div>
             <div className="mt-4 h-fit rounded-xl bg-[#EEF2F5] px-3 py-3">
               <Status
                 status={projectDetail.status}
                 projectTaskId={projectDetail.id}
+                isLecturerOrMentor={isLecturerOrMentor}
               />
             </div>
           </div>
           <div>
             <div className="h-full rounded-xl bg-[#EEF2F5] px-3 py-3">
               <Reminder
+                reminder={projectDetail.reminder}
                 start={new Date(projectDetail.startTime)}
                 end={new Date(projectDetail.endTime)}
+                isLecturerOrMentor={isLecturerOrMentor}
               />
             </div>
           </div>
@@ -146,6 +154,7 @@ const ProjectTaskDetail = () => {
             <FilesAttachment
               taskId={projectDetail.id}
               files={projectDetail?.documents}
+              isLecturerOrMentor={isLecturerOrMentor}
             />
           </div>
 
@@ -155,6 +164,7 @@ const ProjectTaskDetail = () => {
               projectTaskId={projectDetail.id}
               members={projectDetail?.members}
               teamId={projectDetail.teamId}
+              isLecturerOrMentor={isLecturerOrMentor}
             />
           </div>
         </div>

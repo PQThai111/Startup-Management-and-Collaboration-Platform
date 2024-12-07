@@ -17,7 +17,7 @@ const WeekByExeType: Record<ExeType, number> = {
 
 const TaskManagement = () => {
   const [tasksByWeek, setTasksByWeek] = useState<ProjectTaskByWeek[]>();
-  const { project } = useContext(ProjectContext);
+  const { project, isLecturerOrMentor } = useContext(ProjectContext);
 
   const getAllProjectTask = useMutation({
     mutationFn: ({
@@ -79,7 +79,7 @@ const TaskManagement = () => {
     <ContentContainer>
       <div className="flex items-center justify-between gap-5">
         <p className="text-4xl font-bold">Task Management</p>
-        {project && (
+        {project && !isLecturerOrMentor && (
           <AddTask handleUpdateTask={handleUpdateTask} projectId={project.id} />
         )}
       </div>
