@@ -1,11 +1,16 @@
-
-
-export default function ButtonSearch() {
+export default function ButtonSearch({
+  handleSearch,
+}: {
+  handleSearch: () => void;
+}) {
   return (
-    <div className='border border-black rounded-md ml-3 text-center'>
-      <button className="bg-black w-full p-1.5 text-white rounded-md">
+    <div className="ml-3 rounded-md border border-black text-center">
+      <button
+        onClick={handleSearch}
+        className="w-full rounded-md bg-black p-1.5 text-white"
+      >
         Tìm kiếm
       </button>
     </div>
-  )
+  );
 }

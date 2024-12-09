@@ -66,6 +66,24 @@ const projectApi = {
       },
     );
   },
+
+  searchProject({
+    PageSize = 10,
+    PageNumber = 1,
+    SearchTerm,
+  }: {
+    PageSize?: number;
+    PageNumber?: number;
+    SearchTerm: string;
+  }) {
+    return http.get<SuccessResponse<ProjectList>>(
+      `${URL}?${new URLSearchParams({
+        PageSize: PageSize.toString(),
+        PageNumber: PageNumber.toString(),
+        SearchTerm,
+      }).toString()}`,
+    );
+  },
 };
 
 export default projectApi;

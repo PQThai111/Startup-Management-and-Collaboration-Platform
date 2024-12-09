@@ -82,9 +82,6 @@ const Sidebar = () => {
                 <span className="ms-3 flex-1 whitespace-nowrap">
                   Task Management
                 </span>
-                <span className="ms-3 inline-flex h-3 w-3 items-center justify-center rounded-full bg-blue-100 p-3 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
-                  3
-                </span>
               </a>
             </li>
             <li>

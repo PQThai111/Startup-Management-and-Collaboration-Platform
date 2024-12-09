@@ -57,6 +57,23 @@ const ProjectTaskDetail = () => {
     });
   };
 
+  const handleRemoveMemberSuccess = (removedMemberId: string) => {
+    const newMembers =
+      projectDetail?.members.filter(
+        (member) => member.teamMemberId !== removedMemberId,
+      ) || [];
+
+    setProjectDetail((prev) => {
+      if (prev) {
+        return {
+          ...prev,
+          members: newMembers,
+        };
+      }
+      return prev;
+    });
+  };
+
   const handleAssignMemberSuccess = (newMembers: TeamMember[]) => {
     setProjectDetail((prev) => {
       if (prev) {
@@ -71,6 +88,7 @@ const ProjectTaskDetail = () => {
                   name: cur.student.studentName,
                   avatarUrl: cur.student.accountId,
                   role: cur.memberRole,
+                  teamMemberId: cur.id,
                 },
               ];
             },
@@ -161,6 +179,7 @@ const ProjectTaskDetail = () => {
           <div className="h-full rounded-xl bg-[#EEF2F5] px-3 py-3">
             <Members
               handleAssignMemberSuccess={handleAssignMemberSuccess}
+              handleRemoveMemberSuccess={handleRemoveMemberSuccess}
               projectTaskId={projectDetail.id}
               members={projectDetail?.members}
               teamId={projectDetail.teamId}

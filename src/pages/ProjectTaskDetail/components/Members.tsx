@@ -34,12 +34,14 @@ const Members = ({
   teamId,
   projectTaskId,
   handleAssignMemberSuccess,
+  handleRemoveMemberSuccess,
   isLecturerOrMentor,
 }: {
   members: Member[];
   teamId: string;
   projectTaskId: string;
   handleAssignMemberSuccess: (members: TeamMember[]) => void;
+  handleRemoveMemberSuccess: (removedMemberId: string) => void;
   isLecturerOrMentor: boolean;
 }) => {
   const [allMembers, setAllMembers] = useState<TeamMember[]>([]);
@@ -73,15 +75,14 @@ const Members = ({
     getAllMembers.mutate(teamId, {
       onSuccess: (data) => {
         const assignedMember = members.reduce((acc: string[], cur: Member) => {
-          return [...acc, cur.userId];
+          return [...acc, cur.teamMemberId];
         }, []);
         console.log(assignedMember);
         setAllMembers(
           data.data.data.filter(
-            (member) => assignedMember.includes(member.student.id) === false,
+            (member) => assignedMember.includes(member.id) === false,
           ),
         );
-        console.log(allMembers);
       },
     });
   };
@@ -127,9 +128,7 @@ const Members = ({
     unassignMemberFromTask.mutate(undefined, {
       onSuccess: () => {
         toast.success('Remove member successfully');
-        handleAssignMemberSuccess(
-          allMembers.filter((member) => member.id !== selectedRemoveMember),
-        );
+        handleRemoveMemberSuccess(selectedRemoveMember);
       },
     });
   };
@@ -150,7 +149,7 @@ const Members = ({
               {!isLecturerOrMentor && (
                 <AlertDialogTrigger asChild>
                   <button
-                    onClick={() => setSelectedRemoveMember(member.userId)}
+                    onClick={() => setSelectedRemoveMember(member.teamMemberId)}
                     className="h-full text-lg"
                   >
                     <FaRegTrashAlt />

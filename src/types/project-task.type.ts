@@ -9,7 +9,7 @@ export interface ProjectTask {
   endTime: string;
   reminder: number;
   comments: Comment[];
-  members: Member[];
+  members: Member[] | [];
   documents: Document[];
   teamId: string;
   status: ProjectTaskStatus;
@@ -18,6 +18,7 @@ export interface ProjectTask {
 
 export interface Member {
   userId: string;
+  teamMemberId: string;
   name: string;
   avatarUrl: string;
   role: string;

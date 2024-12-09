@@ -1,4 +1,10 @@
-export default function InputSearch() {
+export default function InputSearch({
+  searchTerm,
+  setSearchTerm,
+}: {
+  searchTerm: string;
+  setSearchTerm: (value: string) => void;
+}) {
   return (
     // <div className='border border-black rounded-md grid grid-cols-12'>
     //   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 col-span-1 border border-blue-400">
@@ -31,6 +37,8 @@ export default function InputSearch() {
             placeholder="Search ..."
             type="text"
             name="search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </label>
       </div>

@@ -5,27 +5,32 @@ import ButtonSearch from '../../EventPage/components/Buttonsearch';
 import { useQuery } from '@tanstack/react-query';
 import projectApi from '../../../apis/project.api';
 import AsideFilter from '../../EventPage/components/AsideFilter';
+import { useState } from 'react';
 
 export default function ProjectList() {
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
   const { data: projectsData, isLoading } = useQuery({
-    queryKey: ['projects', 'queryConfig'],
+    queryKey: ['searchProjects', searchTerm],
     queryFn: () => {
-      return projectApi.getProjectss();
+      return projectApi.searchProject({ SearchTerm: searchTerm });
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,
   });
 
-  console.log(projectsData?.data.data.data);
+  const handleSearch = () => {
+    console.log(searchTerm);
+  };
 
   return (
     <div className="container mx-auto mb-20 px-20 pt-7">
       <div className="mb-5 grid h-8 grid-cols-12">
         <div className="col-span-10">
-          <InputSearch />
+          <InputSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         </div>
         <div className="col-span-2">
-          <ButtonSearch />
+          <ButtonSearch handleSearch={handleSearch} />
         </div>
       </div>
       <div className="flex w-full">
