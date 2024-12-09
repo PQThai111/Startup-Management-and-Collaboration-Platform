@@ -93,12 +93,12 @@ export default function SideBarAdmin() {
                 'transition-background mb-2 flex items-center rounded-lg px-3 py-3 font-medium text-red-500 duration-100',
                 {
                   'bg-sky-300 text-black':
-                    path.manager_project_management +
+                    path.all_management +
                       '/' +
                       path.manager_approval_management ===
                     pathName,
                   'text-black hover:bg-slate-100':
-                    path.manager_project_management +
+                    path.all_management +
                       '/' +
                       path.manager_approval_management !==
                     pathName,

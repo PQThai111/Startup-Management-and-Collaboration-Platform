@@ -19,6 +19,7 @@ import { useQuery } from '@tanstack/react-query';
 import { GetSlots, Slot } from '../../../types/mentor.type';
 import appointmentSlotsApi from '../../../apis/appointmentSlots.api';
 import CalendarMentorDetail from './CalendarMentorDetail';
+import classNames from 'classnames';
 
 const times = [
   '07:00 - 07:30',
@@ -271,7 +272,21 @@ const CalendarMentor = () => {
                             className="h-full items-center justify-center py-2"
                           >
                             <div
-                              className={`mx-auto h-10 w-[80%] cursor-pointer rounded bg-green-400 px-9 py-2 hover:bg-green-300`}
+                              className={classNames(
+                                `mx-auto h-10 w-[80%] cursor-pointer rounded px-9 py-2`,
+                                {
+                                  'bg-blue-400 hover:bg-blue-300':
+                                    findSlot.status == 0,
+                                  'bg-[#F4A258] hover:bg-[#F4A258]/70':
+                                    findSlot.status == 1,
+                                  'bg-blue-600 hover:bg-blue-600/75':
+                                    findSlot.status == 2,
+                                  'bg-green-500 hover:bg-green-500/75':
+                                    findSlot.status == 3,
+                                  'bg-red-500 hover:bg-red-500/75':
+                                    findSlot.status == 5,
+                                },
+                              )}
                               id={timeSlot}
                               onClick={(_) => {
                                 setChooseSlot(findSlot);
@@ -290,9 +305,9 @@ const CalendarMentor = () => {
                         <div
                           className={`mx-auto h-10 w-[80%] cursor-pointer rounded ${
                             selectedTimes.includes(timeSlot)
-                              ? 'bg-[#F4A258] text-white'
+                              ? 'bg-yellow-400 text-white'
                               : 'bg-slate-200 text-slate-200'
-                          } px-9 py-2 hover:bg-blue-400 hover:text-blue-400`}
+                          } px-9 py-2 hover:bg-slate-400 hover:text-blue-400`}
                           id={timeSlot}
                           onClick={() => handleTimeSelection(timeSlot)}
                         ></div>

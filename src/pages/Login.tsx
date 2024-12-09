@@ -36,13 +36,13 @@ const Login = (): JSX.Element => {
         setIsAuthenticated(true);
         setProfile(data.data.data.user);
         if (data.data.data.user.role == 1) {
-          navigate(path.manager_project_management);
+          navigate(path.all_management);
         } else if (data.data.data.user.role == 2) {
-          navigate('/');
+          navigate(path.all_management);
         } else if (data.data.data.user.role == 3) {
           navigate('/');
         } else if (data.data.data.user.role == 4) {
-          navigate(path.mentor_project_management);
+          navigate(path.all_management);
         }
       },
       onError: (error) => {

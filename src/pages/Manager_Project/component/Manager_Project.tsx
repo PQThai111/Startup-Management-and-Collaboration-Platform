@@ -96,7 +96,7 @@ export default function Manager_Project() {
       <Pagination
         queryConfig={queryConfig}
         PageSize={projectsData?.data.data.pagination.limit as number}
-        pathName={path.manager_project_management}
+        pathName={path.all_management}
       />
     </div>
   );

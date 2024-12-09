@@ -1,38 +1,49 @@
-import InputSearch from '../../EventPage/components/InputSearch';
-// import { useQuery } from '@tanstack/react-query'
 import ProjectItem from './ProjectItem';
-import ButtonSearch from '../../EventPage/components/Buttonsearch';
 import { useQuery } from '@tanstack/react-query';
 import projectApi from '../../../apis/project.api';
 import AsideFilter from '../../EventPage/components/AsideFilter';
-import { useState } from 'react';
+import Pagination from '../../../components/pagination';
+import { useEventQueryConfig } from '../../../hooks/useQueryConfig';
+import { QueryConfig as ConfigPaging } from '../../../types/event.type';
+import path from '../../../constant/path';
+import useSearchProjectStudent from '../hook/useSearchEvent';
+
+export type QueryConfig = {
+  [key in keyof ConfigPaging]: string;
+};
 
 export default function ProjectList() {
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const queryConfig = useEventQueryConfig();
+  const { register, onSubmitSearch } = useSearchProjectStudent();
 
   const { data: projectsData, isLoading } = useQuery({
-    queryKey: ['searchProjects', searchTerm],
+    queryKey: ['projects', queryConfig],
     queryFn: () => {
-      return projectApi.searchProject({ SearchTerm: searchTerm });
+      return projectApi.getProjects(queryConfig as QueryConfig);
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,
   });
 
-  const handleSearch = () => {
-    console.log(searchTerm);
-  };
-
   return (
     <div className="container mx-auto mb-20 px-20 pt-7">
-      <div className="mb-5 grid h-8 grid-cols-12">
+      <form onSubmit={onSubmitSearch} className="mb-5 grid h-8 grid-cols-12">
         <div className="col-span-10">
-          <InputSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <input
+            type="text"
+            placeholder="Search Any Project !"
+            className="block w-full rounded-md border border-slate-300 bg-white py-2 pl-9 shadow-sm placeholder:italic placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
+            {...register('SearchTerm')}
+          />
         </div>
         <div className="col-span-2">
-          <ButtonSearch handleSearch={handleSearch} />
+          <div className="ml-3 rounded-md border border-black text-center">
+            <button className="w-full rounded-md bg-black p-1.5 text-white">
+              Tìm kiếm
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
       <div className="flex w-full">
         <div className="h-[500px] w-[25%] pr-3">
           <AsideFilter />
@@ -66,6 +77,11 @@ export default function ProjectList() {
           </div>
         )}
       </div>
+      <Pagination
+        queryConfig={queryConfig}
+        PageSize={projectsData?.data.data.pagination.limit as number}
+        pathName={path.project}
+      />
     </div>
   );
 }

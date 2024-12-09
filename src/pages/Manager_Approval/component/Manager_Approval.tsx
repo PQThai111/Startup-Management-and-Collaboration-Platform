@@ -167,7 +167,7 @@ export default function Manager_Approval() {
           <Pagination
             queryConfig={queryConfig}
             PageSize={requestsData?.data.data.pagination.limit as number}
-            pathName={path.manager_project_management + '/approval'}
+            pathName={path.all_management + '/approval'}
           />
         </div>
         <div className="col-span-6 grid h-full grid-rows-12 gap-3 rounded-md">
@@ -178,66 +178,68 @@ export default function Manager_Approval() {
             onSubmit={onSubmit}
             className="row-span-2 grid grid-cols-12 rounded-md border border-slate-300 bg-slate-100 px-3 py-1"
           >
-            <div className="col-span-8">
-              <div className="mb-1 grid grid-cols-10 items-center">
-                <p className="col-span-3 mr-3">Mentor Name:</p>
-                <Controller
-                  control={control}
-                  name="MentorId"
-                  defaultValue={mentors[0]?.mentor?.id}
-                  render={({ field }) => (
-                    <select
-                      id="mentor"
-                      className="block h-[35px] w-[300px] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                      {...field}
-                      onChange={field.onChange}
-                      defaultValue={mentors[0]?.mentor?.id}
-                    >
-                      {mentorPending ? (
-                        <option>Loading...</option>
-                      ) : (
-                        mentors.map((mentor) => (
-                          <option
-                            key={mentor.mentor?.id}
-                            value={mentor.mentor?.id}
-                          >
-                            {mentor.mentor?.name}
-                          </option>
-                        ))
-                      )}
-                    </select>
-                  )}
-                />
-              </div>
-              <div className="mb-1 grid grid-cols-10 items-center">
-                <p className="col-span-3 mr-3">Lecturer Name:</p>
-                <Controller
-                  control={control}
-                  name="LecturerId"
-                  defaultValue={lecturers[0]?.lecturer?.id}
-                  render={({ field }) => (
-                    <select
-                      id="lecturer"
-                      className="block h-[35px] w-[300px] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                      {...field}
-                      onChange={field.onChange}
-                      defaultValue={lecturers[0]?.lecturer?.id}
-                    >
-                      {lecturerPending ? (
-                        <option>Loading...</option>
-                      ) : (
-                        lecturers.map((lecturer) => (
-                          <option
-                            key={lecturer.lecturer?.id}
-                            value={lecturer.lecturer?.id}
-                          >
-                            {lecturer.lecturer?.lecturerName}
-                          </option>
-                        ))
-                      )}
-                    </select>
-                  )}
-                />
+            <div className="col-span-8 flex h-full items-center">
+              <div>
+                <div className="mb-1 grid grid-cols-10 items-center">
+                  <p className="col-span-3 mr-3">Mentor Name:</p>
+                  <Controller
+                    control={control}
+                    name="MentorId"
+                    defaultValue={mentors[0]?.mentor?.id}
+                    render={({ field }) => (
+                      <select
+                        id="mentor"
+                        className="block h-[35px] w-[300px] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        {...field}
+                        onChange={field.onChange}
+                        defaultValue={mentors[0]?.mentor?.id}
+                      >
+                        {mentorPending ? (
+                          <option>Loading...</option>
+                        ) : (
+                          mentors.map((mentor) => (
+                            <option
+                              key={mentor.mentor?.id}
+                              value={mentor.mentor?.id}
+                            >
+                              {mentor.mentor?.name}
+                            </option>
+                          ))
+                        )}
+                      </select>
+                    )}
+                  />
+                </div>
+                <div className="mb-1 grid grid-cols-10 items-center">
+                  <p className="col-span-3 mr-3">Lecturer Name:</p>
+                  <Controller
+                    control={control}
+                    name="LecturerId"
+                    defaultValue={lecturers[0]?.lecturer?.id}
+                    render={({ field }) => (
+                      <select
+                        id="lecturer"
+                        className="block h-[35px] w-[300px] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        {...field}
+                        onChange={field.onChange}
+                        defaultValue={lecturers[0]?.lecturer?.id}
+                      >
+                        {lecturerPending ? (
+                          <option>Loading...</option>
+                        ) : (
+                          lecturers.map((lecturer) => (
+                            <option
+                              key={lecturer.lecturer?.id}
+                              value={lecturer.lecturer?.id}
+                            >
+                              {lecturer.lecturer?.lecturerName}
+                            </option>
+                          ))
+                        )}
+                      </select>
+                    )}
+                  />
+                </div>
               </div>
             </div>
 

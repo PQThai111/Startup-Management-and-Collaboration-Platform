@@ -1,55 +1,56 @@
-// import ButtonSearch from './ButtonSearch'
-import InputSearch from './InputSearch';
 import AsideFilter from './AsideFilter';
 import EventItem from './EventItem';
-// import { Event, EventType } from '../../../types/event.type'
 import { useQuery } from '@tanstack/react-query';
 import eventApi from '../../../apis/event.api';
-import ButtonSearch from './Buttonsearch';
-import { useState } from 'react';
+import Pagination from '../../../components/pagination';
+import path from '../../../constant/path';
+import { useEventQueryConfig } from '../../../hooks/useQueryConfig';
+import { QueryConfig as ConfigPaging } from '../../../types/event.type';
+import useSearchEventStudent from '../hook/useSearchEvent';
+
+export type QueryConfig = {
+  [key in keyof ConfigPaging]: string;
+};
 
 export default function EventList() {
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  // const { data: eventsData, isLoading } = useQuery({
-  //   queryKey: ['events', 'queryConfig'],
-  //   queryFn: () => {
-  //     return eventApi.getEventss();
-  //   },
-  //   placeholderData: (prevData) => prevData,
-  //   staleTime: 3 * 60 * 1000,
-  // });
-
+  const queryConfig = useEventQueryConfig();
+  const { register, onSubmitSearch } = useSearchEventStudent();
   const { data: eventsData, isLoading } = useQuery({
-    queryKey: ['events', searchTerm],
+    queryKey: ['events', queryConfig],
     queryFn: () => {
-      return eventApi.searchEvents({ SearchTerm: searchTerm });
+      return eventApi.getEvents(queryConfig as QueryConfig);
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,
   });
 
-  const handleSearch = () => {
-    console.log(searchTerm);
-  };
-
   return (
     <div className="mx-auto mb-20 w-full px-20">
-      <div className="mb-5 grid h-[32px] grid-cols-12">
-        {/* <div className="border border-blue-600 col-span-2">
-          <ButtonSearch/>
-        </div> */}
+      <form
+        onSubmit={onSubmitSearch}
+        className="mb-5 grid h-[32px] grid-cols-12"
+      >
         <div className="col-span-10">
-          <InputSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <input
+            type="text"
+            placeholder="Search Any Project !"
+            className="block w-full rounded-md border border-slate-300 bg-white py-2 pl-9 shadow-sm placeholder:italic placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
+            {...register('SearchTerm')}
+          />
         </div>
         <div className="col-span-2">
-          <ButtonSearch handleSearch={handleSearch} />
+          <div className="ml-3 rounded-md border border-black text-center">
+            <button className="w-full rounded-md bg-black p-1.5 text-white">
+              Tìm kiếm
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
       <div className="flex w-full">
         <div className="h-[500px] w-[25%] pr-3">
           <AsideFilter />
         </div>
-        <div className="flex w-[75%] items-center justify-center">
+        <div className="w-[75%]">
           {eventsData && (
             <div>
               {eventsData?.data?.data?.data.map((event) => (
@@ -78,6 +79,11 @@ export default function EventList() {
               <span className="sr-only">Loading...</span>
             </div>
           )}
+          <Pagination
+            queryConfig={queryConfig}
+            PageSize={eventsData?.data.data.pagination.limit as number}
+            pathName={path.newFeed}
+          />
         </div>
       </div>
     </div>
