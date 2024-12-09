@@ -10,9 +10,19 @@ const appointmentSlotsApi = {
   GetSlots(body: GetSlots) {
     return http.post<SuccessResponse<TimeSLot[]>>(`${URL}/FESearch`, body);
   },
-  DeleteSlot(id: string){
+  UpdateSlot(body: {
+    startTime: string;
+    endTime: string;
+    note: string;
+    meetingAddress: string;
+    id: string;
+    isDeleted: boolean;
+  }) {
+    return http.put<SuccessResponse<any>>(`${URL}/${body.id}`, body);
+  },
+  DeleteSlot(id: string) {
     return http.delete<SuccessResponse<any>>(`${URL}/${id}`);
-  }
+  },
 };
 
 export default appointmentSlotsApi;
