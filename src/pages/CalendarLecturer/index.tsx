@@ -1,19 +1,30 @@
 import { useContext, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
-// import { Label } from '../../components/ui/label';
-// import { Input } from '../../components/ui/input';
-import { getWeekDates, getWeekOfMonth } from '../../util/util';
-import { AppContext } from '../../context/app.context';
 import ContentContainer from '../ProjectDetail/components/ContentContainer';
+import {
+  formatDate,
+  formatDateSuper,
+  getHourAndMinute,
+  getWeekDates,
+  getWeekOfMonth,
+} from '../../util/util';
+import { AppContext } from '../../context/app.context';
+import Popover from '../../components/popover';
+import { useQuery } from '@tanstack/react-query';
+import { GetSlots, Slot } from '../../types/mentor.type';
+import appointmentSlotsApi from '../../apis/appointmentSlots.api';
+import classNames from 'classnames';
+import { ProjectContext } from '../../context/project.context';
+import CalendarLecturerDetail from './component/CalendarLecturerDetail';
 
 const times = [
-  '7:00 - 7:30',
-  '7:30 - 8:00',
-  '8:00 - 8:30',
-  '8:30 - 9:00',
-  '9:00 - 9:30',
-  '9:30 - 10:00',
+  '07:00 - 07:30',
+  '07:30 - 08:00',
+  '08:00 - 08:30',
+  '08:30 - 09:00',
+  '09:00 - 09:30',
+  '09:30 - 10:00',
   '10:00 - 10:30',
   '10:30 - 11:00',
   '11:00 - 11:30',
@@ -50,8 +61,38 @@ const months = [
 
 const CalendarLecturer = () => {
   const { profile } = useContext(AppContext);
-  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+  const { project } = useContext(ProjectContext);
   const [cursorTime, setCursorTime] = useState<Date>(new Date());
+  const [isSlotOpen, setIsSlotOpen] = useState(false);
+  const [chooseSLot, setChooseSlot] = useState<Slot | null>(null);
+
+  const weekDates = getWeekDates(cursorTime); // Pass in the desired date
+
+  const monday = weekDates[0]; // First index: Monday
+  const sunday = weekDates[6]; // Last index: Sunday
+
+  const requestBody: GetSlots = {
+    startTime: formatDate(monday),
+    endTime: formatDate(sunday),
+    creatorId: project?.mentorsAndLecturers.find(
+      (item) => item.roleType === 'Lecturer',
+    )?.accountId,
+  };
+
+  const { data: lecturerSlotsData, refetch } = useQuery({
+    queryKey: ['lecturerSlots', requestBody],
+    queryFn: () => {
+      return appointmentSlotsApi.GetSlots(requestBody);
+    },
+    placeholderData: (prevData) => prevData,
+    staleTime: 3 * 60 * 1000,
+  });
+
+  console.log(lecturerSlotsData?.data.data);
+
+  const handleSlotClose = () => {
+    setIsSlotOpen(!isSlotOpen);
+  };
 
   const handleMoveTime = (isMonth: boolean) => (isPlus: boolean) => {
     if (isMonth) {
@@ -89,34 +130,20 @@ const CalendarLecturer = () => {
     }
   };
 
-  const handleTimeSelection = (timeSlot: string) => {
-    setSelectedTimes((prevSelectedTimes) => {
-      // If the time slot is already selected, remove it
-      if (prevSelectedTimes.includes(timeSlot)) {
-        return prevSelectedTimes.filter((slot) => slot !== timeSlot);
-      }
-      // Otherwise, add it to the selected times
-      return [...prevSelectedTimes, timeSlot];
-    });
-  };
-
   return (
     <ContentContainer>
       <div className="flex items-center justify-between">
-        <p className="text-4xl font-bold">Calendar Mentor</p>
-        <button className="rounded-lg border bg-[#EBEBEB] px-8 py-2 text-2xl font-semibold">
-          Save
-        </button>
+        <p className="text-4xl font-bold">Calendar Lecturer</p>
       </div>
       <div className="mt-5 flex items-center justify-between pl-20">
         <div className="flex gap-5">
           <p>
-            <span className="font-bold">Mentor: </span>
+            <span className="font-bold">Lecturer: </span>
             {profile?.email}
           </p>
           <p>
             <span className="font-bold">On: </span>
-            {cursorTime.getDate()}-{cursorTime.getMonth()}-
+            {cursorTime.getDate()}-{cursorTime.getMonth() + 1}-
             {cursorTime.getFullYear()}
           </p>
         </div>
@@ -146,87 +173,104 @@ const CalendarLecturer = () => {
         </div>
       </div>
       <div className="mt-5">
-        <table className="mx-auto">
-          <thead>
-            <tr className="">
-              <th className="w-40"></th>
-              {getWeekDates(cursorTime).map((day, index) => (
-                <th className="w-40" key={index}>
-                  <div className="mx-auto w-[80%] rounded-md bg-[#DBE7FF] px-2 py-1 text-left text-xl text-[#114864]">
-                    <p>{day.getDate()}</p>
-                    <p>{days[index]}</p>
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {times.map((time) => (
-              <tr key={time}>
-                <td className="items-center py-2 text-lg">{time}</td>
-                {getWeekDates(cursorTime).map((day) => {
-                  const timeSlot = `${day}-${time}`;
-                  return (
-                    <td
-                      key={timeSlot}
-                      className="h-full items-center justify-center py-2"
-                    >
-                      <div
-                        className={`mx-auto h-10 w-[80%] cursor-pointer rounded ${
-                          selectedTimes.includes(timeSlot)
-                            ? 'bg-[#F4A258] text-white'
-                            : 'bg-slate-200 text-slate-200'
-                        } px-9 py-2 hover:bg-blue-400 hover:text-blue-400`}
-                        id={timeSlot}
-                        onClick={() => handleTimeSelection(timeSlot)}
-                      ></div>
-                    </td>
-                  );
-                })}
+        <Popover
+          initialOpen={isSlotOpen}
+          renderPopover={
+            <CalendarLecturerDetail
+              teamId={project?.team.teamId as string}
+              refetchSchedule={refetch}
+              getSlots={requestBody}
+              handleClose={handleSlotClose}
+              slot={chooseSLot!}
+            />
+          }
+        >
+          <table className="mx-auto">
+            <thead>
+              <tr className="">
+                <th className="w-40"></th>
+                {getWeekDates(cursorTime).map((day, index) => (
+                  <th className="w-40" key={index}>
+                    <div className="mx-auto w-[80%] rounded-md bg-[#DBE7FF] px-2 py-1 text-left text-xl text-[#114864]">
+                      <p>{day.getDate()}</p>
+                      <p>{days[index]}</p>
+                    </div>
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {times.map((time) => (
+                <tr key={time}>
+                  <td className="items-center py-2 text-lg">{time}</td>
+                  {getWeekDates(cursorTime).map((day) => {
+                    day.setHours(0, 0, 0, 0);
+                    const isoDateCompare = formatDate(day);
+                    const finderTimeSlot = lecturerSlotsData?.data?.data.find(
+                      (x) => formatDateSuper(x.date) == isoDateCompare,
+                    );
+                    const timeSlot = `${day} - ${time}`;
+                    if (finderTimeSlot != null) {
+                      const findSlot = finderTimeSlot.slot.find((x) => {
+                        const formattedTimeRange = `${getHourAndMinute(x.startTime)} - ${getHourAndMinute(x.endTime)}`;
+                        return formattedTimeRange == time;
+                      });
+                      if (
+                        findSlot != null &&
+                        findSlot.isDeleted != true &&
+                        (findSlot.teamId === project?.team.teamId ||
+                          findSlot.teamId === null)
+                      ) {
+                        return (
+                          <td
+                            key={timeSlot}
+                            className="h-full items-center justify-center py-2"
+                          >
+                            <div
+                              className={classNames(
+                                `mx-auto h-10 w-[80%] cursor-pointer rounded px-9 py-2`,
+                                {
+                                  'bg-blue-400 hover:bg-blue-300':
+                                    findSlot.status == 0,
+                                  'bg-[#F4A258] hover:bg-[#F4A258]/70':
+                                    findSlot.status == 1,
+                                  'bg-blue-600 hover:bg-blue-600/75':
+                                    findSlot.status == 2,
+                                  'bg-green-500 hover:bg-green-500/75':
+                                    findSlot.status == 3,
+                                  'bg-red-500 hover:bg-red-500/75':
+                                    findSlot.status == 5,
+                                },
+                              )}
+                              id={timeSlot}
+                              onClick={(_) => {
+                                setChooseSlot(findSlot);
+                                setIsSlotOpen(true);
+                              }}
+                            ></div>
+                          </td>
+                        );
+                      }
+                    }
+                    return (
+                      <td
+                        key={timeSlot}
+                        className="h-full items-center justify-center py-2"
+                      >
+                        <div
+                          className={`mx-auto h-10 w-[80%] rounded bg-slate-200 px-9 py-2`}
+                          id={timeSlot}
+                        ></div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Popover>
       </div>
-      {/* {selectedTimes.length > 0 && (
-        <div className="mt-4">
-          <p className="font-semibold">Selected Times:</p>
-          <ul>
-            {selectedTimes.map((slot) => (
-              <li key={slot}>{slot}</li>
-            ))}
-          </ul>
-        </div>
-      )} */}
     </ContentContainer>
-
-    // <div className="mt-4">
-    //   <div className="flex items-center justify-between">
-    //     <p className="text-4xl font-bold">Report Meeting</p>
-    //   </div>
-    //   <div className="ml-10 mt-5 flex gap-5">
-    //     <p>
-    //       <span className="font-semibold">Mentor:</span> Nguyễn Văn Lâm
-    //     </p>
-    //     <p>
-    //       <span className="font-semibold">Time:</span> 8:00 - 8:30
-    //     </p>
-    //     <p>
-    //       <span className="font-semibold">On:</span> 4 Wed
-    //     </p>
-    //   </div>
-    //   <div className="ml-10 mt-8 flex gap-12">
-    //     <button className="h-16 w-40 rounded-lg bg-[#EBEBEB] text-xl font-semibold hover:bg-[#B3D1FF]">
-    //       Haven't met
-    //     </button>
-    //     <button className="h-16 w-40 rounded-lg bg-[#EBEBEB] text-xl font-semibold hover:bg-[#B3D1FF]">
-    //       Confirm
-    //     </button>
-    //   </div>
-    //   <div className="ml-32 mt-4 grid w-full max-w-sm items-center gap-1.5">
-    //     <Input id="picture" type="file" />
-    //   </div>
-    // </div>
   );
 };
 

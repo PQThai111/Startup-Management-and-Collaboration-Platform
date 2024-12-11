@@ -31,6 +31,20 @@ const appointmentSlotsApi = {
   DeleteSlot(id: string) {
     return http.delete<SuccessResponse<any>>(`${URL}/${id}`);
   },
+
+  ScheduleAppointment({
+    appointmentId,
+    teamId,
+    scheduleAppointment,
+  }: {
+    appointmentId: string;
+    teamId: string;
+    scheduleAppointment: boolean;
+  }) {
+    return http.patch<SuccessResponse<any>>(
+      `${URL}/${appointmentId}/ScheduleAppointment?${new URLSearchParams({ teamId, scheduleAppointment: scheduleAppointment.toString() })}`,
+    );
+  },
 };
 
 export default appointmentSlotsApi;
