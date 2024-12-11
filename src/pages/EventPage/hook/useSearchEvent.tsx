@@ -8,7 +8,7 @@ import path from '../../../constant/path';
 type FormData = Pick<ProjectSchema, 'SearchTerm'>;
 const nameSchema = projectSchema.pick(['SearchTerm']);
 
-export default function useSearchEvent() {
+export default function useSearchEventStudent() {
   const queryConfig = useEventQueryConfig();
   const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ export default function useSearchEvent() {
       SearchTerm: data.SearchTerm,
     };
     navigate({
-      pathname: path.all_management + '/event',
+      pathname: path.newFeed,
       search: createSearchParams(config).toString(),
     });
   });

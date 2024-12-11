@@ -26,7 +26,7 @@ export default function useSearchProject() {
       SearchTerm: data.SearchTerm,
     };
     navigate({
-      pathname: path.manager_project_management,
+      pathname: path.all_management,
       search: createSearchParams(config).toString(),
     });
   });

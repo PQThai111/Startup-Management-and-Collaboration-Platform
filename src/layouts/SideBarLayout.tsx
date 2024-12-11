@@ -37,16 +37,17 @@ export default function SideBarLayout() {
           <div className="ml-2 font-sans text-lg">MANAGER</div>
         </div>
         <div className="mt-4">
-          {profile?.role === 1 && (
-            <Link to={path.manager_project_management}>
+          {(profile?.role === 1 ||
+            profile?.role === 2 ||
+            profile?.role === 4) && (
+            <Link to={path.all_management}>
               <div
                 className={classNames(
                   'transition-background mb-2 flex items-center rounded-lg px-3 py-3 font-medium duration-100',
                   {
-                    'bg-sky-300 text-black':
-                      path.manager_project_management === pathName,
+                    'bg-sky-300 text-black': path.all_management === pathName,
                     'text-black hover:bg-slate-100':
-                      path.manager_project_management !== pathName,
+                      path.all_management !== pathName,
                   },
                 )}
               >
@@ -75,12 +76,12 @@ export default function SideBarLayout() {
                   'transition-background mb-2 flex items-center rounded-lg px-3 py-3 font-medium duration-100',
                   {
                     'bg-sky-300 text-black':
-                      path.manager_project_management +
+                      path.all_management +
                         '/' +
                         path.manager_event_management ===
                       pathName,
                     'text-black hover:bg-slate-100':
-                      path.manager_project_management +
+                      path.all_management +
                         '/' +
                         path.manager_event_management !==
                       pathName,
@@ -112,12 +113,12 @@ export default function SideBarLayout() {
                   'transition-background mb-2 flex items-center rounded-lg px-3 py-3 font-medium duration-100',
                   {
                     'bg-sky-300 text-black':
-                      path.manager_project_management +
+                      path.all_management +
                         '/' +
                         path.manager_approval_management ===
                       pathName,
                     'text-black hover:bg-slate-100':
-                      path.manager_project_management +
+                      path.all_management +
                         '/' +
                         path.manager_approval_management !==
                       pathName,
@@ -142,16 +143,15 @@ export default function SideBarLayout() {
               </div>
             </Link>
           )}
-          {profile?.role === 4 && (
-            <Link to={path.mentor_project_management}>
+          {/* {profile?.role === 4 && (
+            <Link to={path.all_management}>
               <div
                 className={classNames(
                   'transition-background mb-2 flex items-center rounded-lg px-3 py-3 font-medium duration-100',
                   {
-                    'bg-sky-300 text-black':
-                      path.mentor_project_management === pathName,
+                    'bg-sky-300 text-black': path.all_management === pathName,
                     'text-black hover:bg-slate-100':
-                      path.mentor_project_management !== pathName,
+                      path.all_management !== pathName,
                   },
                 )}
               >
@@ -172,20 +172,20 @@ export default function SideBarLayout() {
                 Project
               </div>
             </Link>
-          )}
-          {profile?.role === 4 && (
+          )} */}
+          {(profile?.role === 2 || profile?.role === 4) && (
             <Link to={path.mentor_schedule_management}>
               <div
                 className={classNames(
                   'transition-background mb-2 flex items-center rounded-lg px-3 py-3 font-medium duration-100',
                   {
                     'bg-sky-300 text-black':
-                      path.mentor_project_management +
+                      path.all_management +
                         '/' +
                         path.mentor_schedule_management ===
                       pathName,
                     'text-black hover:bg-slate-100':
-                      path.mentor_project_management +
+                      path.all_management +
                         '/' +
                         path.mentor_schedule_management !==
                       pathName,

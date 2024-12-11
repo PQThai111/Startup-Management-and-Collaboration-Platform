@@ -12,22 +12,22 @@ export interface Event {
 }
 
 export interface EventList {
-  data: Event[]
+  data: Event[];
   pagination: {
-    page: number
-    limit: number
-    page_size: number
-  }
+    page: number;
+    limit: number;
+    page_size: number;
+  };
 }
 
 export enum EventType {
   Seminar = 0,
   Workshop = 1,
-  Meeting = 2
+  Meeting = 2,
 }
 
 export interface QueryConfig {
-  SearchTerm?: string
-  PageNumber?: number | string
-  PageSize?: number | string
+  SearchTerm?: string;
+  PageNumber?: number | string;
+  PageSize?: number | string;
 }

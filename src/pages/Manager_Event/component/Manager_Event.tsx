@@ -98,7 +98,7 @@ export default function Manager_Event() {
       <Pagination
         queryConfig={queryConfig}
         PageSize={eventsData?.data.data.pagination.limit as number}
-        pathName={path.manager_project_management + '/event'}
+        pathName={path.all_management + '/event'}
       />
     </div>
   );

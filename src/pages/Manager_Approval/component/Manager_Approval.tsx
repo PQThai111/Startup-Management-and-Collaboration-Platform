@@ -167,7 +167,7 @@ export default function Manager_Approval() {
           <Pagination
             queryConfig={queryConfig}
             PageSize={requestsData?.data.data.pagination.limit as number}
-            pathName={path.manager_project_management + '/approval'}
+            pathName={path.all_management + '/approval'}
           />
         </div>
         <div className="col-span-6 grid h-full grid-rows-12 gap-3 rounded-md">

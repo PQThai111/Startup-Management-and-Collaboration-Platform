@@ -12,7 +12,6 @@ import path from '../constant/path';
 import ProjectPage from '../pages/ProjectPage';
 import EventDetailPage from '../pages/EventDetailPage';
 import CreateProjectPage from '../pages/CreateProjectPage';
-import MyProjectPage from '../pages/MyProjectPage';
 import ProfilePage from '../pages/ProfilePage';
 import SideBarLayout from '../layouts/SideBarLayout';
 import Manager_Project_Layout from '../pages/Manager_Project';
@@ -47,7 +46,7 @@ function RejectedRoute() {
   return !isAuthenticated ? (
     <Outlet />
   ) : profile?.role == 1 ? (
-    <Navigate to={path.manager_project_management} />
+    <Navigate to={path.all_management} />
   ) : (
     <Navigate to={path.home} />
   );
@@ -76,10 +75,6 @@ const authenticatedRoutes: RouteObject[] = [
   {
     path: path.createProject,
     element: <CreateProjectPage />,
-  },
-  {
-    path: path.myProject,
-    element: <MyProjectPage />,
   },
   {
     path: path.projectManagement,
@@ -126,7 +121,7 @@ const authenticatedRoutes: RouteObject[] = [
     ],
   },
   {
-    path: path.manager_project_management,
+    path: path.all_management,
     element: <SideBarLayout />,
     children: [
       {
@@ -144,7 +139,7 @@ const authenticatedRoutes: RouteObject[] = [
     ],
   },
   {
-    path: path.mentor_project_management,
+    path: path.all_management,
     element: <SideBarLayout />,
     children: [
       {

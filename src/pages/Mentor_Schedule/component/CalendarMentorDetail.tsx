@@ -4,6 +4,7 @@ import {
   QueryObserverResult,
   RefetchOptions,
   useMutation,
+  useQuery,
   // useQueryClient,
 } from '@tanstack/react-query';
 import appointmentSlotsApi from '../../../apis/appointmentSlots.api';
@@ -23,7 +24,7 @@ type FormData = Pick<MentorTimeBookingSchema, 'Note' | 'MeetingAddress'>;
 const schema = mentorTimeBookingSchema.pick(['Note', 'MeetingAddress']);
 
 export default function CalendarMentorDetail({
-  slot,
+  slot: slotId,
   handleClose,
   refetchSchedule,
 }: {
@@ -36,6 +37,13 @@ export default function CalendarMentorDetail({
   slot: Slot;
   handleClose: () => void;
 }) {
+  const { data: slotData } = useQuery({
+    queryKey: ['slotById', slotId.id],
+    queryFn: () => appointmentSlotsApi.GetSlotId(slotId.id),
+  });
+
+  const slot = slotData?.data?.data;
+
   const {
     handleSubmit,
     formState: { errors },
@@ -43,8 +51,8 @@ export default function CalendarMentorDetail({
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
-      Note: slot.note,
-      MeetingAddress: slot.meetingAddress,
+      Note: slotId.note,
+      MeetingAddress: slotId.meetingAddress,
     },
   });
 
@@ -62,7 +70,7 @@ export default function CalendarMentorDetail({
 
   const onSubmit = handleSubmit((data) => {
     const updateSlot: Slot = {
-      ...slot,
+      ...slotId,
       note: data.Note!,
       meetingAddress: data.MeetingAddress!,
     };
@@ -83,15 +91,15 @@ export default function CalendarMentorDetail({
 
   // const queryClient = useQueryClient();
   var status;
-  if (slot.status === 0) {
+  if (slotId.status === 0) {
     status = 'Available';
-  } else if (slot.status === 1) {
+  } else if (slotId.status === 1) {
     status = 'Booked';
-  } else if (slot.status === 2) {
+  } else if (slotId.status === 2) {
     status = 'Progressing';
-  } else if (slot.status === 3) {
+  } else if (slotId.status === 3) {
     status = 'Completed';
-  } else if (slot.status === 4) {
+  } else if (slotId.status === 4) {
     status = 'Cancelled';
   } else {
     status = 'Absent';
@@ -145,7 +153,7 @@ export default function CalendarMentorDetail({
         <div className="m-3 grid w-[90%] grid-cols-12">
           <p className="col-span-2 flex items-center font-bold">Slot Time: </p>
           <div className="col-span-10 border border-gray-400/80 bg-white py-2 pl-2">
-            {formatDATE(`${slot.startTime} ${slot.endTime}`)}
+            {formatDATE(`${slotId.startTime} ${slotId.endTime}`)}
           </div>
           <div className="h-3 pl-2"></div>
         </div>
@@ -206,7 +214,7 @@ export default function CalendarMentorDetail({
         <div className="m-3 h-[50%] w-[90%]">
           <p className="mb-3 flex items-center font-bold">Team: </p>
           <div className="h-[90%]">
-            {slot.team && (
+            {slot != undefined && slot.team && (
               <div className="h-full w-[100%] border border-gray-400/80 p-2">
                 <div className="my-2">
                   <span className="font-medium">Team Name: </span>
@@ -214,7 +222,7 @@ export default function CalendarMentorDetail({
                 </div>
                 <div className="my-2">
                   <span className="font-medium">Idea Name: </span>
-                  {slot.team.startupIdea.title}
+                  {slot.team.startupIdea?.title}
                 </div>
                 <div className="my-2">
                   <span className="font-medium">Leader Name: </span>
@@ -230,7 +238,7 @@ export default function CalendarMentorDetail({
                       .filter((x) => !x.isLeader)
                       .map((x) => (
                         <div className="mb-1 flex justify-start">
-                          <div className="w-[17%] truncate font-medium">
+                          <div className="w-[20%] truncate font-medium">
                             {x.studentName}
                           </div>
                           <div className="mr-4">{'-'}</div>
@@ -270,7 +278,7 @@ export default function CalendarMentorDetail({
                 </div>
               </div>
             )}
-            {!slot.team && (
+            {slot != undefined && !slot.team && (
               <div className="flex h-full w-[100%] items-center justify-center border border-gray-400/80 p-2">
                 <div className="">Empty !</div>
               </div>
@@ -286,7 +294,7 @@ export default function CalendarMentorDetail({
           </button>
           <button
             type="button"
-            onClick={(_) => deleteCalendarMentorMutation.mutate(slot.id)}
+            onClick={(_) => deleteCalendarMentorMutation.mutate(slotId.id)}
             className="flex-shrink-0 rounded-sm bg-red-400 p-2 px-4 text-white hover:bg-red-300"
           >
             Remove
