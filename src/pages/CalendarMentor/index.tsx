@@ -11,7 +11,6 @@ import {
 } from '../../util/util';
 import { AppContext } from '../../context/app.context';
 import Popover from '../../components/popover';
-import { toast } from 'react-toastify';
 import { useQuery } from '@tanstack/react-query';
 import { GetSlots, Slot } from '../../types/mentor.type';
 import appointmentSlotsApi from '../../apis/appointmentSlots.api';
@@ -64,7 +63,6 @@ const CalendarMentor = () => {
   const { profile } = useContext(AppContext);
   const { project } = useContext(ProjectContext);
   const [cursorTime, setCursorTime] = useState<Date>(new Date());
-  const [isOpen, setIsOpen] = useState(false);
   const [isSlotOpen, setIsSlotOpen] = useState(false);
   const [chooseSLot, setChooseSlot] = useState<Slot | null>(null);
 
