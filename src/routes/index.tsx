@@ -32,6 +32,10 @@ import Mentor_Schedule_Layout from '../pages/Mentor_Schedule';
 import FinancialReport from '../pages/FinancialReport';
 import CalendarMentor from '../pages/CalendarMentor';
 import CalendarLecturer from '../pages/CalendarLecturer';
+<<<<<<< HEAD
+=======
+import Inbox from '../pages/Inbox/Inbox';
+>>>>>>> 76c812b (fix merge)
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext);
@@ -81,6 +85,13 @@ const authenticatedRoutes: RouteObject[] = [
     element: <ProjectManagementPage />,
   },
   {
+<<<<<<< HEAD
+=======
+    path: path.inbox,
+    element: <Inbox />,
+  },
+  {
+>>>>>>> 76c812b (fix merge)
     element: <ProjectDetail />,
     path: path.projectDetail,
     children: [

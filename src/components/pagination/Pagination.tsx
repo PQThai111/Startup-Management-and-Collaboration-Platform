@@ -1,6 +1,10 @@
 import { createSearchParams, Link } from 'react-router-dom';
 import classNames from 'classnames';
+<<<<<<< HEAD
 import { QueryConfig } from '../../pages/Manager_Event/component/Manager_Event';
+=======
+import { QueryConfig } from '../../pages/EventPage/components/EventList';
+>>>>>>> 76c812b (fix merge)
 
 interface Props {
   queryConfig: QueryConfig;
@@ -9,6 +13,10 @@ interface Props {
 }
 const RANGE = 2;
 export default function Pagination({ queryConfig, PageSize, pathName }: Props) {
+<<<<<<< HEAD
+=======
+  console.log(queryConfig);
+>>>>>>> 76c812b (fix merge)
   const page = Number(queryConfig.PageNumber);
   const rederPagination = () => {
     let dotAfter = false;

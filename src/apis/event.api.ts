@@ -12,6 +12,12 @@ const eventApi = {
       params,
     });
   },
+<<<<<<< HEAD
+=======
+  getEvents2(queryString: string) {
+    return http.get<SuccessResponse<EventList>>(`${URL}?${queryString}`);
+  },
+>>>>>>> 76c812b (fix merge)
   getEventDetail(id: string) {
     return http.get<SuccessResponse<Event>>(`${URL}/${id}`);
   },

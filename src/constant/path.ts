@@ -9,6 +9,10 @@ const path = {
   register: '/register',
   profile: '/profile',
   projectManagement: 'projectManagement',
+<<<<<<< HEAD
+=======
+  inbox: 'inbox',
+>>>>>>> 76c812b (fix merge)
   timeLine: 'timeLine',
   calendarMentor: 'calendarMentor',
   calendarLecturer: 'calendarLecturer',
