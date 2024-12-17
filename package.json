@@ -42,10 +42,7 @@
     "framer-motion": "^11.11.9",
     "lodash": "^4.17.21",
     "lucide-react": "^0.447.0",
-<<<<<<< HEAD
-=======
     "qs": "^6.13.1",
->>>>>>> 76c812b (fix merge)
     "react": "^18.3.1",
     "react-day-picker": "^9.2.1",
     "react-dom": "^18.3.1",
@@ -66,10 +63,7 @@
     "@eslint/js": "^9.9.0",
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/node": "^22.7.4",
-<<<<<<< HEAD
-=======
     "@types/qs": "^6.9.17",
->>>>>>> 76c812b (fix merge)
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
