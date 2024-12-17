@@ -5,11 +5,16 @@ export interface TeamRequest {
   teamId: string;
   team: null;
   senderId: string;
+  senderEmail: string;
+  senderName: string;
   receiverId: string;
+  receiverEmail: string;
+  receiverName: string;
   createdDate: string;
   comment: any;
   updatedBy: string;
   id: string;
+  teamRequestId: string;
   status: TeamRequestStatus;
   isDeleted: boolean;
   lastUpdateDate: string;

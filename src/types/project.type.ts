@@ -45,4 +45,6 @@ export interface ProjectConfig {
   SearchTerm?: string;
   PageNumber?: number | string;
   PageSize?: number | string;
+  semesterId?: string;
+  courseId?: string;
 }

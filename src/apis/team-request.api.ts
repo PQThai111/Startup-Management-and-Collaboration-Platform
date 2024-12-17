@@ -74,6 +74,15 @@ const teamRequestApis = {
       notifyByEmail: notifyByEmail,
     });
   },
+
+  applyForProject(data: {
+    type: TeamRequestType;
+    teamId?: string;
+    receiverId?: string;
+    comment: string;
+  }) {
+    return http.post(`${URL}`, data);
+  },
 };
 
 export default teamRequestApis;

@@ -1,7 +1,5 @@
-import IconWithNum from '../common/components/IconWithNum';
 import Logo from '../common/components/Logo';
 import { Avatar, AvatarImage } from '../components/ui/avatar';
-import { IoMdNotificationsOutline } from 'react-icons/io';
 import { Link, useLocation } from 'react-router-dom';
 import path from '../constant/path';
 import classNames from 'classnames';
@@ -13,21 +11,38 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../components/ui/dropdown-menu';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../context/app.context';
 import { toast } from 'react-toastify';
 import { clearLS } from '../util/auth';
 import Invitation from './components/Invitation';
+import Notification from './components/Notification';
+import { Project } from '../types/project.type';
+import { useMutation } from '@tanstack/react-query';
+import projectApi from '../apis/project.api';
 
 const Header = () => {
   let pathname = useLocation().pathname;
   const { setIsAuthenticated, setProfile, profile } = useContext(AppContext);
+  const [project, setProject] = useState<Project>();
   const handleLogout = () => {
     clearLS();
     setIsAuthenticated(false);
     setProfile(null);
     toast.success('Logout Successfully !', { autoClose: 1000 });
   };
+
+  const getCurrentProject = useMutation({
+    mutationFn: () => projectApi.getCurrentProject({}),
+  });
+
+  useEffect(() => {
+    getCurrentProject.mutate(undefined, {
+      onSuccess: (projectData) => {
+        setProject(projectData.data.data[0]);
+      },
+    });
+  }, []);
 
   return (
     <div className="grid h-16 grid-cols-10 items-center gap-10 px-20 pb-5 pt-7">
@@ -92,12 +107,10 @@ const Header = () => {
             Create A Project
           </Link>
           <Invitation />
+          {project?.team.teamId && (
+            <Notification teamId={project?.team.teamId} />
+          )}
 
-          <IconWithNum
-            Icon={IoMdNotificationsOutline}
-            number={1}
-            // onClick={() => console.log('ahihi')}
-          />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar>

@@ -139,12 +139,11 @@ const CalendarMentor = () => {
         <div className="flex gap-5">
           <p>
             <span className="font-bold">Mentor: </span>
-            {profile?.email}
-          </p>
-          <p>
-            <span className="font-bold">On: </span>
-            {cursorTime.getDate()}-{cursorTime.getMonth() + 1}-
-            {cursorTime.getFullYear()}
+            {
+              project?.mentorsAndLecturers.find(
+                (item) => item.roleType === 'Mentor',
+              )?.name
+            }
           </p>
         </div>
         <div className="flex gap-5">
@@ -238,6 +237,8 @@ const CalendarMentor = () => {
                                     findSlot.status == 2,
                                   'bg-green-500 hover:bg-green-500/75':
                                     findSlot.status == 3,
+                                  'bg-yellow-500 hover:bg-green-500/75':
+                                    findSlot.status == 4,
                                   'bg-red-500 hover:bg-red-500/75':
                                     findSlot.status == 5,
                                 },

@@ -7,19 +7,28 @@ import { useEventQueryConfig } from '../../../hooks/useQueryConfig';
 import { QueryConfig as ConfigPaging } from '../../../types/event.type';
 import path from '../../../constant/path';
 import useSearchProjectStudent from '../hook/useSearchEvent';
+import { useContext } from 'react';
+import { AppContext } from '../../../context/app.context';
 
 export type QueryConfig = {
   [key in keyof ConfigPaging]: string;
 };
 
 export default function ProjectList() {
+  const { profile } = useContext(AppContext);
   const queryConfig = useEventQueryConfig();
   const { register, onSubmitSearch } = useSearchProjectStudent();
 
   const { data: projectsData, isLoading } = useQuery({
     queryKey: ['projects', queryConfig],
     queryFn: () => {
-      return projectApi.getProjects(queryConfig as QueryConfig);
+      return projectApi.getProjects({
+        ...queryConfig,
+        courseId: profile?.currentCourseId,
+      } as QueryConfig & {
+        courseId?: string;
+        semesterId?: string;
+      });
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,

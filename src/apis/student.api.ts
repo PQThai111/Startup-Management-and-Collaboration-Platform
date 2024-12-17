@@ -33,6 +33,12 @@ const studentApi = {
       `${URL}?HadTeam=${HadTeam}&SearchTerm=${SearchTerm}&PageSize=${PageSize}&PageNumber=${PageNumber}&CourseId=${CourseId}&SemesterId=${SemesterId}`,
     );
   },
+
+  getStudentByAccountId(accountId: string) {
+    return http.get<SuccessResponse<Student>>(
+      `${URL}/GetStudentByAccId/${accountId}`,
+    );
+  },
 };
 
 export default studentApi;

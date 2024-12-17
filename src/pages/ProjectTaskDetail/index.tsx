@@ -160,6 +160,7 @@ const ProjectTaskDetail = () => {
           <div>
             <div className="h-full rounded-xl bg-[#EEF2F5] px-3 py-3">
               <Reminder
+                projectTaskId={projectTaskId as string}
                 reminder={projectDetail.reminder}
                 start={new Date(projectDetail.startTime)}
                 end={new Date(projectDetail.endTime)}

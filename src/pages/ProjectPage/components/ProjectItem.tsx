@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import { Project } from '../../../types/project.type';
+import ApplyButton from './ApplyButton';
 
 export default function ProjectItem({
   projectProps,
@@ -13,11 +15,16 @@ export default function ProjectItem({
     projectDetail,
     semesterAndCourse,
     coverImage,
+    id,
   } = projectProps;
+  const nav = useNavigate();
 
   //id,
   return (
-    <div className="col-span-5 mb-3 h-[340px] rounded-md border border-black bg-[rgb(247,247,247)] p-3">
+    <div
+      onDoubleClick={() => nav(`/projectManagement/${id}`)}
+      className="col-span-5 mb-3 h-[340px] rounded-md border border-black bg-[rgb(247,247,247)] p-3"
+    >
       <div className="flex justify-between">
         <p className="text-ellipsis text-justify text-[#686868]">
           {semesterAndCourse.course}
@@ -56,9 +63,7 @@ export default function ProjectItem({
         {memberWanted}
       </p>
       <div className="flex justify-end text-orange-500">
-        <button className="w-20 rounded-sm border border-orange-500 p-2">
-          Apply
-        </button>
+        <ApplyButton teamId={team.teamId} />
       </div>
     </div>
   );

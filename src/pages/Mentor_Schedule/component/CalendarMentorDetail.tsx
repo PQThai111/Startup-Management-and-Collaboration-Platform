@@ -247,33 +247,6 @@ export default function CalendarMentorDetail({
                           <div>{x.memberRole}</div>
                         </div>
                       ))}
-                    {/* <div className="mb-1 flex justify-start">
-                      <div className="w-[17%] truncate font-medium">
-                        Phạm Quốc Quyền
-                      </div>
-                      <div className="mr-4">{'-'}</div>
-                      <div className="w-[10%]">SE100000</div>
-                      <div className="mx-2">{'-'}</div>
-                      <div>Front End</div>
-                    </div>
-                    <div className="mb-1 flex justify-start">
-                      <div className="w-[17%] truncate font-medium">
-                        Lê Hồ Điệp
-                      </div>
-                      <div className="mr-4">{'-'}</div>
-                      <div className="w-[10%]">SE100001</div>
-                      <div className="mx-2">{'-'}</div>
-                      <div>Backend End</div>
-                    </div>
-                    <div className="mb-1 flex justify-start">
-                      <div className="w-[17%] truncate font-medium">
-                        Nguyễn Đức Bình
-                      </div>
-                      <div className="mr-4">{'-'}</div>
-                      <div className="w-[10%]">SE100002</div>
-                      <div className="mx-2">{'-'}</div>
-                      <div>Project Manager</div>
-                    </div> */}
                   </div>
                 </div>
               </div>

@@ -139,12 +139,11 @@ const CalendarLecturer = () => {
         <div className="flex gap-5">
           <p>
             <span className="font-bold">Lecturer: </span>
-            {profile?.email}
-          </p>
-          <p>
-            <span className="font-bold">On: </span>
-            {cursorTime.getDate()}-{cursorTime.getMonth() + 1}-
-            {cursorTime.getFullYear()}
+            {
+              project?.mentorsAndLecturers.find(
+                (item) => item.roleType === 'Lecturer',
+              )?.name
+            }
           </p>
         </div>
         <div className="flex gap-5">

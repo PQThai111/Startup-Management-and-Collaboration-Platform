@@ -1,7 +1,8 @@
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { HTMLAttributes, useContext, useEffect, useState } from 'react';
 import { Project } from '../../../types/project.type';
 import { FiUserPlus } from 'react-icons/fi';
 import { useDebouncedCallback } from 'use-debounce';
+import { HiUserRemove } from 'react-icons/hi';
 import {
   Dialog,
   DialogContent,
@@ -24,6 +25,8 @@ import { Member } from '../../../types/team.type';
 import { AxiosError } from '../../../types/utils.type';
 import { MAX_TEAM_SIZE } from '../../../constant/team';
 import { ScrollArea } from '../../../components/ui/scroll-area';
+import { AppContext } from '../../../context/app.context';
+import teamMemberApis from '../../../apis/team-member.api';
 
 const Members = ({
   team,
@@ -38,9 +41,12 @@ const Members = ({
     semesterId: string;
     isMember: boolean;
   }) => {
+  const { profile } = useContext(AppContext);
+  const [members, setMembers] = useState<Member[]>(team.members);
   const [query, setQuery] = useState<string>('');
   const [students, setStudents] = useState<Student[]>([]);
   const [leader, setLeader] = useState<Member>();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
   const debounce = useDebouncedCallback((value) => {
@@ -90,6 +96,24 @@ const Members = ({
       }),
   });
 
+  const removeTeamMember = useMutation({
+    mutationFn: ({
+      memberRole,
+      note,
+      teamMemberId,
+    }: {
+      teamMemberId: string;
+      note: string;
+      memberRole: string;
+    }) =>
+      teamMemberApis.updateTeamMember({
+        id: teamMemberId,
+        isDeleted: true,
+        note,
+        memberRole,
+      }),
+  });
+
   const handleInviteStudent = () => {
     if (!selectedStudent) {
       toast.error('Please select a student to invite');
@@ -115,8 +139,26 @@ const Members = ({
     );
   };
 
+  const handleRemoveMember = (member: Member) => {
+    removeTeamMember.mutate(
+      {
+        memberRole: member.memberRole,
+        note: member.note,
+        teamMemberId: member.id,
+      },
+      {
+        onSuccess: () => {
+          const newMembers = members.filter((item) => item.id !== member.id);
+          setMembers(newMembers);
+          toast.success('Remove member successfully');
+          setIsOpen(false);
+        },
+      },
+    );
+  };
+
   useEffect(() => {
-    const lead = team.members.find((member) => member.isLeader === true);
+    const lead = members.find((member) => member.isLeader === true);
     if (lead) {
       setLeader(lead);
     }
@@ -149,10 +191,9 @@ const Members = ({
     >
       <div className="flex items-center justify-between">
         <p className="text-xl font-bold">Members</p>
-        <p className="italic">{`${team.members.length} / ${MAX_TEAM_SIZE}`}</p>
+        <p className="italic">{`${members.length} / ${MAX_TEAM_SIZE}`}</p>
       </div>
       <div className="mt-3 gap-2">
-        {/* {team.members.find((member) => member.isLeader === true) && ( */}
         <div>
           <div className="flex items-center justify-between">
             <p className="text-lg font-semibold">{leader?.studentName}</p>
@@ -163,13 +204,44 @@ const Members = ({
             <p className="italic">Leader</p>
           </div>
         </div>
-        {/* )} */}
-        {team.members
+        {members
           .filter((item) => item.isLeader !== true)
           .map((member) => (
             <div>
               <div className="flex items-center justify-between">
-                <p className="text-lg font-semibold">{member.studentName}</p>
+                <div className="flex items-center gap-5">
+                  <p className="text-lg font-semibold">{member.studentName}</p>
+                  {profile?.studentId === leader?.studentId && (
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <button className="my-2 flex items-center gap-2 hover:text-blue-500">
+                          <HiUserRemove />
+                        </button>
+                      </DialogTrigger>
+                      <DialogContent className="w-[600px]">
+                        <DialogHeader>
+                          <DialogTitle>Remove Member</DialogTitle>
+                          <DialogDescription>
+                            Remove member from your team
+                          </DialogDescription>
+                        </DialogHeader>
+                        <p className="text-lg font-bold italic">
+                          Are you sure to remove this member from your team?
+                        </p>
+                        <DialogFooter>
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              handleRemoveMember(member);
+                            }}
+                          >
+                            Remove
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  )}
+                </div>
                 <p className="text-lg font-semibold italic">
                   {member.memberRole}
                 </p>

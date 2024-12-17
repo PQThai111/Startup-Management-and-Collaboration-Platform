@@ -9,12 +9,16 @@ import {
   SelectValue,
 } from '../../../components/ui/select';
 import { REMINDER_OPTIONS } from '../../../constant/reminder';
+import { useMutation } from '@tanstack/react-query';
+import projectTaskApi from '../../../apis/project-task.api';
+import { toast } from 'react-toastify';
 
 type ReminderProps = {
   start: Date;
   end: Date;
   reminder: number;
   isLecturerOrMentor: boolean;
+  projectTaskId: string;
 };
 
 const Reminder = ({
@@ -22,9 +26,41 @@ const Reminder = ({
   end,
   isLecturerOrMentor,
   reminder,
+  projectTaskId,
 }: ReminderProps) => {
   const [startDate, setStartDate] = useState<Date>(start);
   const [endDate, setEndDate] = useState<Date>(end);
+  const [reminderOption, setReminderOption] = useState<string>(
+    reminder.toString(),
+  );
+
+  const handleUpdateReminder = useMutation({
+    mutationFn: (data: any) =>
+      projectTaskApi.editProjectTask({
+        id: projectTaskId,
+        body: {
+          id: projectTaskId,
+          startTime: data.startDate,
+          endTime: data.endDate,
+          reminder: data.reminder,
+        },
+      }),
+  });
+
+  const handleChangeReminder = () => {
+    handleUpdateReminder.mutate(
+      {
+        startDate,
+        endDate,
+        reminder: parseInt(reminderOption),
+      },
+      {
+        onSuccess: () => {
+          toast.success('Update reminder successfully');
+        },
+      },
+    );
+  };
 
   return (
     <>
@@ -38,7 +74,7 @@ const Reminder = ({
             <DateTimePicker
               value={startDate}
               onChange={setStartDate}
-              timeZone="UTC+08:00"
+              // timeZone="UTC+08:00"
             />
           </div>
           <div className="mt-2">
@@ -46,7 +82,7 @@ const Reminder = ({
             <DateTimePicker value={endDate} onChange={setEndDate} />
           </div>
           <p className="mt-3">Set due date reminder</p>
-          <Select>
+          <Select value={reminderOption} onValueChange={setReminderOption}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select reminder option" />
             </SelectTrigger>
@@ -61,12 +97,13 @@ const Reminder = ({
             </SelectContent>
           </Select>
           <div className="mt-2 flex justify-end gap-2">
-            <button className="w-full rounded-xl bg-[#013C5A] py-1 font-semibold text-white">
+            <button
+              onClick={handleChangeReminder}
+              type="button"
+              className="w-full rounded-xl bg-[#013C5A] py-1 font-semibold text-white"
+            >
               Save
             </button>
-            {/* <button className="rounded-xl border border-[#013C5A] py-1 font-semibold text-[#013C5A]">
-              Remove
-            </button> */}
           </div>
         </form>
       ) : (
@@ -91,7 +128,7 @@ const Reminder = ({
               />
             </div>
             <div className="mt-3 flex gap-3">
-              <p className="">Set due date reminder: </p>
+              <p className="">Due date reminder: </p>
               <p>
                 {
                   REMINDER_OPTIONS.find((item) => item.value === reminder)

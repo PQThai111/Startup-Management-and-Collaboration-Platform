@@ -15,6 +15,17 @@ const teamMemberApis = {
   }) {
     return http.post<SuccessResponse<any>>(`${URL}/CreateByRequest`, data);
   },
+
+  updateTeamMember(data: {
+    memberRole: string;
+    note: string;
+    isLeader?: boolean;
+    id: string;
+    status?: number;
+    isDeleted?: boolean;
+  }) {
+    return http.put<SuccessResponse<any>>(`${URL}/${data.id}`, data);
+  },
 };
 
 export default teamMemberApis;

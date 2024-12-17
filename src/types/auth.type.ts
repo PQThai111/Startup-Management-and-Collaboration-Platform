@@ -16,4 +16,5 @@ export interface User {
   isDeleted: boolean;
   lastUpdateDate: string;
   studentId: string;
+  currentCourseId: string;
 }

@@ -7,6 +7,7 @@ export interface Member {
   isLeader: boolean;
   status: number;
   isDeleted: boolean;
+  studentId: string;
 }
 
 export interface StartupIdea {
