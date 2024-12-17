@@ -4,8 +4,6 @@ export function useQueryParams() {
   const [searchParams] = useSearchParams();
   return Object.fromEntries([...searchParams]);
 }
-<<<<<<< HEAD
-=======
 
 export function useQueryParams2() {
   const [searchParams] = useSearchParams();
@@ -26,4 +24,3 @@ export function useQueryParams2() {
 
   return params;
 }
->>>>>>> 76c812b (fix merge)

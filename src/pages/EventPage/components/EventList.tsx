@@ -1,8 +1,5 @@
 import AsideFilter from './AsideFilter';
-<<<<<<< HEAD
-=======
 import qs from 'qs';
->>>>>>> 76c812b (fix merge)
 import EventItem from './EventItem';
 import { useQuery } from '@tanstack/react-query';
 import eventApi from '../../../apis/event.api';
@@ -10,11 +7,7 @@ import Pagination from '../../../components/pagination';
 import path from '../../../constant/path';
 import { useEventQueryConfig } from '../../../hooks/useQueryConfig';
 import { QueryConfig as ConfigPaging } from '../../../types/event.type';
-<<<<<<< HEAD
-import useSearchEventStudent from '../hook/useSearchEvent';
-=======
 import { useSearchEventStudent } from '../hook/useSearchEvent';
->>>>>>> 76c812b (fix merge)
 
 export type QueryConfig = {
   [key in keyof ConfigPaging]: string;
@@ -22,20 +15,13 @@ export type QueryConfig = {
 
 export default function EventList() {
   const queryConfig = useEventQueryConfig();
-<<<<<<< HEAD
-=======
   console.log(queryConfig);
->>>>>>> 76c812b (fix merge)
   const { register, onSubmitSearch } = useSearchEventStudent();
   const { data: eventsData, isLoading } = useQuery({
     queryKey: ['events', queryConfig],
     queryFn: () => {
-<<<<<<< HEAD
-      return eventApi.getEvents(queryConfig as QueryConfig);
-=======
       const queryString = qs.stringify(queryConfig, { arrayFormat: 'repeat' });
       return eventApi.getEvents2(queryString);
->>>>>>> 76c812b (fix merge)
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,

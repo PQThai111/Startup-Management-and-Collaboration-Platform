@@ -9,15 +9,9 @@ import path from '../../../constant/path';
 import { useState } from 'react';
 import useSearchEvent from '../hook/useSearchEvent';
 
-<<<<<<< HEAD
-export type QueryConfig = {
-  [key in keyof ConfigPaging]: string;
-};
-=======
 // export type QueryConfig = {
 //   [key in keyof ConfigPaging]: string | string[];
 // };
->>>>>>> 76c812b (fix merge)
 
 export default function Manager_Event() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,11 +22,7 @@ export default function Manager_Event() {
   const { data: eventsData } = useQuery({
     queryKey: ['events', queryConfig],
     queryFn: () => {
-<<<<<<< HEAD
-      return eventApi.getEvents(queryConfig as QueryConfig);
-=======
       return eventApi.getEvents(queryConfig as ConfigPaging);
->>>>>>> 76c812b (fix merge)
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,

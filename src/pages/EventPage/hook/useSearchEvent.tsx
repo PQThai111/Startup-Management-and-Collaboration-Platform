@@ -8,11 +8,7 @@ import path from '../../../constant/path';
 type FormData = Pick<ProjectSchema, 'SearchTerm'>;
 const nameSchema = projectSchema.pick(['SearchTerm']);
 
-<<<<<<< HEAD
-export default function useSearchEventStudent() {
-=======
 export function useSearchEventStudent() {
->>>>>>> 76c812b (fix merge)
   const queryConfig = useEventQueryConfig();
   const navigate = useNavigate();
 

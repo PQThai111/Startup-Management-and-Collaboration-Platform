@@ -132,12 +132,9 @@ const Header = () => {
                 <DropdownMenuItem>
                   <a href="/projectManagement">My Projects</a>
                 </DropdownMenuItem>
-<<<<<<< HEAD
-=======
                 <DropdownMenuItem>
                   <a href="/inbox">Inbox</a>
                 </DropdownMenuItem>
->>>>>>> 76c812b (fix merge)
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>

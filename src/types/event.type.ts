@@ -30,9 +30,6 @@ export interface QueryConfig {
   SearchTerm?: string;
   PageNumber?: number | string;
   PageSize?: number | string;
-<<<<<<< HEAD
-=======
   EventTypes?: string[];
   IsMandatory?: string;
->>>>>>> 76c812b (fix merge)
 }
