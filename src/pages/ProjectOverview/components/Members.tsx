@@ -46,7 +46,7 @@ const Members = ({
   const [query, setQuery] = useState<string>('');
   const [students, setStudents] = useState<Student[]>([]);
   const [leader, setLeader] = useState<Member>();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [, setIsOpen] = useState<boolean>(false);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
   const debounce = useDebouncedCallback((value) => {

@@ -3,7 +3,7 @@ import { Button } from '../../../components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
+  // DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -45,8 +45,9 @@ const ApplyButton = ({ teamId }: { teamId: string }) => {
           setIsOpen(false);
           toast.success('Apply successfully');
         },
-        onError: (error) => {
-          toast.error(error.response.data.errors[0]);
+        onError: (_) => {
+          // toast.error(error.response.data.errors[0]);
+          toast.error('Apply fail !');
         },
       },
     );

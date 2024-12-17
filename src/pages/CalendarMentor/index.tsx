@@ -9,7 +9,7 @@ import {
   getWeekDates,
   getWeekOfMonth,
 } from '../../util/util';
-import { AppContext } from '../../context/app.context';
+// import { AppContext } from '../../context/app.context';
 import Popover from '../../components/popover';
 import { useQuery } from '@tanstack/react-query';
 import { GetSlots, Slot } from '../../types/mentor.type';
@@ -60,7 +60,7 @@ const months = [
 ];
 
 const CalendarMentor = () => {
-  const { profile } = useContext(AppContext);
+  // const { profile } = useContext(AppContext);
   const { project } = useContext(ProjectContext);
   const [cursorTime, setCursorTime] = useState<Date>(new Date());
   const [isSlotOpen, setIsSlotOpen] = useState(false);
