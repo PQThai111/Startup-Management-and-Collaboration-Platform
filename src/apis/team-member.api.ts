@@ -15,7 +15,15 @@ const teamMemberApis = {
   }) {
     return http.post<SuccessResponse<any>>(`${URL}/CreateByRequest`, data);
   },
-
+  addMemberToTeam(data: {
+    studentCode: string;
+    memberRole: string;
+    note: string;
+    isLeader: boolean;
+    teamId: string;
+  }) {
+    return http.post<SuccessResponse<any>>(URL, data);
+  },
   updateTeamMember(data: {
     memberRole: string;
     note: string;

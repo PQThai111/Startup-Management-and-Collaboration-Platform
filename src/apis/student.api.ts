@@ -1,4 +1,5 @@
-import { Student } from '../types/student.type';
+import { QueryConfig } from '../pages/EventPage/components/EventList';
+import { Student, StudentList } from '../types/student.type';
 import { SuccessResponse } from '../types/utils.type';
 import http from '../util/http';
 
@@ -33,7 +34,15 @@ const studentApi = {
       `${URL}?HadTeam=${HadTeam}&SearchTerm=${SearchTerm}&PageSize=${PageSize}&PageNumber=${PageNumber}&CourseId=${CourseId}&SemesterId=${SemesterId}`,
     );
   },
+<<<<<<< HEAD
 
+=======
+  getStudentNoTeam(params: QueryConfig) {
+    return http.get<SuccessResponse<StudentList>>(URL, {
+      params,
+    });
+  },
+>>>>>>> 0954a0c (add mentor, add student, manager change status)
   getStudentByAccountId(accountId: string) {
     return http.get<SuccessResponse<Student>>(
       `${URL}/GetStudentByAccId/${accountId}`,

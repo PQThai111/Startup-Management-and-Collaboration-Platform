@@ -4,9 +4,10 @@ import path from '../../../constant/path';
 import Manager_Project_Item from './Manager_Project_Item';
 import Pagination from '../../../components/pagination';
 import { Project, ProjectConfig } from '../../../types/project.type';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useProjectQueryConfig } from '../../../hooks/useQueryConfig';
 import useSearchProject from './hook/useSearchProject';
+import { AppContext } from '../../../context/app.context';
 
 export type QueryConfig = {
   [key in keyof ProjectConfig]: string;
@@ -16,12 +17,34 @@ export default function Manager_Project() {
   const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState<Project>();
   const queryConfig = useProjectQueryConfig();
+  const { profile } = useContext(AppContext);
   const { register, onSubmitSearch } = useSearchProject();
   //, isLoading
-  const { data: projectsData } = useQuery({
+
+  const { data: projectsData, refetch } = useQuery({
     queryKey: ['projects', queryConfig],
     queryFn: () => {
       return projectApi.getProjects(queryConfig as QueryConfig);
+    },
+    placeholderData: (prevData) => prevData,
+    staleTime: 3 * 60 * 1000,
+  });
+
+  // , refetch: currentProjectRefetch
+  const { data: currentProjectData } = useQuery({
+    queryKey: [
+      'projects',
+      {
+        courseId: undefined,
+        semesterId: undefined,
+      },
+      profile?.id,
+    ],
+    queryFn: () => {
+      return projectApi.getCurrentProject({
+        courseId: undefined,
+        semesterId: undefined,
+      });
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,
@@ -37,6 +60,10 @@ export default function Manager_Project() {
   };
 
   console.log(projectsData?.data.data.data);
+
+  console.log(currentProjectData?.data.data);
+
+  console.log(profile?.role);
 
   return (
     <div className="container h-[580px] rounded-lg border border-slate-300 bg-slate-200 p-3 shadow-md">
@@ -57,6 +84,7 @@ export default function Manager_Project() {
           </div>
         </div>
       </form>
+      {/* Table Header */}
       <div className="mb-4 grid h-10 grid-cols-12 rounded-md border border-slate-500 bg-slate-500 text-white">
         <div className="col-span-3 flex items-center border-r border-white pl-10">
           Name
@@ -78,10 +106,11 @@ export default function Manager_Project() {
         </div>
       </div>
       <div className="min-h-[420px]">
-        {projectsData && (
+        {profile?.role === 1 && projectsData && (
           <>
             {projectsData?.data?.data?.data.map((project) => (
               <Manager_Project_Item
+                refetchProject={refetch}
                 key={project.id}
                 projectProps={project}
                 handleClose={handleClose}
@@ -89,6 +118,13 @@ export default function Manager_Project() {
                 isOpen={isOpen}
                 isEdit={isEdit as Project}
               />
+            ))}
+          </>
+        )}
+        {profile?.role !== 1 && currentProjectData && (
+          <>
+            {currentProjectData?.data?.data?.map((project) => (
+              <Manager_Project_Item key={project.id} projectProps={project} />
             ))}
           </>
         )}

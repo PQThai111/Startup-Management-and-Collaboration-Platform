@@ -186,7 +186,7 @@ const Members = ({
 
   return (
     <div
-      className={`w-full items-center rounded-xl bg-[#EEF2F5] px-3 py-3 ${className}`}
+      className={`w-full items-center rounded-xl bg-[#EEF2F5] px-3 py-3 ${className} mb-3`}
       {...props}
     >
       <div className="flex items-center justify-between">

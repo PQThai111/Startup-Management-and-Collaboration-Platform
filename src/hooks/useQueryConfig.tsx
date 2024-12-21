@@ -24,6 +24,24 @@ export function useEventQueryConfig() {
   return queryConfig;
 }
 
+export function useStudentQueryConfig() {
+  const queryParams = useQueryParams();
+  const queryConfig: QueryConfig = omitBy(
+    {
+      PageNumber: queryParams.PageNumber || '1',
+      PageSize:
+        Number(queryParams.PageSize) > 8 ? '8' : queryParams.PageSize || '8',
+      SearchTerm: queryParams.SearchTerm,
+      CourseId: queryParams.CourseId,
+      SemesterId: queryParams.SemesterId,
+      HadTeam: 'false',
+    },
+    isUndefined,
+  );
+
+  return queryConfig;
+}
+
 export function useProjectQueryConfig() {
   const queryParams = useQueryParams();
   const queryConfig: QueryConfig = omitBy(

@@ -13,3 +13,12 @@ export interface Student {
   skills: Skill[];
   studentLecturers: Lecturer[];
 }
+
+export interface StudentList {
+  data: Student[];
+  pagination: {
+    page: number;
+    limit: number;
+    page_size: number;
+  };
+}

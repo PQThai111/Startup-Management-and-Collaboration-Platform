@@ -32,4 +32,7 @@ export interface QueryConfig {
   PageSize?: number | string;
   EventTypes?: string[];
   IsMandatory?: string;
+  CourseId?: string;
+  SemesterId?: string;
+  HadTeam?: string;
 }

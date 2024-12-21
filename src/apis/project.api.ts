@@ -24,11 +24,9 @@ const projectApi = {
       `${URL}/${id}?orderMilestoneByStartDate=${orderMilestoneByStartDate}`,
     );
   },
-
   getProjectByTeamId(teamId: string) {
     return http.get<SuccessResponse<Project>>(`${URL}/Team/${teamId}`);
   },
-
   getCurrentProject({
     courseId,
     semesterId,
@@ -40,7 +38,17 @@ const projectApi = {
       `${URL}/CurrentUserProject?${courseId && `courseId=${courseId}`}&${semesterId && `semesterId=${semesterId}`}`,
     );
   },
+<<<<<<< HEAD
 
+=======
+  updateProjectV2({ id, data }: { id: string; data: FormData }) {
+    return http.put<SuccessResponse<Project>>(`${URL}/${id}`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+>>>>>>> 0954a0c (add mentor, add student, manager change status)
   updateProject({
     id,
     ...rest
@@ -66,7 +74,10 @@ const projectApi = {
       },
     );
   },
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0954a0c (add mentor, add student, manager change status)
   searchProject({
     PageSize = 10,
     PageNumber = 1,

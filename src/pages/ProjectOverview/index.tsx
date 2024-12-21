@@ -18,7 +18,7 @@ import {
 } from '../../components/ui/dialog';
 import { Label } from '../../components/ui/label';
 import { Input } from '../../components/ui/input';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import teamMemberApis from '../../apis/team-member.api';
 import { toast } from 'react-toastify';
@@ -33,11 +33,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../components/ui/select';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { projectSchema, ProjectSchema } from '../../util/rules';
+import projectApi from '../../apis/project.api';
 
 interface AcceptProjectForm {
   note: string;
   memberRole: string;
 }
+
+export enum ProjectStatusEnum {
+  NotStarted,
+  InProgress,
+  Completed,
+  Canceled,
+  UnderReview,
+  Passed,
+  Fail,
+}
+
+const ProjectStatusList = [
+  { content: 'Not Started', value: 0 },
+  { content: 'In Progress', value: 1 },
+  { content: 'Completed', value: 2 },
+  { content: 'Canceled', value: 3 },
+  { content: 'Under Review', value: 4 },
+  { content: 'Passed', value: 5 },
+  { content: 'Fail', value: 6 },
+];
+
+type FormData = Pick<ProjectSchema, 'ProjectStatus'>;
+
+const schema = projectSchema.pick(['ProjectStatus']);
 
 const ProjectOverview = () => {
   const { isMember, project } = useContext(ProjectContext);
@@ -46,6 +73,24 @@ const ProjectOverview = () => {
   const [rejectReason, setRejectReason] = useState<string>('');
   const [notifyByEmail, setNotifyByEmail] = useState<boolean>();
   const [dialogStatus, setDialogStatus] = useState<'Reject' | 'Accept'>();
+
+  const {
+    handleSubmit: handleSubmitStatus,
+    control,
+    setValue,
+  } = useForm<FormData>({
+    resolver: yupResolver(schema),
+    // resolver: yupResolver(schema),
+    // defaultValues: {
+    //   ProjectStatus: project!.projectStatus,
+    // },
+  });
+
+  useEffect(() => {
+    if (project) {
+      setValue('ProjectStatus', project.projectStatus);
+    }
+  }, [project]);
 
   const { register, handleSubmit } = useForm<AcceptProjectForm>();
 
@@ -140,6 +185,28 @@ const ProjectOverview = () => {
         memberRole,
         note,
       }),
+  });
+
+  const updateStatusProjectMutation = useMutation({
+    mutationFn: projectApi.updateProjectV2,
+    onError: (_) => {
+      toast.error('Fail update status !', {
+        autoClose: 500,
+      });
+    },
+    onSuccess: () => {
+      toast.success('Update status successfully !', {
+        autoClose: 500,
+      });
+      // refetchProject();
+    },
+  });
+
+  const onSubmitStatus = handleSubmitStatus((data) => {
+    const formData = new FormData();
+    formData.append('projectStatus', data.ProjectStatus.toString());
+    updateStatusProjectMutation.mutate({ id: project!.id, data: formData });
+    // createRequestMutation.mutate(formData);
   });
 
   return (
@@ -276,6 +343,61 @@ const ProjectOverview = () => {
               className="h-full rounded-xl"
               isMember={isMember}
             />
+            <form
+              onSubmit={onSubmitStatus}
+              className="h-[20%] rounded-xl bg-[#EEF2F5] px-3 py-3"
+            >
+              <Controller
+                control={control}
+                name="ProjectStatus"
+                defaultValue={project.projectStatus}
+                render={({ field }) => (
+                  <select
+                    disabled={
+                      profile?.id !=
+                      project.mentorsAndLecturers.find(
+                        (x) => x.roleType === 'Lecturer',
+                      )?.accountId
+                    }
+                    id="lecturer"
+                    className="mb-2 block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    {...field}
+                    onChange={field.onChange}
+                    value={field.value}
+                  >
+                    {/* {lecturerPending ? (
+                  <option>Loading...</option>
+                ) : (
+                  accounts.map((account) => (
+                    <option
+                      key={account.lecturer?.id}
+                      value={account.lecturer?.id}
+                    >
+                      {account.lecturer?.lecturerName}
+                    </option>
+                  ))
+                )} */}
+                    {ProjectStatusList.map((item) => (
+                      <option key={item.value} value={item.value}>
+                        {item.content}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              />
+              <button
+                type="submit"
+                disabled={
+                  profile?.id !=
+                  project.mentorsAndLecturers.find(
+                    (x) => x.roleType === 'Lecturer',
+                  )?.accountId
+                }
+                className="h-[40%] w-full rounded-md bg-slate-400 text-white"
+              >
+                Change Status
+              </button>
+            </form>
           </div>
         </div>
       )}

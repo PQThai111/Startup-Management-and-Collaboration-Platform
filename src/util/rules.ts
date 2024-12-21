@@ -35,6 +35,7 @@ export const projectSchema = yup.object({
   SearchTerm: yup.string().trim().required('Tên sản phẩm là bắt buộc'),
   EventTypes: yup.array().of(yup.string().required()).required(),
   IsMandatory: yup.string().trim().required(),
+  ProjectStatus: yup.number().required(),
 });
 
 export const requestSchema = yup.object({
