@@ -1,22 +1,21 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Event, EventList } from '../../../types/event.type';
 import { Controller, useForm } from 'react-hook-form';
 import { eventSchema, EventSchema } from '../../../util/rules';
 import { useState } from 'react';
 import { DatePicker } from '@nextui-org/react';
-import { changeIsoToValueDate2 } from '../../../util/util';
+import { now, getLocalTimeZone } from '@internationalized/date';
+import eventApi from '../../../apis/event.api';
 import {
   QueryObserverResult,
   RefetchOptions,
   useMutation,
 } from '@tanstack/react-query';
-import eventApi from '../../../apis/event.api';
 import { toast } from 'react-toastify';
 import { AxiosResponse } from 'axios';
 import { SuccessResponse } from '../../../types/utils.type';
+import { EventList } from '../../../types/event.type';
 
 interface Props {
-  event: Event;
   handleClose: () => void;
   refetchEvents: (
     options?: RefetchOptions,
@@ -76,11 +75,7 @@ const IsMandatory = [
   },
 ];
 
-export default function Manager_Event_Detail({
-  event,
-  handleClose,
-  refetchEvents,
-}: Props) {
+export default function CreateEvent({ handleClose, refetchEvents }: Props) {
   const [file, setFile] = useState<File | null>(null);
   const {
     handleSubmit,
@@ -92,43 +87,27 @@ export default function Manager_Event_Detail({
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
-      Title: event.title,
-      Description: event.description,
-      StartDate: event.startDate,
-      EndDate: event.endDate,
-      IsMandatory: event.isMandatory,
-      Location: event.location,
-      RegistrationLink: event.registrationLink,
-      Tag: event.tag,
-      Type: event.type,
+      Title: '',
+      Description: '',
+      StartDate: '',
+      EndDate: '',
+      IsMandatory: false,
+      Location: '',
+      RegistrationLink: '',
+      Tag: '',
+      Type: 0,
     },
   });
 
-  const updateEventMutation = useMutation({
-    mutationFn: eventApi.updateEvent,
+  const createEventMutation = useMutation({
+    mutationFn: eventApi.createEvent,
     onError: (_) => {
-      toast.error('Fail to update event !', {
+      toast.error('Fail to create event !', {
         autoClose: 500,
       });
     },
     onSuccess: () => {
-      toast.success('Update event successfully !', {
-        autoClose: 500,
-      });
-      refetchEvents();
-      handleClose();
-    },
-  });
-
-  const deleteEventMutation = useMutation({
-    mutationFn: eventApi.deleteEvent,
-    onError: (_) => {
-      toast.error('Fail to delete event !', {
-        autoClose: 500,
-      });
-    },
-    onSuccess: () => {
-      toast.success('Delete event successfully !', {
+      toast.success('Create event successfully !', {
         autoClose: 500,
       });
       refetchEvents();
@@ -151,12 +130,8 @@ export default function Manager_Event_Detail({
       formData.append('CoverImageFile', file);
     }
 
-    updateEventMutation.mutate({ id: event.id, body: formData });
+    createEventMutation.mutate(formData);
   });
-
-  const handleDelete = () => {
-    deleteEventMutation.mutate(event.id);
-  };
 
   return (
     <div className="h-[95%] w-[70%] overflow-hidden overflow-y-scroll rounded-lg bg-white p-6 shadow-lg">
@@ -182,17 +157,7 @@ export default function Manager_Event_Detail({
           </svg>
         </button>
       </div>
-      <form className="h-[90%]" onSubmit={onSubmit}>
-        {/* Image */}
-        <div className="my-4 h-[30%] border-b-2 pb-2">
-          <div className="h-full w-full">
-            <img
-              className="h-full w-full object-contain"
-              src={event.coverImage}
-              alt="Event Image"
-            />
-          </div>
-        </div>
+      <form onSubmit={onSubmit}>
         {/* Title */}
         <div className="my-4 border-b-2 pb-2">
           <p>
@@ -303,10 +268,32 @@ export default function Manager_Event_Detail({
                   aria-label="startDate"
                   hideTimeZone
                   showMonthAndYearPickers
-                  defaultValue={changeIsoToValueDate2(event.startDate)}
+                  // defaultValue={new Date()}
+                  defaultValue={now(getLocalTimeZone())}
+                  // label="Event Date"
                   onChange={(value) => {
                     if (value) {
-                      setValue('StartDate', value.toDate('UTC').toISOString());
+                      console.log(value);
+                      const localDate = new Date(
+                        value.year,
+                        value.month - 1, // Month in JavaScript is 0-indexed
+                        value.day,
+                        value.hour,
+                        value.minute,
+                        value.second,
+                        value.millisecond,
+                      );
+
+                      const timezoneOffset =
+                        localDate.getTimezoneOffset() * 60 * 1000;
+
+                      const adjustedDate = new Date(
+                        localDate.getTime() - timezoneOffset,
+                      );
+
+                      const isoTime = adjustedDate.toISOString();
+
+                      setValue('StartDate', isoTime);
                     }
                   }}
                   variant="bordered"
@@ -336,10 +323,32 @@ export default function Manager_Event_Detail({
                   aria-label="EndDate"
                   hideTimeZone
                   showMonthAndYearPickers
-                  defaultValue={changeIsoToValueDate2(event.endDate)}
+                  // defaultValue={new Date()}
+                  defaultValue={now(getLocalTimeZone())}
+                  // label="Event Date"
                   onChange={(value) => {
                     if (value) {
-                      setValue('EndDate', value.toDate('UTC').toISOString());
+                      console.log(value);
+                      const localDate = new Date(
+                        value.year,
+                        value.month - 1, // Month in JavaScript is 0-indexed
+                        value.day,
+                        value.hour,
+                        value.minute,
+                        value.second,
+                        value.millisecond,
+                      );
+
+                      const timezoneOffset =
+                        localDate.getTimezoneOffset() * 60 * 1000;
+
+                      const adjustedDate = new Date(
+                        localDate.getTime() - timezoneOffset,
+                      );
+
+                      const isoTime = adjustedDate.toISOString();
+
+                      setValue('EndDate', isoTime);
                     }
                   }}
                   variant="bordered"
@@ -467,24 +476,15 @@ export default function Manager_Event_Detail({
           ))}
         </div>
 
-        <div className="mb-3 flex">
+        <div className="flex">
           <button
             className="mr-3 rounded-lg bg-slate-400 px-6 py-2 text-white"
             type="submit"
           >
-            Update
+            Create
           </button>
           <button
-            className="mr-3 rounded-lg border border-red-300 px-6 py-2 text-red-400"
-            type="button"
-            onClick={() => {
-              handleDelete();
-            }}
-          >
-            Delete
-          </button>
-          <button
-            className="mr-3 rounded-lg border border-slate-300 px-6 py-2"
+            className="rounded-lg border border-slate-300 px-6 py-2"
             type="button"
             onClick={() => {
               reset({

@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import eventApi from '../../../apis/event.api';
-import CreateButton from './CreateButton';
 import Event_Item from './Manager_EventItem';
 import { QueryConfig as ConfigPaging, Event } from '../../../types/event.type';
 import { useEventQueryConfig } from '../../../hooks/useQueryConfig';
@@ -8,6 +7,8 @@ import Pagination from '../../../components/pagination';
 import path from '../../../constant/path';
 import { useState } from 'react';
 import useSearchEvent from '../hook/useSearchEvent';
+import Popover from '../../../components/popover';
+import CreateEvent from './CreateEvent';
 
 // export type QueryConfig = {
 //   [key in keyof ConfigPaging]: string | string[];
@@ -16,10 +17,12 @@ import useSearchEvent from '../hook/useSearchEvent';
 export default function Manager_Event() {
   const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState<Event>();
+  const [isCreateEvent, setIsCreateEvent] = useState(false);
+
   const queryConfig = useEventQueryConfig();
   const { register, onSubmitSearch } = useSearchEvent();
   //isLoading
-  const { data: eventsData } = useQuery({
+  const { data: eventsData, refetch } = useQuery({
     queryKey: ['events', queryConfig],
     queryFn: () => {
       return eventApi.getEvents(queryConfig as ConfigPaging);
@@ -28,13 +31,17 @@ export default function Manager_Event() {
     staleTime: 3 * 60 * 1000,
   });
 
-  const handleClose = (_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleClose = () => {
     setIsOpen(!isOpen);
   };
 
   const handleSelect = (mentor: Event) => {
     setIsOpen(!isOpen);
     setIsEdit(mentor);
+  };
+
+  const handleCloseEvent = () => {
+    setIsCreateEvent(false);
   };
 
   return (
@@ -50,13 +57,36 @@ export default function Manager_Event() {
         </div>
         <div className="col-span-2">
           <div className="ml-3 rounded-md border border-black text-center">
-            <button className="w-full rounded-md bg-black p-1.5 text-white">
+            <button
+              type="submit"
+              className="w-full rounded-md bg-black p-1.5 text-white"
+            >
               Tìm kiếm
             </button>
           </div>
         </div>
         <div className="col-span-2">
-          <CreateButton />
+          <div className="ml-3 rounded-md border border-black text-center">
+            <Popover
+              initialOpen={isCreateEvent}
+              renderPopover={
+                <CreateEvent
+                  handleClose={handleCloseEvent}
+                  refetchEvents={refetch}
+                />
+              }
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  setIsCreateEvent(true);
+                }}
+                className="w-full rounded-md bg-black p-1.5 text-white"
+              >
+                Create Event
+              </button>
+            </Popover>
+          </div>
         </div>
       </form>
       <div className="mb-4 grid h-10 grid-cols-12 rounded-md border border-slate-500 bg-slate-500 text-white">
@@ -84,6 +114,7 @@ export default function Manager_Event() {
           <>
             {eventsData?.data?.data?.data.map((event) => (
               <Event_Item
+                refetchEvents={refetch}
                 key={event.id}
                 eventProps={event}
                 handleClose={handleClose}

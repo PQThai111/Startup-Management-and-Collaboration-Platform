@@ -9,6 +9,7 @@ export interface Event {
   location: string;
   tag: string;
   registrationLink: string;
+  isMandatory: boolean;
 }
 
 export interface EventList {

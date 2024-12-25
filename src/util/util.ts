@@ -1,3 +1,10 @@
+import {
+  parseAbsolute,
+  getLocalTimeZone,
+  toCalendar,
+  DateValue,
+  createCalendar,
+} from '@internationalized/date';
 import { StartupCategory } from '../constant/startup_category';
 
 export function convertToFormData(obj: any): FormData {
@@ -144,7 +151,7 @@ export function parseTimeSlot(
   }
 }
 
-export function formatDate (date: Date): string {
+export function formatDate(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
@@ -155,37 +162,75 @@ export function formatDate (date: Date): string {
 
   // Add the timezone offset manually (GMT+0700)
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
-};
-
-
-export function formatDateSuper (date: string): string {
-  const formattedString = date.split(" ")[1];
-  const formattedStringDate = new Date(formattedString);
-  formattedStringDate.setHours(0, 0, 0, 0);
-  return formatDate(formattedStringDate)
-};
-
-export function getHourAndMinute (date: string): string {
-  const time = date.split("T")[1].slice(0, 5);
-  return time
 }
 
-export function formatDATE (date: string): string {
-  const [startDateTime, endDateTime] = date.split(" ");
+export function formatDateSuper(date: string): string {
+  const formattedString = date.split(' ')[1];
+  const formattedStringDate = new Date(formattedString);
+  formattedStringDate.setHours(0, 0, 0, 0);
+  return formatDate(formattedStringDate);
+}
+
+export function getHourAndMinute(date: string): string {
+  const time = date.split('T')[1].slice(0, 5);
+  return time;
+}
+
+export function formatDATE(date: string): string {
+  const [startDateTime, endDateTime] = date.split(' ');
 
   const startDate = new Date(startDateTime);
   const endDate = new Date(endDateTime);
 
   // Format time as HH:mm
   const formatTime = (date: Date) =>
-    date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+    date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 
   // Format date as DD/MM/YYYY
-  const formatDate = (date: Date) =>
-    date.toLocaleDateString("en-GB");
+  const formatDate = (date: Date) => date.toLocaleDateString('en-GB');
 
   // Combine the formatted parts
   const result = `${formatTime(startDate)} - ${formatTime(endDate)} ${formatDate(startDate)}`;
 
-  return result
+  return result;
+}
+
+export function changeIsoToValuteDate(isoDate: string) {
+  const localTimeZone = getLocalTimeZone();
+
+  try {
+    const isoDateWithOffset = isoDate.endsWith('Z') ? isoDate : `${isoDate}Z`;
+
+    // Parse the ISO string into a ZonedDateTime with timezone
+    const parsedDate = parseAbsolute(isoDateWithOffset, localTimeZone);
+
+    // Get the calendar date
+    const calendarDate = parsedDate.calendar;
+
+    console.log(calendarDate.toString());
+    return calendarDate;
+  } catch (error) {
+    console.error('Error parsing date:', error);
+    throw error;
+  }
+}
+
+export function changeIsoToValueDate2(isoDate: string): DateValue {
+  // const localTimeZone = getLocalTimeZone(); // Automatically get the local timezone
+  const isoDateWithOffset = isoDate.endsWith('Z') ? isoDate : `${isoDate}Z`;
+  try {
+    // Parse the ISO date into a ZonedDateTime object
+    const parsedDate = parseAbsolute(isoDateWithOffset, 'UTC');
+
+    // Create a calendar object (e.g., Gregorian calendar)
+    const gregorianCalendar = createCalendar('gregorian');
+
+    // Convert the parsed date to a calendar-specific date
+    const calendarDate = toCalendar(parsedDate, gregorianCalendar);
+
+    return calendarDate; // Returns a DateValue
+  } catch (error) {
+    console.error('Error parsing date:', error);
+    throw error;
+  }
 }

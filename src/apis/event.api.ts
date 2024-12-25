@@ -4,6 +4,23 @@ import http from '../util/http';
 
 const URL = 'Events';
 const eventApi = {
+  createEvent(body: FormData) {
+    return http.post<SuccessResponse<any>>(`${URL}/create`, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  updateEvent({ body, id }: { body: FormData; id: string }) {
+    return http.put<SuccessResponse<any>>(`${URL}/${id}`, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  deleteEvent(id: string) {
+    return http.delete<SuccessResponse<any>>(`${URL}/${id}`);
+  },
   getEventss() {
     return http.get<SuccessResponse<EventList>>(URL);
   },

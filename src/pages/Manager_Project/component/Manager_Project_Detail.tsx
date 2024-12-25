@@ -69,7 +69,7 @@ function Manager_Project_Detail({
     roles: 'mentor',
   };
 
-  const { data: mentorsData } = useQuery({
+  const { data: mentorsData, refetch: refetchMentors } = useQuery({
     queryKey: ['mentors', paramMentor],
     queryFn: () => {
       return accountApi.getAccounts(paramMentor);
@@ -79,12 +79,15 @@ function Manager_Project_Detail({
   });
 
   const mentors =
-    mentorsData?.data?.data.filter(
-      (x) =>
-        x.id !=
-        project.mentorsAndLecturers.find((x) => x.roleType === 'Mentor')
-          ?.accountId,
-    ) || [];
+    mentorsData?.data?.data.filter((user) => {
+      return (
+        user.mentor?.accountId !=
+        project.mentorsAndLecturers.find(
+          (x) =>
+            x.roleType === 'Mentor' && x.accountId === user.mentor?.accountId,
+        )?.accountId
+      );
+    }) || [];
   console.log(mentors);
 
   const addMemberMutation = useMutation({
@@ -142,6 +145,7 @@ function Manager_Project_Detail({
         autoClose: 500,
       });
       refetchProject();
+      refetchMentors();
     },
   });
 
@@ -157,6 +161,7 @@ function Manager_Project_Detail({
         autoClose: 500,
       });
       refetchProject();
+      refetchMentors();
     },
   });
 

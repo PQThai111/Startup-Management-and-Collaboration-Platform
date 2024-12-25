@@ -64,10 +64,43 @@ export const mentorTimeBookingSchema = yup.object({
     .max(200, 'Can not exceed 160 characters'),
 });
 
+export const eventSchema = yup.object({
+  Title: yup
+    .string()
+    .required()
+    .min(5, 'Can not under 5 characters')
+    .max(200, 'Can not exceed 160 characters'),
+  Description: yup
+    .string()
+    .required()
+    .min(5, 'Can not under 5 characters')
+    .max(200, 'Can not exceed 160 characters'),
+  Type: yup.number().required(),
+  StartDate: yup.string().required(),
+  EndDate: yup.string().required(),
+  Location: yup
+    .string()
+    .required()
+    .min(5, 'Can not under 5 characters')
+    .max(200, 'Can not exceed 160 characters'),
+  Tag: yup
+    .string()
+    .required()
+    .min(5, 'Can not under 5 characters')
+    .max(200, 'Can not exceed 160 characters'),
+  RegistrationLink: yup
+    .string()
+    .required()
+    .min(5, 'Can not under 5 characters')
+    .max(200, 'Can not exceed 160 characters'),
+  IsMandatory: yup.bool().required(),
+});
+
 export type Schema = yup.InferType<typeof schema>;
 export type ProjectSchema = yup.InferType<typeof projectSchema>;
 export type RequestSchema = yup.InferType<typeof requestSchema>;
 export type RejectSchema = yup.InferType<typeof rejectSchema>;
+export type EventSchema = yup.InferType<typeof eventSchema>;
 export type MentorTimeBookingSchema = yup.InferType<
   typeof mentorTimeBookingSchema
 >;

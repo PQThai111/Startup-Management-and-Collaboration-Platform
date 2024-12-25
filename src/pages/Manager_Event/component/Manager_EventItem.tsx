@@ -1,8 +1,11 @@
-import { Event, EventType } from '../../../types/event.type';
+import { Event, EventList, EventType } from '../../../types/event.type';
 import classNames from 'classnames';
 import Popover from '../../../components/popover';
 import { Button } from '../../../components/ui/button';
 import Manager_Event_Detail from './Manager_Event_Detail';
+import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import { SuccessResponse } from '../../../types/utils.type';
 
 export default function Event_Item({
   eventProps,
@@ -10,12 +13,18 @@ export default function Event_Item({
   handleSelect,
   isOpen,
   isEdit,
+  refetchEvents,
 }: {
   eventProps: Event;
   isOpen: boolean;
   isEdit: Event;
-  handleClose: (_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleClose: () => void;
   handleSelect: (mentor: Event) => void;
+  refetchEvents: (
+    options?: RefetchOptions,
+  ) => Promise<
+    QueryObserverResult<AxiosResponse<SuccessResponse<EventList>, any>, Error>
+  >;
 }) {
   const { title, location, startDate, type, endDate } = eventProps;
   var eventType;
@@ -87,7 +96,11 @@ export default function Event_Item({
           initialOpen={isOpen}
           renderPopover={
             isEdit && (
-              <Manager_Event_Detail event={isEdit} handleOpen={handleClose} />
+              <Manager_Event_Detail
+                refetchEvents={refetchEvents}
+                event={isEdit}
+                handleClose={handleClose}
+              />
             )
           }
         >
