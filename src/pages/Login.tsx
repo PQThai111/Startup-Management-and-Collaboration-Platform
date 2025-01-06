@@ -43,6 +43,8 @@ const Login = (): JSX.Element => {
           navigate('/');
         } else if (data.data.data.user.role == 4) {
           navigate(path.all_management);
+        } else if (data.data.data.user.role == 0) {
+          navigate(path.admin);
         }
       },
       onError: (error) => {

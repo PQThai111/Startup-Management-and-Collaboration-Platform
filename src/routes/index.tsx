@@ -33,6 +33,7 @@ import FinancialReport from '../pages/FinancialReport';
 import CalendarMentor from '../pages/CalendarMentor';
 import CalendarLecturer from '../pages/CalendarLecturer';
 import Inbox from '../pages/Inbox/Inbox';
+import ProfileSkills from '../pages/ProfilePage/component/ProfileSkills';
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext);
@@ -165,19 +166,23 @@ const authenticatedRoutes: RouteObject[] = [
         element: <ProfileInformation />,
         index: true,
       },
+      {
+        element: <ProfileSkills />,
+        path: path.profile_skills,
+      },
     ],
   },
   {
-    path: path.admin_account_management,
+    path: path.admin,
     element: <SideBarAdmin />,
     children: [
       {
-        element: <Admin_account_management />,
+        element: <Admin_dashboard />,
         index: true,
       },
       {
-        element: <Admin_dashboard />,
-        path: path.admin_dashboard,
+        element: <Admin_account_management />,
+        path: path.admin_account_management,
       },
     ],
   },

@@ -50,16 +50,14 @@ const ProjectManagementPage = () => {
   useEffect(() => {
     getMyProjects.mutate(void 0, {
       onSuccess: (data) => {
-        console.log(data);
-        setProjects(data.data.data);
+        console.log(data.data.data.data);
+        setProjects(data.data.data.data);
       },
       onError: (error) => {
         console.log(error);
       },
     });
   }, []);
-
-  console.log(requestsData?.data.data.data);
 
   return (
     <>

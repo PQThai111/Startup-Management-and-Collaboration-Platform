@@ -1,12 +1,23 @@
+import { AccountRole, AccountStatus } from '../constant/account';
+
 export interface Account {
-  id: string;
   email: string;
   password: string;
-  role: number;
+  role: AccountRole;
   avatarUrl: any;
   lecturer?: Lecturers;
   student?: Student;
   mentor?: Mentor;
+  appointments: any;
+  accountInCourseInstances: any;
+  documents: any;
+  financialTransactions: any;
+  refreshToken: string;
+  refreshTokenExpires: string;
+  id: string;
+  status: AccountStatus;
+  isDeleted: boolean;
+  lastUpdateDate: string;
 }
 
 type Lecturers = {

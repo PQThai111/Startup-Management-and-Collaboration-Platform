@@ -6,32 +6,44 @@ import IconWithNum from '../common/components/IconWithNum';
 import { Avatar, AvatarImage } from '../components/ui/avatar';
 import { VscMail } from 'react-icons/vsc';
 import { IoMdNotificationsOutline } from 'react-icons/io';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../components/ui/dropdown-menu';
+import { useContext } from 'react';
+import { AppContext } from '../context/app.context';
+import { clearLS } from '../util/auth';
+import { toast } from 'react-toastify';
 
 export default function SideBarAdmin() {
-  const user = {
-    name: 'John Doe',
-    avatar_url:
-      'https://cdn.kona-blue.com/upload/kona-blue_com/post/images/2024/08/13/356/avatar-vo-tri-meo-3.jpg',
+  let pathName = useLocation().pathname;
+  const { setIsAuthenticated, setProfile } = useContext(AppContext);
+  const handleLogout = () => {
+    clearLS();
+    setIsAuthenticated(false);
+    setProfile(null);
+    toast.success('Logout Successfully !', { autoClose: 1000 });
   };
 
-  let pathName = useLocation().pathname;
   return (
-    <div className="grid h-[100vh] grid-cols-12">
-      <div className="col-span-2 col-start-1 h-full bg-slate-200 px-2 py-4">
+    <div className="relative h-[100vh] w-full">
+      <div className="fixed h-full w-72 bg-slate-200 px-2 py-4">
         <div className="ml-3 flex items-end">
           <Logo />
           <div className="ml-2 font-sans text-lg">ADMIN</div>
         </div>
-        <div className="mt-5">
-          <Link to={path.admin_account_management}>
+        <div className="mt-8">
+          <Link to={path.admin}>
             <div
               className={classNames(
                 'transition-background mb-2 flex items-center rounded-lg px-3 py-3 font-medium duration-100',
                 {
-                  'bg-sky-300 text-black':
-                    path.admin_account_management === pathName,
-                  'text-black hover:bg-slate-100':
-                    path.admin_account_management !== pathName,
+                  'bg-sky-300 text-black': path.admin === pathName,
+                  'text-black hover:bg-slate-100': path.admin !== pathName,
                 },
               )}
             >
@@ -49,23 +61,19 @@ export default function SideBarAdmin() {
                   d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                 />
               </svg>
-              Account management
+              Dashboard
             </div>
           </Link>
-          <Link to={path.admin_dashboard}>
+          <Link to={path.admin_account_management}>
             <div
               className={classNames(
                 'transition-background mb-2 flex items-center rounded-lg px-3 py-3 font-medium duration-100',
                 {
                   'bg-sky-300 text-black':
-                    path.admin_account_management +
-                      '/' +
-                      path.admin_dashboard ===
+                    path.admin + '/' + path.admin_account_management ===
                     pathName,
                   'text-black hover:bg-slate-100':
-                    path.admin_account_management +
-                      '/' +
-                      path.admin_dashboard !==
+                    path.admin + '/' + path.admin_account_management !==
                     pathName,
                 },
               )}
@@ -84,7 +92,7 @@ export default function SideBarAdmin() {
                   d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"
                 />
               </svg>
-              Dashboard
+              Account management
             </div>
           </Link>
           <Link to={path.manager_approval_management}>
@@ -124,17 +132,43 @@ export default function SideBarAdmin() {
           </Link>
         </div>
       </div>
-      <div className="col-span-10 h-full">
-        <div className="w-full bg-slate-100 py-3">
-          <div className="flex items-center justify-end gap-5 pr-10">
+      <div className="ml-auto h-full w-[calc(100%-288px)]">
+        <div className="grid h-20 grid-cols-10 items-center gap-10 bg-slate-200 px-20">
+          <div className="col-span-1"></div>
+          <div className="col-span-5 pl-20"></div>
+          <div className="col-span-4 flex items-center justify-end gap-5">
             <IconWithNum Icon={VscMail} number={0} />
             <IconWithNum Icon={IoMdNotificationsOutline} number={1} />
-            <Avatar>
-              <AvatarImage src={user.avatar_url} alt="avatar" />
-            </Avatar>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar>
+                  <AvatarImage
+                    className="border"
+                    src={
+                      'https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg'
+                    }
+                    alt="avatar"
+                  />
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <a href="/profile">Profile</a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <a href="/projectManagement">My Projects</a>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
-        <div className="h-[90%] p-10">
+        <div className="h-[90%] p-5">
           <Outlet />
         </div>
       </div>

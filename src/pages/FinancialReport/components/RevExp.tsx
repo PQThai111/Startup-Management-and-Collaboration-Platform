@@ -1,10 +1,15 @@
 import { HTMLAttributes } from 'react';
 import { PiWalletFill } from 'react-icons/pi';
+import { formatCurrency } from '../../../util/util';
 
-const RevExp = ({ ...props }: HTMLAttributes<HTMLDivElement>) => {
+interface RevExpProps extends HTMLAttributes<HTMLDivElement> {
+  total: number;
+  cashOut: number;
+}
+
+const RevExp = ({ total, cashOut, ...props }: RevExpProps) => {
   return (
     <div {...props}>
-      <p className="ml-5 text-base font-semibold">Revenue & Expenses</p>
       <div className="mt-5 flex gap-5">
         <div className="flex h-36 w-1/2 items-center rounded-xl bg-[#EEF2F5] pl-5">
           <div>
@@ -12,8 +17,8 @@ const RevExp = ({ ...props }: HTMLAttributes<HTMLDivElement>) => {
               <PiWalletFill />
             </div>
             <div className="mt-2">
-              <p>Total</p>
-              <p className="text-xl font-semibold">11.050.000 Đ</p>
+              <p>Total Revenue</p>
+              <p className="text-xl font-semibold">{formatCurrency(total)}</p>
             </div>
           </div>
         </div>
@@ -24,7 +29,7 @@ const RevExp = ({ ...props }: HTMLAttributes<HTMLDivElement>) => {
             </div>
             <div className="mt-2">
               <p>Cash out</p>
-              <p className="text-xl font-semibold">- 500.000 Đ</p>
+              <p className="text-xl font-semibold">{formatCurrency(cashOut)}</p>
             </div>
           </div>
         </div>

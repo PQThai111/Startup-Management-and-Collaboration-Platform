@@ -34,7 +34,7 @@ const projectApi = {
     courseId?: string;
     semesterId?: string;
   }) {
-    return http.get<SuccessResponse<Project[]>>(
+    return http.get<SuccessResponse<{ data: Project[] }>>(
       `${URL}/CurrentUserProject?${courseId && `courseId=${courseId}`}&${semesterId && `semesterId=${semesterId}`}`,
     );
   },

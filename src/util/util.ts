@@ -6,6 +6,7 @@ import {
   createCalendar,
 } from '@internationalized/date';
 import { StartupCategory } from '../constant/startup_category';
+import { Financial } from '../types/financial.type';
 
 export function convertToFormData(obj: any): FormData {
   const formData = new FormData();
@@ -47,6 +48,17 @@ export const convertObjectToParam = (obj: any): Record<string, string> => {
   return Object.entries(obj).filter(
     ([_, value]) => value !== undefined,
   ) as unknown as Record<string, string>;
+};
+
+export const enumToObjectArray = <T extends object>(
+  e: T,
+): { label: string; value: string }[] => {
+  return Object.keys(e)
+    .filter((key) => isNaN(Number(key)))
+    .map((key) => ({
+      label: key,
+      value: e[key as keyof T] as string,
+    }));
 };
 
 export function getWeekOfMonth(date: Date) {
@@ -233,4 +245,72 @@ export function changeIsoToValueDate2(isoDate: string): DateValue {
     console.error('Error parsing date:', error);
     throw error;
   }
+}
+
+export function formatCurrency(amount: number): string {
+  return amount.toLocaleString('vi-VN') + ' đ';
+}
+
+export function getMonthName(date: Date): string {
+  return date.toLocaleString('en-US', { month: 'long' });
+}
+
+export interface MonthlySummary {
+  month: string;
+  deposit: number;
+  withdraw: number;
+}
+
+function generateMonthsBetween(startDate: Date, endDate: Date): string[] {
+  const months: string[] = [];
+  const current = new Date(startDate);
+
+  while (current <= endDate) {
+    months.push(current.toLocaleString('en-US', { month: 'long' }));
+    current.setMonth(current.getMonth() + 1); // Chuyển sang tháng tiếp theo
+  }
+
+  return months;
+}
+
+export function convertTransactions(
+  transactions: Financial[],
+  startDate: string,
+  endDate: string,
+): MonthlySummary[] {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  // Bước 1: Tạo danh sách tất cả các tháng trong khoảng
+  const allMonths = generateMonthsBetween(start, end);
+
+  // Bước 2: Nhóm giao dịch theo tháng
+  const summaryMap = new Map<string, MonthlySummary>();
+
+  transactions.forEach((transaction) => {
+    const date = new Date(transaction.transactionDate);
+    const monthYear = date.toLocaleString('en-US', {
+      month: 'long',
+    });
+    const isDeposit = transaction.amount > 0;
+
+    if (!summaryMap.has(monthYear)) {
+      summaryMap.set(monthYear, { month: monthYear, deposit: 0, withdraw: 0 });
+    }
+
+    const summary = summaryMap.get(monthYear)!;
+    if (isDeposit) {
+      summary.deposit += transaction.amount;
+    } else {
+      summary.withdraw += Math.abs(transaction.amount);
+    }
+  });
+
+  // Bước 3: Điền các tháng không có giao dịch
+  return allMonths.map((month) => {
+    if (summaryMap.has(month)) {
+      return summaryMap.get(month)!;
+    }
+    return { month, deposit: 0, withdraw: 0 };
+  });
 }

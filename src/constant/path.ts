@@ -19,9 +19,10 @@ const path = {
   manager_event_management: 'event',
   manager_approval_management: 'approval',
   mentor_schedule_management: 'schedule',
-  admin_account_management: '/admin',
-  admin_dashboard: 'dashboard',
+  admin_account_management: 'accounts',
+  admin: '/admin',
   taskManagement: 'taskManagement',
   projectTaskDetail: ':projectTaskId',
+  profile_skills: 'skills',
 };
 export default path;

@@ -1,4 +1,9 @@
+import { useContext } from 'react';
+import { ProfileContext } from '../../../context/profile.context';
+
 export default function ProfileInformation() {
+  const student = useContext(ProfileContext).profile;
+
   return (
     <div className="p-5">
       <div className="mb-3 border-b-2 pb-2 text-2xl font-semibold">
@@ -14,19 +19,19 @@ export default function ProfileInformation() {
         </div>
         <div className="col-span-10 grid h-full grid-rows-12 px-3">
           <div className="row-span-2 mb-3 w-[80%] border bg-white p-1">
-            ThaiPQse151267@fpt.edu.vn
+            {student?.email}
           </div>
           <div className="row-span-2 mb-3 w-[80%] border bg-white p-1">
-            ThaiPQse151267@fpt.edu.vn
+            {student?.studentName}
           </div>
           <div className="row-span-2 mb-3 w-[80%] border bg-white p-1">
-            ThaiPQse151267@fpt.edu.vn
+            {student?.studentCode}
           </div>
           <div className="row-span-2 mb-3 w-[80%] border bg-white p-1">
-            ThaiPQse151267@fpt.edu.vn
+            {student?.studentDepartment}
           </div>
           <div className="row-span-2 mb-3 w-[80%] border bg-white p-1">
-            ThaiPQse151267@fpt.edu.vn
+            {student?.phoneNumber}
           </div>
         </div>
       </div>
