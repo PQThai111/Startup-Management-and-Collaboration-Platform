@@ -34,6 +34,7 @@ import CalendarMentor from '../pages/CalendarMentor';
 import CalendarLecturer from '../pages/CalendarLecturer';
 import Inbox from '../pages/Inbox/Inbox';
 import ProfileSkills from '../pages/ProfilePage/component/ProfileSkills';
+import Admin_semester_course from '../pages/Admin_semester_course';
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext);
@@ -183,6 +184,10 @@ const authenticatedRoutes: RouteObject[] = [
       {
         element: <Admin_account_management />,
         path: path.admin_account_management,
+      },
+      {
+        element: <Admin_semester_course />,
+        path: path.admin_semester_course,
       },
     ],
   },

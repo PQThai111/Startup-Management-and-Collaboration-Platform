@@ -90,6 +90,31 @@ const projectApi = {
       }).toString()}`,
     );
   },
+
+  getProjectDashboard(data: { courseId?: string; semesterId?: string }) {
+    return http.get<
+      SuccessResponse<{
+        TotalProjects: number;
+        Healthcare: number;
+        Fintech: number;
+        SharingEconomy: number;
+        Edtech: number;
+        ECommerce: number;
+        SaaS: number;
+        GreenTech: number;
+        AIAndMachineLearning: number;
+        Proptech: number;
+        Agtech: number;
+        LogisticsAndSupplyChain: number;
+        EntertainmentAndMedia: number;
+        Mobility: number;
+        Cybersecurity: number;
+        Others: number;
+      }>
+    >(`${URL}/dashboard`, {
+      params: data,
+    });
+  },
 };
 
 export default projectApi;

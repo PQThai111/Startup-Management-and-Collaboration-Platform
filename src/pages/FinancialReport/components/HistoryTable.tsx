@@ -31,14 +31,7 @@ const HistoryTable = ({ className, history, ...props }: HistoryTableProps) => {
         </TableHeader>
         <TableBody>
           {history.map(
-            ({
-              amount,
-              description,
-              id,
-              // imageUrl,
-              status,
-              transactionDate,
-            }) => (
+            ({ amount, description, id, status, transactionDate }) => (
               <TableRow key={id}>
                 <TableCell className="font-medium">{description}</TableCell>
                 <TableCell>{formatCurrency(amount)}</TableCell>

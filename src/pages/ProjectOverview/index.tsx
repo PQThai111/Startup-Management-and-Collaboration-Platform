@@ -2,7 +2,6 @@ import ContentContainer from '../ProjectDetail/components/ContentContainer';
 import Overview from './components/Overview';
 import Milestone from './components/Milestone';
 import Members from './components/Members';
-import StartupIdea from './components/StartupIdea';
 import MentorLecturer from './components/MentorLecturer';
 import { useContext, useEffect, useState } from 'react';
 import { ProjectContext } from '../../context/project.context';
@@ -118,7 +117,7 @@ const ProjectOverview = () => {
       onSuccess: (data) => {
         setRequestId(
           data.data.data.data.find((item) => item.receiverId === profile?.id)
-            ?.id || '',
+            ?.teamRequestId || '',
         );
       },
       onError: (error) => {
@@ -208,6 +207,8 @@ const ProjectOverview = () => {
     updateStatusProjectMutation.mutate({ id: project!.id, data: formData });
     // createRequestMutation.mutate(formData);
   });
+
+  console.log(requestId);
 
   return (
     <ContentContainer className="h-svh px-10">
@@ -326,13 +327,13 @@ const ProjectOverview = () => {
               isMember={isMember}
             />
           </div>
-          <div className="col-span-2 flex h-full flex-col justify-between">
+          <div className="col-span-2 h-full justify-between">
             <Overview
               project={project}
               className="rounded-xl"
               isMember={isMember}
             />
-            <StartupIdea project={project} className="h-full rounded-xl" />
+            {/* <StartupIdea project={project} className="h-full rounded-xl" /> */}
           </div>
           <div className="flex h-full flex-col justify-between">
             <MentorLecturer project={project} className="h-fit rounded-xl" />

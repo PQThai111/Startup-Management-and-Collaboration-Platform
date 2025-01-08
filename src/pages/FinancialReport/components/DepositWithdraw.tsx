@@ -12,14 +12,12 @@ import {
 } from '../../../components/ui/dialog';
 import { Label } from '../../../components/ui/label';
 import { toast } from 'react-toastify';
-import { DateTimePicker } from '../../../common/components/DateTimePicker';
 import financialApi, { AddFinancialRequest } from '../../../apis/financial.api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const DepositWithdraw = ({ projectId }: { projectId: string }) => {
   const [open, setOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
-  const [date, setDate] = useState<Date>();
   const [dialogState, setDialogState] = useState<'Deposit' | 'Withdraw'>(
     'Deposit',
   );
@@ -40,10 +38,6 @@ const DepositWithdraw = ({ projectId }: { projectId: string }) => {
       toast.error('Please fill in the amount');
       return;
     }
-    if (!date) {
-      toast.error('Please fill in the transaction date');
-      return;
-    }
     if (!file) {
       toast.error('Please select an image');
       return;
@@ -53,7 +47,7 @@ const DepositWithdraw = ({ projectId }: { projectId: string }) => {
       {
         Description,
         Amount: dialogState === 'Deposit' ? Amount : -Amount,
-        TransactionDate: date?.toISOString() as string,
+        TransactionDate: Date.now().toString(),
         ImageFile: file as File,
         ProjectId: projectId,
       },
@@ -65,7 +59,6 @@ const DepositWithdraw = ({ projectId }: { projectId: string }) => {
           });
           setDescription('');
           setAmount(0);
-          setDate(undefined);
           setFile(undefined);
           setOpen(false);
         },
@@ -123,18 +116,6 @@ const DepositWithdraw = ({ projectId }: { projectId: string }) => {
               type="number"
               className="col-span-3"
             />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="TransactionDate" className="text-right">
-              Date
-            </Label>
-            <div className="col-span-3">
-              <DateTimePicker
-                showTime={false}
-                value={date}
-                onChange={setDate}
-              />
-            </div>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="ImageFile" className="text-right">

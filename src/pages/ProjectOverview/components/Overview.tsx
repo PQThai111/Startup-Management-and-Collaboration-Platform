@@ -24,7 +24,6 @@ import { Button } from '../../../components/ui/button';
 import { useMutation } from '@tanstack/react-query';
 import projectApi from '../../../apis/project.api';
 import { toast } from 'react-toastify';
-import { getEnumObjects } from '../../../util/util';
 import { useNavigate } from 'react-router-dom';
 import {
   AlertDialog,
@@ -37,6 +36,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../../../components/ui/alert-dialog';
+import { StartupCategory } from '../../../constant/startup_category';
 
 interface EditOverviewProps {
   projectCode: string;
@@ -78,7 +78,6 @@ const Overview = ({
     setValue('projectCode', projectDetail.projectCode);
     setValue('projectName', projectDetail.projectName);
     setValue('projectDetail', projectDetail.projectDetail);
-    setValue('category', projectDetail.category);
     setValue('memberWanted', projectDetail.memberWanted);
     setValue('memberWantedStatus', projectDetail.memberWantedStatus.toString());
   };
@@ -138,7 +137,7 @@ const Overview = ({
 
   return (
     <div
-      className={`mb-3 w-full justify-between rounded-xl bg-[#EEF2F5] px-3 py-3 ${className}`}
+      className={`mb-3 h-full w-full justify-between rounded-xl bg-[#EEF2F5] px-3 py-3 ${className}`}
       {...props}
     >
       <AlertDialog>
@@ -191,30 +190,6 @@ const Overview = ({
                   {...register('projectCode')}
                   defaultValue={projectDetail.projectCode}
                 />
-              </div>
-              <div className="col-span-2 flex items-center gap-2">
-                <p className="font-semibold">Category:</p>
-                <Select
-                  {...register('category')}
-                  onValueChange={(value) => setValue('category', value)}
-                  defaultValue={projectDetail.category.toString()}
-                >
-                  <SelectTrigger className="w-60 bg-white">
-                    <SelectValue
-                      className="bg-white"
-                      placeholder="Select Category"
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {getEnumObjects().map(({ key, label }) => (
-                        <SelectItem key={key} value={key.toString()}>
-                          {label}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
               </div>
             </div>
             <div className="mt-2 flex gap-2">
@@ -289,10 +264,6 @@ const Overview = ({
                 <p className="font-semibold">Code: </p>
                 {projectDetail.projectCode}
               </div>
-              <div className="col-span-2 flex gap-2">
-                <p className="font-semibold">Category: </p>
-                {projectDetail.category}
-              </div>
             </div>
             <div className="my-2 flex gap-2">
               <p className="font-semibold">Detail:</p>
@@ -326,6 +297,23 @@ const Overview = ({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <div className="mt-10">
+        <p className="text-xl font-bold">Startup Idea</p>
+        <div className="">
+          <div className="flex gap-2">
+            <p className="font-semibold">Title:</p>{' '}
+            {project.team.startupIdea.title}
+          </div>
+          <div className="flex gap-2">
+            <p className="font-semibold">Description:</p>{' '}
+            {project.team.startupIdea.description}
+          </div>
+          <div className="flex gap-2">
+            <p className="font-semibold">Category:</p>{' '}
+            {StartupCategory[project.team.startupIdea.category]}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

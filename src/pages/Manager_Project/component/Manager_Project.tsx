@@ -126,7 +126,7 @@ export default function Manager_Project() {
         )}
         {profile?.role !== 1 && currentProjectData && (
           <>
-            {currentProjectData.data.data.data.map((project) => (
+            {currentProjectData?.data?.data?.data.map((project) => (
               <Manager_Project_Item key={project.id} projectProps={project} />
             ))}
           </>

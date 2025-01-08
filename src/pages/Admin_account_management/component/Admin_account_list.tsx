@@ -10,7 +10,6 @@ import {
   TableRow,
 } from '../../../components/ui/table';
 import { AccountRole, AccountStatus } from '../../../constant/account';
-
 import {
   Pagination,
   PaginationContent,
@@ -35,7 +34,7 @@ export default function Admin_account_list() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedRole, setSelectedRole] = useState<string>('');
   const { data: account, isLoading } = useQuery({
-    queryKey: ['account', { page: currentPage, roles: selectedRole }],
+    queryKey: ['p', { page: currentPage, roles: selectedRole }],
     queryFn: () =>
       accountApi.getAllAccountsWithPagination({
         limit: 10,
@@ -60,11 +59,14 @@ export default function Admin_account_list() {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Role</SelectLabel>
-                {enumToObjectArray(AccountRole).map((item) => (
-                  <SelectItem key={item.value} value={item.label}>
-                    {item.label}
-                  </SelectItem>
-                ))}
+                {enumToObjectArray(AccountRole).map((item) => {
+                  if (item.label !== 'Admin')
+                    return (
+                      <SelectItem key={item.value} value={item.label}>
+                        {item.label}
+                      </SelectItem>
+                    );
+                })}
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -116,7 +118,7 @@ export default function Admin_account_list() {
                 <TableCell className="">{AccountRole[item.role]}</TableCell>
                 <TableCell className="">{AccountStatus[item.status]}</TableCell>
                 <TableCell className="">
-                  <Edit key={item.id} />
+                  <Edit key={item.id} account={item} />
                 </TableCell>
               </TableRow>
             ))

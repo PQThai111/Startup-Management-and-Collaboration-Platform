@@ -39,7 +39,7 @@ const Header = () => {
   useEffect(() => {
     getCurrentProject.mutate(undefined, {
       onSuccess: (projectData) => {
-        setProject(projectData.data.data[0]);
+        setProject(projectData.data.data.data[0]);
       },
     });
   }, []);

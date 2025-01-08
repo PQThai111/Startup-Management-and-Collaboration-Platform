@@ -20,6 +20,7 @@ const path = {
   manager_approval_management: 'approval',
   mentor_schedule_management: 'schedule',
   admin_account_management: 'accounts',
+  admin_semester_course: 'semester-course',
   admin: '/admin',
   taskManagement: 'taskManagement',
   projectTaskDetail: ':projectTaskId',

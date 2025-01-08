@@ -43,18 +43,17 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const FinancialReport = () => {
-  const [currentPage] = useState<number>(1);
   const { project } = useProjectContext();
   const [chartData, setChartData] = useState<MonthlySummary[]>();
   const [semester, setSemester] = useState<Semester>();
 
   const projectId = useLocation().pathname.split('/')[2];
   const { data: financial } = useQuery({
-    queryKey: ['financial', { page: currentPage, projectId }],
+    queryKey: ['financial', { page: 1, projectId }],
     queryFn: () =>
       financialApi.getFinancials({
-        PageSize: 10,
-        PageNumber: currentPage,
+        PageSize: 100,
+        PageNumber: 1,
         ProjectId: projectId,
       }),
   });

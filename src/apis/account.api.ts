@@ -19,7 +19,9 @@ const accountApi = {
     page: number;
     limit: number;
   }) {
-    const params = roles ? { roles, page, limit } : { page, limit };
+    const params = roles
+      ? { roles, PageNumber: page, PageSize: limit }
+      : { PageNumber: page, PageSize: limit };
     return http.get<
       SuccessResponse<{
         data: Account[];
@@ -36,6 +38,19 @@ const accountApi = {
 
   getAccount(id: string) {
     return http.get<SuccessResponse<Account>>(`${URL}/${id}`);
+  },
+
+  getAccountDashboard(data: { courseId?: string; semesterId?: string }) {
+    return http.get<
+      SuccessResponse<{
+        total_account: number;
+        student: number;
+        lecturer: number;
+        mentor: number;
+      }>
+    >(`${URL}/Dashboard`, {
+      params: data,
+    });
   },
 };
 

@@ -18,7 +18,9 @@ const RevExp = ({ total, cashOut, ...props }: RevExpProps) => {
             </div>
             <div className="mt-2">
               <p>Total Revenue</p>
-              <p className="text-xl font-semibold">{formatCurrency(total)}</p>
+              <p className="text-xl font-semibold">
+                {formatCurrency(total - cashOut)}
+              </p>
             </div>
           </div>
         </div>
