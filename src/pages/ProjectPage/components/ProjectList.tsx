@@ -1,16 +1,6 @@
 import ProjectItem from './ProjectItem';
 import { useQuery } from '@tanstack/react-query';
 import projectApi from '../../../apis/project.api';
-<<<<<<< HEAD
-import AsideFilter from '../../EventPage/components/AsideFilter';
-import Pagination from '../../../components/pagination';
-import { useEventQueryConfig } from '../../../hooks/useQueryConfig';
-import { QueryConfig as ConfigPaging } from '../../../types/event.type';
-import path from '../../../constant/path';
-import useSearchProjectStudent from '../hook/useSearchEvent';
-import { useContext } from 'react';
-import { AppContext } from '../../../context/app.context';
-=======
 import qs from 'qs';
 import Pagination from '../../../components/pagination';
 import { useProjectQueryConfig } from '../../../hooks/useQueryConfig';
@@ -20,39 +10,23 @@ import useSearchProjectStudent from '../hook/useSearchEvent';
 // import { useContext } from 'react';
 // import { AppContext } from '../../../context/app.context';
 import AsideFilter from './AsideFilter';
->>>>>>> e31efde (Staff manage main)
 
 export type QueryConfig = {
   [key in keyof ConfigPaging]: string;
 };
 
 export default function ProjectList() {
-<<<<<<< HEAD
-  const { profile } = useContext(AppContext);
-  const queryConfig = useEventQueryConfig();
-=======
   // const { profile } = useContext(AppContext);
   const queryConfig = useProjectQueryConfig();
->>>>>>> e31efde (Staff manage main)
   const { register, onSubmitSearch } = useSearchProjectStudent();
 
   const { data: projectsData, isLoading } = useQuery({
     queryKey: ['projects', queryConfig],
     queryFn: () => {
-<<<<<<< HEAD
-      return projectApi.getProjects({
-        ...queryConfig,
-        courseId: profile?.currentCourseId,
-      } as QueryConfig & {
-        courseId?: string;
-        semesterId?: string;
-      });
-=======
       const queryString = qs.stringify(queryConfig, { arrayFormat: 'repeat' });
       return projectApi.getProjects2(queryString);
       // ,
       //   courseId: profile?.currentCourseId,
->>>>>>> e31efde (Staff manage main)
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,

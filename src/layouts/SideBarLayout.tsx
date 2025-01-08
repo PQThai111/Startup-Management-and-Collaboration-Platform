@@ -5,11 +5,7 @@ import Logo from '../common/components/Logo';
 import IconWithNum from '../common/components/IconWithNum';
 import { Avatar, AvatarImage } from '../components/ui/avatar';
 import { VscMail } from 'react-icons/vsc';
-<<<<<<< HEAD
-import { IoMdNotificationsOutline } from 'react-icons/io';
-=======
 // import { IoMdNotificationsOutline } from 'react-icons/io';
->>>>>>> e31efde (Staff manage main)
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -222,11 +218,7 @@ export default function SideBarLayout() {
           <div className="col-span-5 pl-20"></div>
           <div className="col-span-4 flex items-center justify-end gap-5">
             <IconWithNum Icon={VscMail} number={0} />
-<<<<<<< HEAD
-            <IconWithNum Icon={IoMdNotificationsOutline} number={1} />
-=======
             {/* <IconWithNum Icon={IoMdNotificationsOutline} number={1} /> */}
->>>>>>> e31efde (Staff manage main)
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Avatar>
@@ -244,17 +236,11 @@ export default function SideBarLayout() {
                   <DropdownMenuItem>
                     <a href="/profile">Profile</a>
                   </DropdownMenuItem>
-<<<<<<< HEAD
-                  <DropdownMenuItem>
-                    <a href="/projectManagement">My Projects</a>
-                  </DropdownMenuItem>
-=======
                   {profile?.role == 3 && (
                     <DropdownMenuItem>
                       <a href="/projectManagement">My Projects</a>
                     </DropdownMenuItem>
                   )}
->>>>>>> e31efde (Staff manage main)
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>

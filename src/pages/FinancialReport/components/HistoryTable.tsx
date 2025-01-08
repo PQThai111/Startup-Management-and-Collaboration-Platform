@@ -35,11 +35,7 @@ const HistoryTable = ({ className, history, ...props }: HistoryTableProps) => {
               amount,
               description,
               id,
-<<<<<<< HEAD
-              imageUrl,
-=======
               // imageUrl,
->>>>>>> e31efde (Staff manage main)
               status,
               transactionDate,
             }) => (

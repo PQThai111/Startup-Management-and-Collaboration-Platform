@@ -16,10 +16,7 @@ export default function ProjectItem({
     semesterAndCourse,
     coverImage,
     id,
-<<<<<<< HEAD
-=======
     memberWantedStatus,
->>>>>>> e31efde (Staff manage main)
   } = projectProps;
   const nav = useNavigate();
 
@@ -62,15 +59,6 @@ export default function ProjectItem({
       <p className="truncate text-ellipsis text-justify text-[#686868]">
         <span className="font-bold">Mo ta</span>: {projectDetail}
       </p>
-<<<<<<< HEAD
-      <p className="text-ellipsis text-justify text-[#686868]">
-        <span className="font-bold">Recruitment requirements</span>:{' '}
-        {memberWanted}
-      </p>
-      <div className="flex justify-end text-orange-500">
-        <ApplyButton teamId={team.teamId} />
-      </div>
-=======
       {memberWantedStatus && (
         <div>
           {' '}
@@ -83,7 +71,6 @@ export default function ProjectItem({
           </div>
         </div>
       )}
->>>>>>> e31efde (Staff manage main)
     </div>
   );
 }

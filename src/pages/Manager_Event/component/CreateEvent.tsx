@@ -173,15 +173,11 @@ export default function CreateEvent({ handleClose, refetchEvents }: Props) {
                   className="mb-2 h-[30px] w-[50%] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   placeholder=" English name of project"
                   {...field}
-<<<<<<< HEAD
-                  onChange={field.onChange}
-=======
                   onChange={(e) => {
                     const value = e.target.value;
                     console.log('Value entered:', value); // Debugging line
                     field.onChange(value); // Make sure spaces are passed here
                   }}
->>>>>>> e31efde (Staff manage main)
                   value={field.value}
                 />
               )}

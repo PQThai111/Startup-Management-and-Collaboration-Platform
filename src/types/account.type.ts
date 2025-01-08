@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import { AccountRole, AccountStatus } from '../constant/account';
-
-export interface Account {
-  email: string;
-  password: string;
-  role: AccountRole;
-=======
 import { AccountStatus } from '../constant/account';
 
 export interface Account {
@@ -13,7 +5,6 @@ export interface Account {
   email: string;
   password: string;
   role: number;
->>>>>>> e31efde (Staff manage main)
   avatarUrl: any;
   lecturer?: Lecturers;
   student?: Student;
@@ -24,10 +15,6 @@ export interface Account {
   financialTransactions: any;
   refreshToken: string;
   refreshTokenExpires: string;
-<<<<<<< HEAD
-  id: string;
-=======
->>>>>>> e31efde (Staff manage main)
   status: AccountStatus;
   isDeleted: boolean;
   lastUpdateDate: string;

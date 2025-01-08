@@ -36,10 +36,7 @@ export const projectSchema = yup.object({
   EventTypes: yup.array().of(yup.string().required()).required(),
   IsMandatory: yup.string().trim().required(),
   ProjectStatus: yup.number().required(),
-<<<<<<< HEAD
-=======
   projectCategories: yup.array().of(yup.string().required()).required(),
->>>>>>> e31efde (Staff manage main)
 });
 
 export const requestSchema = yup.object({
@@ -71,16 +68,10 @@ export const mentorTimeBookingSchema = yup.object({
 export const eventSchema = yup.object({
   Title: yup
     .string()
-<<<<<<< HEAD
-    .required()
-    .min(5, 'Can not under 5 characters')
-    .max(200, 'Can not exceed 160 characters'),
-=======
     .required('Title is required')
     .matches(/^[\w\s]+$/, 'Only alphanumeric and spaces are allowed') // Allow spaces
     .min(5, 'Cannot be under 5 characters')
     .max(200, 'Cannot exceed 160 characters'),
->>>>>>> e31efde (Staff manage main)
   Description: yup
     .string()
     .required()

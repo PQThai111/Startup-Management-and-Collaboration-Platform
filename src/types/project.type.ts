@@ -47,8 +47,5 @@ export interface ProjectConfig {
   PageSize?: number | string;
   semesterId?: string;
   courseId?: string;
-<<<<<<< HEAD
-=======
   projectCategories?: string[];
->>>>>>> e31efde (Staff manage main)
 }

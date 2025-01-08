@@ -41,10 +41,7 @@ export default function Manager_Project_Item({
   } = projectProps;
   const { profile } = useContext(AppContext);
   const lecturer = mentorsAndLecturers.find((x) => x.roleType == 'Lecturer')!;
-<<<<<<< HEAD
-=======
   const mentor = mentorsAndLecturers.find((x) => x.roleType == 'Mentor')!;
->>>>>>> e31efde (Staff manage main)
   const leader = team.members.find((x) => x.isLeader == true)!;
   const navigate = useNavigate();
 
@@ -82,11 +79,7 @@ export default function Manager_Project_Item({
 
   return (
     <div className="mb-2 grid h-11 grid-cols-12 rounded-md border border-slate-300 bg-white">
-<<<<<<< HEAD
-      <p className="col-span-3 mr-4 flex items-center truncate pl-2">
-=======
       <p className="col-span-2 mr-4 flex items-center truncate pl-2">
->>>>>>> e31efde (Staff manage main)
         {projectName ?? 'Empty...'}
       </p>
       <div className="col-span-2 mr-3 flex items-center truncate pl-2">
@@ -95,12 +88,9 @@ export default function Manager_Project_Item({
       <div className="col-span-2 mr-3 flex items-center truncate pl-2">
         {lecturer.name ?? 'Empty...'}
       </div>
-<<<<<<< HEAD
-=======
       <div className="col-span-2 mr-3 flex items-center truncate pl-2">
         {mentor?.name ?? 'Empty...'}
       </div>
->>>>>>> e31efde (Staff manage main)
       <div className="col-span-1 flex items-center justify-center">
         <div className="rounded-sm bg-neutral-400 px-3 py-1 text-white">
           {semesterAndCourse.course}
@@ -121,11 +111,7 @@ export default function Manager_Project_Item({
           {status}
         </div>
       </div>
-<<<<<<< HEAD
-      <div className="col-span-2 flex items-center justify-center">
-=======
       <div className="col-span-1 flex items-center justify-center">
->>>>>>> e31efde (Staff manage main)
         {profile?.role != 1 ? (
           <Button
             className="bg-slate-500"

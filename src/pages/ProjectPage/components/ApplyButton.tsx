@@ -45,17 +45,11 @@ const ApplyButton = ({ teamId }: { teamId: string }) => {
           setIsOpen(false);
           toast.success('Apply successfully');
         },
-<<<<<<< HEAD
-        onError: (_) => {
-          // toast.error(error.response.data.errors[0]);
-          toast.error('Apply fail !');
-=======
         onError: (error) => {
           toast.error((error as any).response.data.errors[0], {
             autoClose: 1000,
           });
           // toast.error('Apply fail !');
->>>>>>> e31efde (Staff manage main)
         },
       },
     );

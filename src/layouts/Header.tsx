@@ -100,17 +100,6 @@ const Header = () => {
       </div>
       {profile ? (
         <div className="col-span-4 flex items-center justify-end gap-5">
-<<<<<<< HEAD
-          <Link
-            to={path.createProject}
-            className="h-9 w-[50%] truncate rounded-3xl border-2 border-main px-2 py-1 text-center text-[110%] font-semibold text-main"
-          >
-            Create A Project
-          </Link>
-          <Invitation />
-          {project?.team.teamId && (
-            <Notification teamId={project?.team.teamId} />
-=======
           {profile?.role == 3 && (
             <>
               {' '}
@@ -125,18 +114,13 @@ const Header = () => {
                 <Notification teamId={project?.team.teamId} />
               )}
             </>
->>>>>>> e31efde (Staff manage main)
           )}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar>
                 <AvatarImage
-<<<<<<< HEAD
-                  className="border"
-=======
                   className="border border-black"
->>>>>>> e31efde (Staff manage main)
                   src={
                     profile.avatarUrl ||
                     'https://fastly.picsum.photos/id/367/200/300.jpg?hmac=9v6fvZlygxFPleXOePw645QmRd9ytp91VGVQaolJKIk'
@@ -150,17 +134,11 @@ const Header = () => {
                 <DropdownMenuItem>
                   <a href="/profile">Profile</a>
                 </DropdownMenuItem>
-<<<<<<< HEAD
-                <DropdownMenuItem>
-                  <a href="/projectManagement">My Projects</a>
-                </DropdownMenuItem>
-=======
                 {profile?.role == 3 && (
                   <DropdownMenuItem>
                     <a href="/projectManagement">My Projects</a>
                   </DropdownMenuItem>
                 )}
->>>>>>> e31efde (Staff manage main)
                 <DropdownMenuItem>
                   <a href="/inbox">Inbox</a>
                 </DropdownMenuItem>

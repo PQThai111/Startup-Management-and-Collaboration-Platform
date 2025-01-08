@@ -154,10 +154,7 @@ export default function CreateProject() {
               )}
             />
           </div>
-<<<<<<< HEAD
-=======
 
->>>>>>> e31efde (Staff manage main)
           <div className="my-2 grid grid-cols-10 border-b-2 py-4">
             <p className="col-span-10 font-semibold">Project domain : </p>
             {[

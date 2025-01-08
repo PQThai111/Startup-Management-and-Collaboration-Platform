@@ -1,21 +1,14 @@
-<<<<<<< HEAD
-import { QueryConfig, EventList } from '../types/event.type';
-=======
 import {
   QueryConfig,
   EventList,
   Event,
   AttendEventList,
 } from '../types/event.type';
->>>>>>> e31efde (Staff manage main)
 import { SuccessResponse } from '../types/utils.type';
 import http from '../util/http';
 
 const URL = 'Events';
-<<<<<<< HEAD
-=======
 const URL1 = 'StudentAttendance';
->>>>>>> e31efde (Staff manage main)
 const eventApi = {
   createEvent(body: FormData) {
     return http.post<SuccessResponse<any>>(`${URL}/create`, body, {
@@ -45,8 +38,6 @@ const eventApi = {
   getEvents2(queryString: string) {
     return http.get<SuccessResponse<EventList>>(`${URL}?${queryString}`);
   },
-<<<<<<< HEAD
-=======
   getStudentAttendance(eventId: string) {
     return http.get<SuccessResponse<AttendEventList>>(
       `${URL1}?EventId=${eventId}`,
@@ -69,7 +60,6 @@ const eventApi = {
   }) {
     return http.put<SuccessResponse<any>>(`${URL1}/${id}`, body);
   },
->>>>>>> e31efde (Staff manage main)
   getEventDetail(id: string) {
     return http.get<SuccessResponse<Event>>(`${URL}/${id}`);
   },

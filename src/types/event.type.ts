@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import { Student } from './student.type';
 
 export interface AttendEvent {
@@ -19,7 +17,6 @@ export interface AttendEventList {
   };
 }
 
->>>>>>> e31efde (Staff manage main)
 export interface Event {
   id: string;
   title: string;

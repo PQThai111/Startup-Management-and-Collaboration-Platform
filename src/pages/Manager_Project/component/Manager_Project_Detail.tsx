@@ -12,11 +12,7 @@ import { useContext, useState } from 'react';
 import { Student } from '../../../types/student.type';
 import Pagination from '../../../components/pagination';
 import path from '../../../constant/path';
-<<<<<<< HEAD
-import useSearchStudent from './hook/useSearchStudent';
-=======
 // import useSearchStudent from './hook/useSearchStudent';
->>>>>>> e31efde (Staff manage main)
 import teamMemberApis from '../../../apis/team-member.api';
 import { toast } from 'react-toastify';
 import { AppContext } from '../../../context/app.context';
@@ -58,11 +54,7 @@ function Manager_Project_Detail({
   const { profile } = useContext(AppContext);
   const [student, setStudent] = useState<Student | null>(null);
   const queryConfig = useStudentQueryConfig();
-<<<<<<< HEAD
-  const { register, onSubmitSearch } = useSearchStudent();
-=======
   // const { register, onSubmitSearch } = useSearchStudent();
->>>>>>> e31efde (Staff manage main)
 
   const { data: studentData, refetch } = useQuery({
     queryKey: ['students', queryConfig],
@@ -335,15 +327,9 @@ function Manager_Project_Detail({
                 }
               </div>
             </div>
-<<<<<<< HEAD
-            <div className="flex items-center justify-center">
-              <div className="w-1/4 justify-start text-lg font-semibold text-gray-700">
-                Mentors
-=======
             <div className="flex items-center justify-between">
               <div className="h-full w-1/4 text-lg font-semibold text-gray-700">
                 <div className="relative -top-52">Mentors</div>
->>>>>>> e31efde (Staff manage main)
               </div>
               <div className="w-3/4">
                 <div className="border-b border-b-slate-300 pb-2">
@@ -449,11 +435,7 @@ function Manager_Project_Detail({
                 </div>
               </div>
               <div className="w-full">
-<<<<<<< HEAD
-                <form onSubmit={onSubmitSearch}>
-=======
                 {/* <form onSubmit={onSubmitSearch}>
->>>>>>> e31efde (Staff manage main)
                   <input
                     className="mr-2 w-[80%] border border-slate-400 py-1 pl-3"
                     type="text"
@@ -466,11 +448,7 @@ function Manager_Project_Detail({
                   >
                     Find
                   </button>
-<<<<<<< HEAD
-                </form>
-=======
                 </form> */}
->>>>>>> e31efde (Staff manage main)
                 <div className="mt-3 w-full">
                   {userList &&
                     userList.map((stu) => {

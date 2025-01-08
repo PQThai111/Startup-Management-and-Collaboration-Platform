@@ -24,11 +24,7 @@ export default function Manager_Project() {
   const { data: projectsData, refetch } = useQuery({
     queryKey: ['projects', queryConfig],
     queryFn: () => {
-<<<<<<< HEAD
-      return projectApi.getProjects(queryConfig as QueryConfig);
-=======
       return projectApi.getProjects(queryConfig as ProjectConfig);
->>>>>>> e31efde (Staff manage main)
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,
@@ -90,11 +86,7 @@ export default function Manager_Project() {
       </form>
       {/* Table Header */}
       <div className="mb-4 grid h-10 grid-cols-12 rounded-md border border-slate-500 bg-slate-500 text-white">
-<<<<<<< HEAD
-        <div className="col-span-3 flex items-center border-r border-white pl-10">
-=======
         <div className="col-span-2 flex items-center border-r border-white pl-10">
->>>>>>> e31efde (Staff manage main)
           Name
         </div>
         <div className="col-span-2 flex items-center border-r border-white pl-2">
@@ -103,23 +95,16 @@ export default function Manager_Project() {
         <div className="col-span-2 flex items-center border-r border-white pl-2">
           Lecturer Name
         </div>
-<<<<<<< HEAD
-=======
         <div className="col-span-2 flex items-center border-r border-white pl-2">
           Mentor Name
         </div>
->>>>>>> e31efde (Staff manage main)
         <div className="col-span-1 flex items-center justify-center border-r border-white">
           Type
         </div>
         <div className="col-span-2 flex items-center justify-center border-r border-white">
           Status
         </div>
-<<<<<<< HEAD
-        <div className="col-span-2 flex items-center justify-center">
-=======
         <div className="col-span-1 flex items-center justify-center">
->>>>>>> e31efde (Staff manage main)
           Action
         </div>
       </div>
@@ -141,11 +126,7 @@ export default function Manager_Project() {
         )}
         {profile?.role !== 1 && currentProjectData && (
           <>
-<<<<<<< HEAD
-            {currentProjectData?.data?.data?.map((project) => (
-=======
             {currentProjectData.data.data.data.map((project) => (
->>>>>>> e31efde (Staff manage main)
               <Manager_Project_Item key={project.id} projectProps={project} />
             ))}
           </>
