@@ -13,6 +13,12 @@ const projectApi = {
       params,
     });
   },
+<<<<<<< HEAD
+=======
+  getProjects2(queryString: string) {
+    return http.get<SuccessResponse<ProjectList>>(`${URL}?${queryString}`);
+  },
+>>>>>>> e31efde (Staff manage main)
   getProjectDetail({
     id,
     orderMilestoneByStartDate = false,

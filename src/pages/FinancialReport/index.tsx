@@ -28,7 +28,11 @@ import {
   MonthlySummary,
 } from '../../util/util';
 import dayjs from 'dayjs';
+<<<<<<< HEAD
 import { Button } from '../../components/ui/button';
+=======
+
+>>>>>>> e31efde (Staff manage main)
 import DepositWithdraw from './components/DepositWithdraw';
 
 const chartConfig = {
@@ -43,7 +47,11 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const FinancialReport = () => {
+<<<<<<< HEAD
   const [currentPage, setCurrentPage] = useState<number>(1);
+=======
+  const [currentPage] = useState<number>(1);
+>>>>>>> e31efde (Staff manage main)
   const { project } = useProjectContext();
   const [chartData, setChartData] = useState<MonthlySummary[]>();
   const [semester, setSemester] = useState<Semester>();

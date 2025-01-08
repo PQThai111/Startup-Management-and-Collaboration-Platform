@@ -1,3 +1,25 @@
+<<<<<<< HEAD
+=======
+import { Student } from './student.type';
+
+export interface AttendEvent {
+  id: string;
+  note: string;
+  attendanceType: number;
+  status: number;
+  student: Student;
+}
+
+export interface AttendEventList {
+  data: AttendEvent[];
+  pagination: {
+    page: number;
+    limit: number;
+    page_size: number;
+  };
+}
+
+>>>>>>> e31efde (Staff manage main)
 export interface Event {
   id: string;
   title: string;
