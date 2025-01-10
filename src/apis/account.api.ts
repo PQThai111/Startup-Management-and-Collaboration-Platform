@@ -52,6 +52,38 @@ const accountApi = {
       params: data,
     });
   },
+
+  createStudentAccount({
+    email,
+    password,
+    studentCode,
+    studentDepartment,
+    studentName,
+    phoneNumber,
+  }: {
+    email: string;
+    password: string;
+    studentName: string;
+    studentCode: string;
+    studentDepartment: string;
+    phoneNumber: string;
+  }) {
+    return http.post(`${URL}/add-student`, {
+      email,
+      password,
+      student: {
+        studentName,
+        studentCode,
+        studentDepartment,
+        phoneNumber,
+        campus: 'HCM',
+      },
+    });
+  },
+
+  createManagerAccount(data: { email: string; password: string }) {
+    return http.post(`${URL}/add-manager`, data);
+  },
 };
 
 export default accountApi;

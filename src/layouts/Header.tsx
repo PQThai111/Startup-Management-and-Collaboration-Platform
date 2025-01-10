@@ -158,9 +158,6 @@ const Header = () => {
           >
             Login
           </Link>
-          <button className="h-9 w-24 rounded-3xl border bg-main px-2 py-1 font-semibold text-white">
-            Signup
-          </button>
         </div>
       )}
     </div>

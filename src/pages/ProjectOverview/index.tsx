@@ -35,6 +35,8 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { projectSchema, ProjectSchema } from '../../util/rules';
 import projectApi from '../../apis/project.api';
+import { AccountRole } from '../../constant/account';
+import ApplyButton from '../ProjectPage/components/ApplyButton';
 
 interface AcceptProjectForm {
   note: string;
@@ -208,8 +210,6 @@ const ProjectOverview = () => {
     // createRequestMutation.mutate(formData);
   });
 
-  console.log(requestId);
-
   return (
     <ContentContainer className="h-svh px-10">
       <div className="flex items-center justify-between gap-5">
@@ -317,6 +317,11 @@ const ProjectOverview = () => {
             </Dialog>
           </div>
         )}
+        {!isMember &&
+          requestId === '' &&
+          profile?.role === AccountRole.Student && (
+            <ApplyButton teamId={project?.team.teamId as string} />
+          )}
       </div>
       {project && (
         <div className="mt-2 grid h-[85vh] grid-cols-4 gap-4 pb-5">

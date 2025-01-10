@@ -29,12 +29,13 @@ import {
 } from '../../../components/ui/select';
 import { enumToObjectArray } from '../../../util/util';
 import Edit from './Edit';
+import AddAccount from './AddAccount';
 
 export default function Admin_account_list() {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [selectedRole, setSelectedRole] = useState<string>('');
+  const [selectedRole, setSelectedRole] = useState<string>('Student');
   const { data: account, isLoading } = useQuery({
-    queryKey: ['p', { page: currentPage, roles: selectedRole }],
+    queryKey: ['accountList', { page: currentPage, roles: selectedRole }],
     queryFn: () =>
       accountApi.getAllAccountsWithPagination({
         limit: 10,
@@ -51,8 +52,9 @@ export default function Admin_account_list() {
     <div className="pb-5">
       <div className="flex items-center justify-between">
         <p className="text-2xl font-semibold">ALL ACCOUNTS</p>
-        <div>
-          <Select onValueChange={setSelectedRole}>
+        <div className="flex gap-5">
+          <AddAccount />
+          <Select defaultValue="Student" onValueChange={setSelectedRole}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select Role" />
             </SelectTrigger>

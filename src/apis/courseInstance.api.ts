@@ -8,14 +8,18 @@ const courseInstanceApi = {
     return http.post<SuccessResponse<CourseInstance>>(`${URL}`, data);
   },
 
-  addAccountToCourseInstance(data: {
+  addAccountToCourseInstance({
+    accountId,
+    semesterId,
+    courseId,
+  }: {
     accountId: string;
-    courseInstanceId: string;
+    courseId: string;
+    semesterId: string;
   }) {
-    return http.post(
-      `${URL}/${data.courseInstanceId}/AccountInCourseInstance`,
-      { id: data.accountId },
-    );
+    return http.post(`${URL}/AccountInCourseInstance`, [accountId], {
+      params: { semesterId, courseId },
+    });
   },
 };
 

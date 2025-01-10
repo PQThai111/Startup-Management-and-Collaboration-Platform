@@ -5,7 +5,7 @@ import Input from '../components/Input';
 import { schema, Schema } from '../util/rules';
 import authApi from '../apis/auth.api';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import path from '../constant/path';
 import { useContext } from 'react';
 import { AppContext } from '../context/app.context';
@@ -70,7 +70,7 @@ const Login = (): JSX.Element => {
   return (
     <>
       <div className="container7">
-        <div className="mx-auto my-9 h-[630px] w-[600px] bg-[#013C5A] p-5 px-14">
+        <div className="mx-auto my-14 h-[550px] w-[600px] bg-[#013C5A] p-5 px-14">
           <div className="mt-5 flex justify-center">
             <Logo isLogin />
           </div>
@@ -109,14 +109,14 @@ const Login = (): JSX.Element => {
               Login
             </button>
           </form>
-          <div className="w-[490px]">
+          {/* <div className="w-[490px]">
             <p className="mt-5 text-center text-white">Or?</p>
             <Link to={path.register}>
               <button className="mt-5 h-9 w-full rounded-lg bg-white text-center text-[20px] font-bold text-main">
                 Sign up
               </button>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
       ;

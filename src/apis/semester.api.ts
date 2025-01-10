@@ -19,7 +19,7 @@ const semesterApi = {
     startDate: string;
     endDate: string;
   }) {
-    return http.post(`${URL}`, semester);
+    return http.post(`${URL}/add-with-course-instance`, semester);
   },
 };
 
