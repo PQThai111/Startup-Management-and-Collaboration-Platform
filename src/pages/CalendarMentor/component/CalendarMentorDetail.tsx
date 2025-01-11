@@ -148,22 +148,22 @@ export default function CalendarMentorDetail({
                 </div>
                 <div className="my-2">
                   <span className="font-medium">Idea Name: </span>
-                  {slot.team.startupIdea.title}
+                  {slot.team.startupIdea?.title}
                 </div>
                 <div className="my-2">
                   <span className="font-medium">Leader Name: </span>
                   {
-                    (slot.team.members.find((x) => x.isLeader) as Member)
-                      .studentName
+                    (slot.team?.members?.find((x) => x.isLeader) as Member)
+                      ?.studentName
                   }
                 </div>
                 <div>
                   <span className="font-medium">Member: </span>
                   <div className="pl-2 pt-1">
-                    {slot.team.members
-                      .filter((x) => !x.isLeader)
+                    {slot?.team?.members
+                      ?.filter((x) => !x.isLeader)
                       .map((x) => (
-                        <div className="mb-1 flex justify-start">
+                        <div key={x.id} className="mb-1 flex justify-start">
                           <div className="w-[17%] truncate font-medium">
                             {x.studentName}
                           </div>

@@ -18,6 +18,7 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Member } from '../../../types/team.type';
+import eventApi from '../../../apis/event.api';
 
 type FormData = Pick<MentorTimeBookingSchema, 'Note' | 'MeetingAddress'>;
 
@@ -37,7 +38,7 @@ export default function CalendarMentorDetail({
   slot: Slot;
   handleClose: () => void;
 }) {
-  const { data: slotData } = useQuery({
+  const { data: slotData, refetch } = useQuery({
     queryKey: ['slotById', slotId.id],
     queryFn: () => appointmentSlotsApi.GetSlotId(slotId.id),
   });
@@ -118,7 +119,56 @@ export default function CalendarMentorDetail({
       // });
       refetchSchedule();
     },
+    onError(_) {
+      toast.error('Delete slot fail !', {
+        autoClose: 500,
+      });
+    },
   });
+
+  const updateStatusStudentMutation = useMutation({
+    mutationFn: eventApi.updateStudentAttendance,
+    onError: (_) => {
+      toast.error('Fail update status !', {
+        autoClose: 500,
+      });
+    },
+    onSuccess: () => {
+      toast.success('Update status successfully !', {
+        autoClose: 500,
+      });
+      refetch();
+    },
+  });
+
+  const handleChangeStatus = (id: string, note: string, status: number) => {
+    updateStatusStudentMutation.mutate({ id, body: { note, status } });
+  };
+
+  const generateAttenMutation = useMutation({
+    mutationFn: appointmentSlotsApi.GeneAttendence,
+    onSuccess: () => {
+      toast.success('Generate Attendence successfully', {
+        autoClose: 500,
+      });
+      // handleClose();
+      // queryClient.invalidateQueries({
+      //   queryKey: ['mentorSlots', getSlots],
+      //   exact: true,
+      // });
+      refetchSchedule();
+      refetch();
+    },
+    onError(_) {
+      toast.error('Generate Attendence fail !', {
+        autoClose: 500,
+      });
+    },
+  });
+
+  const handleGenerate = () => {
+    generateAttenMutation.mutate(slotId.id);
+  };
 
   return (
     <div className="h-[80%] w-[60%] overflow-hidden rounded-lg bg-white p-6 shadow-lg">
@@ -224,27 +274,148 @@ export default function CalendarMentorDetail({
                   <span className="font-medium">Idea Name: </span>
                   {slot.team.startupIdea?.title}
                 </div>
-                <div className="my-2">
-                  <span className="font-medium">Leader Name: </span>
-                  {
-                    (slot.team.members.find((x) => x.isLeader) as Member)
-                      .studentName
-                  }
+                <div className="my-2 flex items-center justify-between">
+                  <div>
+                    <span className="font-medium">Leader Name: </span>
+                    {
+                      (slot.team.members.find((x) => x.isLeader) as Member)
+                        .studentName
+                    }
+                    {slot.studentAttendances.length > 0 && (
+                      <span className="ml-8 underline">
+                        {slot.studentAttendances.find(
+                          (x) =>
+                            x.studentId ==
+                            (
+                              slot?.team?.members?.find(
+                                (x) => x.isLeader,
+                              ) as Member
+                            ).studentId,
+                        )?.status == 0
+                          ? 'Absent'
+                          : 'Present'}
+                      </span>
+                    )}
+                  </div>
+                  {slot.studentAttendances.length > 0 &&
+                    slot.studentAttendances.find(
+                      (x) =>
+                        x.studentId ==
+                        (slot?.team?.members?.find((x) => x.isLeader) as Member)
+                          .studentId,
+                    ) && (
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleChangeStatus(
+                              slot.studentAttendances.find(
+                                (x) =>
+                                  x.studentId ==
+                                  (
+                                    slot?.team?.members?.find(
+                                      (x) => x.isLeader,
+                                    ) as Member
+                                  ).studentId,
+                              )?.id as string,
+                              'Mentor or Lecture Change',
+                              1,
+                            );
+                          }}
+                          className="mr-3 rounded-md bg-blue-400 p-2 text-white"
+                        >
+                          Attend
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleChangeStatus(
+                              slot.studentAttendances.find(
+                                (x) =>
+                                  x.studentId ==
+                                  (
+                                    slot?.team?.members?.find(
+                                      (x) => x.isLeader,
+                                    ) as Member
+                                  ).studentId,
+                              )?.id as string,
+                              'Mentor or Lecture Change',
+                              0,
+                            );
+                          }}
+                          className="mr-3 rounded-md bg-red-400 p-2 text-white"
+                        >
+                          Absent
+                        </button>
+                      </div>
+                    )}
                 </div>
                 <div>
                   <span className="font-medium">Member: </span>
                   <div className="pl-2 pt-1">
                     {slot.team.members
                       .filter((x) => !x.isLeader)
-                      .map((x) => (
-                        <div className="mb-1 flex justify-start">
-                          <div className="w-[20%] truncate font-medium">
-                            {x.studentName}
+                      .map((stu) => (
+                        <div
+                          key={stu.id}
+                          className="mb-1 flex items-center justify-between"
+                        >
+                          <div className="flex w-[50%] justify-start">
+                            <div className="w-[45%] truncate font-medium">
+                              {stu.studentName}
+                            </div>
+                            <div className="mx-1 w-[1%]">{'-'}</div>
+                            <div className="w-[25%]">{stu.studentCode}</div>
+                            <div className="mx-1 w-[1%]">{'-'}</div>
+                            <div>{stu.memberRole}</div>
+                            <span className="ml-8 underline"></span>
+                            {slot.studentAttendances.length > 0 && (
+                              <span className="ml-8 underline">
+                                {slot.studentAttendances.find(
+                                  (aX) => aX.studentId == stu.studentId,
+                                )?.status == 0
+                                  ? 'Absent'
+                                  : 'Present'}
+                              </span>
+                            )}
                           </div>
-                          <div className="mr-4">{'-'}</div>
-                          <div className="w-[10%]">{x.studentCode}</div>
-                          <div className="mr-4">{'-'}</div>
-                          <div>{x.memberRole}</div>
+                          {slot.studentAttendances.length > 0 &&
+                            slot.studentAttendances.find(
+                              (aX) => aX.studentId == stu.studentId,
+                            ) && (
+                              <div>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    handleChangeStatus(
+                                      slot.studentAttendances.find(
+                                        (aX) => aX.studentId == stu.studentId,
+                                      )?.id as string,
+                                      'Staff Change',
+                                      1,
+                                    );
+                                  }}
+                                  className="mr-3 rounded-md bg-blue-400 p-2 text-white"
+                                >
+                                  Attend
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    handleChangeStatus(
+                                      slot.studentAttendances.find(
+                                        (aX) => aX.studentId == stu.studentId,
+                                      )?.id as string,
+                                      'Staff Change',
+                                      0,
+                                    );
+                                  }}
+                                  className="mr-3 rounded-md bg-red-400 p-2 text-white"
+                                >
+                                  Absent
+                                </button>
+                              </div>
+                            )}
                         </div>
                       ))}
                   </div>
@@ -268,9 +439,16 @@ export default function CalendarMentorDetail({
           <button
             type="button"
             onClick={(_) => deleteCalendarMentorMutation.mutate(slotId.id)}
-            className="flex-shrink-0 rounded-sm bg-red-400 p-2 px-4 text-white hover:bg-red-300"
+            className="mr-2 flex-shrink-0 rounded-sm bg-red-400 p-2 px-4 text-white hover:bg-red-300"
           >
             Remove
+          </button>
+          <button
+            type="button"
+            onClick={(_) => handleGenerate()}
+            className="flex-shrink-0 rounded-sm bg-blue-400 p-2 px-4 text-white hover:bg-red-300"
+          >
+            Attendences
           </button>
         </div>
       </form>

@@ -283,6 +283,8 @@ const CalendarMentor = () => {
                                     findSlot.status == 2,
                                   'bg-green-500 hover:bg-green-500/75':
                                     findSlot.status == 3,
+                                  'bg-red-500 hover:bg-green-500/75':
+                                    findSlot.status == 4,
                                   'bg-red-500 hover:bg-red-500/75':
                                     findSlot.status == 5,
                                 },

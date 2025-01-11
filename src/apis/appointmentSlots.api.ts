@@ -31,7 +31,9 @@ const appointmentSlotsApi = {
   DeleteSlot(id: string) {
     return http.delete<SuccessResponse<any>>(`${URL}/${id}`);
   },
-
+  GeneAttendence(id: string) {
+    return http.post<SuccessResponse<any>>(`${URL}/${id}/JoinMeeting`);
+  },
   ScheduleAppointment({
     appointmentId,
     teamId,

@@ -32,8 +32,25 @@ export interface Slot {
   team: Team | null;
   creatorId: string;
   creatorAccount: any;
-  studentAttendances: any;
+  studentAttendances: Attendence[];
   id: string;
+  status: number;
+  isDeleted: boolean;
+  lastUpdateDate: any;
+}
+
+export interface Attendence {
+  id: string;
+  studentId: string;
+  student: any;
+  slotId: string;
+  appointmentSlot: any;
+  eventId: any;
+  event: any;
+  attendanceType: number;
+  note: any;
+  updateBy: any;
+  deviceId: any;
   status: number;
   isDeleted: boolean;
   lastUpdateDate: any;
