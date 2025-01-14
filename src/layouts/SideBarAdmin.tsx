@@ -2,18 +2,18 @@ import Logo from '../common/components/Logo';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import path from '../constant/path';
 import classNames from 'classnames';
-import IconWithNum from '../common/components/IconWithNum';
+// import IconWithNum from '../common/components/IconWithNum';
 import { Avatar, AvatarImage } from '../components/ui/avatar';
-import { VscMail } from 'react-icons/vsc';
-import { IoMdNotificationsOutline } from 'react-icons/io';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '../components/ui/dropdown-menu';
+// import { VscMail } from 'react-icons/vsc';
+// import { IoMdNotificationsOutline } from 'react-icons/io';
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuGroup,
+//   DropdownMenuItem,
+//   DropdownMenuSeparator,
+//   DropdownMenuTrigger,
+// } from '../components/ui/dropdown-menu';
 import { useContext } from 'react';
 import { AppContext } from '../context/app.context';
 import { clearLS } from '../util/auth';
@@ -124,7 +124,7 @@ export default function SideBarAdmin() {
               Semester & Course
             </div>
           </Link>
-          <Link to={path.manager_approval_management}>
+          <div onClick={handleLogout}>
             <div
               className={classNames(
                 'transition-background mb-2 flex items-center rounded-lg px-3 py-3 font-medium text-red-500 duration-100',
@@ -158,7 +158,7 @@ export default function SideBarAdmin() {
               </svg>
               Logout
             </div>
-          </Link>
+          </div>
         </div>
       </div>
       <div className="ml-auto h-full w-[calc(100%-288px)]">
@@ -166,35 +166,15 @@ export default function SideBarAdmin() {
           <div className="col-span-1"></div>
           <div className="col-span-5 pl-20"></div>
           <div className="col-span-4 flex items-center justify-end gap-5">
-            <IconWithNum Icon={VscMail} number={0} />
-            <IconWithNum Icon={IoMdNotificationsOutline} number={1} />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Avatar>
-                  <AvatarImage
-                    className="border"
-                    src={
-                      'https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg'
-                    }
-                    alt="avatar"
-                  />
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <a href="/profile">Profile</a>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <a href="/projectManagement">My Projects</a>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
-                  Log out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Avatar>
+              <AvatarImage
+                className="border"
+                src={
+                  'https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg'
+                }
+                alt="avatar"
+              />
+            </Avatar>
           </div>
         </div>
         <div className="h-[90%] p-5">

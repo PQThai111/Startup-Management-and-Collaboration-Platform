@@ -34,11 +34,13 @@ const studentApi = {
       `${URL}?HadTeam=${HadTeam}&SearchTerm=${SearchTerm}&PageSize=${PageSize}&PageNumber=${PageNumber}&CourseId=${CourseId}&SemesterId=${SemesterId}`,
     );
   },
+
   getStudentNoTeam(params: QueryConfig) {
     return http.get<SuccessResponse<StudentList>>(URL, {
       params,
     });
   },
+
   getStudentByAccountId(accountId: string) {
     return http.get<SuccessResponse<Student>>(
       `${URL}/GetStudentByAccId/${accountId}`,

@@ -48,6 +48,10 @@ const financialApi = {
       },
     );
   },
+
+  deleteFinancial(id: string) {
+    return http.delete(`${URL}/transaction/${id}`);
+  },
 };
 
 export default financialApi;

@@ -25,5 +25,6 @@ const path = {
   taskManagement: 'taskManagement',
   projectTaskDetail: ':projectTaskId',
   profile_skills: 'skills',
+  profile_change_password: 'change-password',
 };
 export default path;

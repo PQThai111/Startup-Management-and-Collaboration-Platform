@@ -14,6 +14,7 @@ import { Label } from '../../../components/ui/label';
 import { toast } from 'react-toastify';
 import financialApi, { AddFinancialRequest } from '../../../apis/financial.api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 
 const DepositWithdraw = ({ projectId }: { projectId: string }) => {
   const [open, setOpen] = useState<boolean>(false);
@@ -47,7 +48,7 @@ const DepositWithdraw = ({ projectId }: { projectId: string }) => {
       {
         Description,
         Amount: dialogState === 'Deposit' ? Amount : -Amount,
-        TransactionDate: Date.now().toString(),
+        TransactionDate: dayjs().toISOString(),
         ImageFile: file as File,
         ProjectId: projectId,
       },
@@ -74,10 +75,9 @@ const DepositWithdraw = ({ projectId }: { projectId: string }) => {
       <DialogTrigger asChild>
         <Button
           onClick={() => setDialogState('Deposit')}
-          variant="default"
-          className="mr-4"
+          className="mr-4 bg-green-500"
         >
-          Deposit
+          Cash In
         </Button>
       </DialogTrigger>
       <DialogTrigger asChild>
@@ -85,7 +85,7 @@ const DepositWithdraw = ({ projectId }: { projectId: string }) => {
           onClick={() => setDialogState('Withdraw')}
           variant="destructive"
         >
-          Withdraw
+          Cash Out
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

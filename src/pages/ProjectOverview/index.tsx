@@ -74,6 +74,9 @@ const ProjectOverview = () => {
   const [rejectReason, setRejectReason] = useState<string>('');
   const [notifyByEmail, setNotifyByEmail] = useState<boolean>();
   const [dialogStatus, setDialogStatus] = useState<'Reject' | 'Accept'>();
+  const lecturerId = project?.mentorsAndLecturers.find(
+    (item) => item.roleType === 'Lecturer',
+  )?.accountId;
 
   const {
     handleSubmit: handleSubmitStatus,
@@ -393,12 +396,7 @@ const ProjectOverview = () => {
               />
               <button
                 type="submit"
-                disabled={
-                  profile?.id !=
-                  project.mentorsAndLecturers.find(
-                    (x) => x.roleType === 'Lecturer',
-                  )?.accountId
-                }
+                disabled={profile?.id !== lecturerId}
                 className="h-[40%] w-full rounded-md bg-slate-400 text-white"
               >
                 Change Status

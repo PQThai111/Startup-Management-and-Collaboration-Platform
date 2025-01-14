@@ -81,6 +81,9 @@ const ConfirmDialog = ({
             toast.success('Request accepted successfully');
             setIsOpen(false);
             setMainDialog(false);
+            queryClient.invalidateQueries({
+              queryKey: ['notifications', teamId],
+            });
           },
         },
       );
@@ -101,11 +104,13 @@ const ConfirmDialog = ({
             setIsOpen(false);
             setMainDialog(false);
             toast.success('Request rejected successfully');
+            queryClient.invalidateQueries({
+              queryKey: ['notifications', teamId],
+            });
           },
         },
       );
     }
-    queryClient.invalidateQueries({ queryKey: ['notifications', teamId] });
   };
 
   return (

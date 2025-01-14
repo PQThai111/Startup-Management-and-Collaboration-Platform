@@ -110,12 +110,12 @@ const Header = () => {
                 Create A Project
               </Link>
               <Invitation />
-              {project?.team.teamId && (
-                <Notification teamId={project?.team.teamId} />
-              )}
+              {project?.team.teamId &&
+                project?.team.members.find(
+                  (item) => item.studentId === profile.studentId,
+                )?.isLeader && <Notification teamId={project?.team.teamId} />}
             </>
           )}
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar>
@@ -123,7 +123,7 @@ const Header = () => {
                   className="border border-black"
                   src={
                     profile.avatarUrl ||
-                    'https://fastly.picsum.photos/id/367/200/300.jpg?hmac=9v6fvZlygxFPleXOePw645QmRd9ytp91VGVQaolJKIk'
+                    'https://cdn-icons-png.flaticon.com/512/1144/1144760.png'
                   }
                   alt="avatar"
                 />

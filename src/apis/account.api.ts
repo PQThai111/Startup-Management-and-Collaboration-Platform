@@ -84,6 +84,19 @@ const accountApi = {
   createManagerAccount(data: { email: string; password: string }) {
     return http.post(`${URL}/add-manager`, data);
   },
+
+  // updateAccountStudent(data: {
+  //   id: string;
+  //   student: {
+  //     studentName: string;
+  //     studentCode: string;
+  //     studentDepartment: string;
+  //     campus: string;
+  //     phoneNumber: string;
+  //   };
+  // }) {
+  //   return http.put(`${URL}/${data.id}`, { ...data, role: 3 });
+  // },
 };
 
 export default accountApi;

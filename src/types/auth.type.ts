@@ -10,6 +10,8 @@ export interface AuthResponse {
 export interface User {
   id: string;
   email: string;
+  lecturerId: string;
+  mentorId: string;
   role: number;
   avatarUrl?: string;
   status: number;

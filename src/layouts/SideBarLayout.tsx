@@ -2,9 +2,9 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import path from '../constant/path';
 import classNames from 'classnames';
 import Logo from '../common/components/Logo';
-import IconWithNum from '../common/components/IconWithNum';
+// import IconWithNum from '../common/components/IconWithNum';
 import { Avatar, AvatarImage } from '../components/ui/avatar';
-import { VscMail } from 'react-icons/vsc';
+// import { VscMail } from 'react-icons/vsc';
 // import { IoMdNotificationsOutline } from 'react-icons/io';
 import {
   DropdownMenu,
@@ -217,7 +217,7 @@ export default function SideBarLayout() {
           <div className="col-span-1"></div>
           <div className="col-span-5 pl-20"></div>
           <div className="col-span-4 flex items-center justify-end gap-5">
-            <IconWithNum Icon={VscMail} number={0} />
+            {/* <IconWithNum Icon={VscMail} number={0} /> */}
             {/* <IconWithNum Icon={IoMdNotificationsOutline} number={1} /> */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

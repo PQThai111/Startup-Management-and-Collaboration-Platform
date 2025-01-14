@@ -35,6 +35,7 @@ import CalendarLecturer from '../pages/CalendarLecturer';
 import Inbox from '../pages/Inbox/Inbox';
 import ProfileSkills from '../pages/ProfilePage/component/ProfileSkills';
 import Admin_semester_course from '../pages/Admin_semester_course';
+import ChangePassword from '../pages/ProfilePage/component/ChangePassword';
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext);
@@ -170,6 +171,10 @@ const authenticatedRoutes: RouteObject[] = [
       {
         element: <ProfileSkills />,
         path: path.profile_skills,
+      },
+      {
+        element: <ChangePassword />,
+        path: path.profile_change_password,
       },
     ],
   },

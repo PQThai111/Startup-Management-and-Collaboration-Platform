@@ -1,11 +1,10 @@
-import { useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import DrawerWithIcon from '../../common/components/DrawerWithIcon';
 import IconWithNum from '../../common/components/IconWithNum';
 import { VscMail } from 'react-icons/vsc';
 import teamRequestApis from '../../apis/team-request.api';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { AppContext } from '../../context/app.context';
-import { TeamRequest } from '../../types/team-request.type';
 import { Button } from '../../components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { TeamRequestStatus } from '../../constant/team-request';
@@ -13,16 +12,18 @@ import { TeamRequestStatus } from '../../constant/team-request';
 const Invitation = () => {
   const { profile } = useContext(AppContext);
   const nav = useNavigate();
-  const [invitations, setInvitations] = useState<
-    (TeamRequest & {
-      teamLeaderName: string;
-      projectName: string;
-      projectId: string;
-    })[]
-  >([]);
 
-  const getAllRequest = useMutation({
-    mutationFn: () =>
+  const { data } = useQuery({
+    queryKey: [
+      'invitations',
+      {
+        PageSize: 10,
+        PageNumber: 1,
+        ReceiverId: profile?.id,
+        Status: TeamRequestStatus.Pending,
+      },
+    ],
+    queryFn: () =>
       teamRequestApis.findTeamRequest({
         PageSize: 10,
         PageNumber: 1,
@@ -31,17 +32,6 @@ const Invitation = () => {
       }),
   });
 
-  useEffect(() => {
-    getAllRequest.mutate(undefined, {
-      onSuccess: (data) => {
-        setInvitations(data.data.data.data);
-      },
-      onError: (error) => {
-        console.log(error);
-      },
-    });
-  }, []);
-
   return (
     <>
       <DrawerWithIcon
@@ -49,12 +39,12 @@ const Invitation = () => {
         icon={
           <IconWithNum
             Icon={VscMail}
-            number={invitations.length}
+            number={data?.data.data.data.length || 0}
             // onClick={() => console.log('ahihi')}
           />
         }
       >
-        {invitations.map((invitation) => (
+        {data?.data.data.data.map((invitation) => (
           <div className="rounded-md border bg-slate-200 px-2 py-1">
             <p className="text-sm italic">You are invited to join project</p>
             <p className="text-lg font-bold">{invitation.projectName}</p>

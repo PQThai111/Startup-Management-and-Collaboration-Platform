@@ -1,12 +1,20 @@
-import { AuthResponse } from "../types/auth.type"
-import { SuccessResponse } from "../types/utils.type"
-import http from "../util/http"
+import { AuthResponse } from '../types/auth.type';
+import { SuccessResponse } from '../types/utils.type';
+import http from '../util/http';
 
-const URL = 'Auth'
+const URL = 'Auth';
 const authApi = {
-  loginAccount( body: { email: string, password: string}){
-    return http.post<SuccessResponse<AuthResponse>>(`${URL}/login`, body)
+  loginAccount(body: { email: string; password: string }) {
+    return http.post<SuccessResponse<AuthResponse>>(`${URL}/login`, body);
   },
-}
 
-export default authApi
+  changePassword(body: {
+    accountId: string;
+    oldPassword: string;
+    newPassword: string;
+  }) {
+    return http.put(`${URL}/change-password`, body);
+  },
+};
+
+export default authApi;
