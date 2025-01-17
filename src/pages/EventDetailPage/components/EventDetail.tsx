@@ -1,10 +1,20 @@
+<<<<<<< HEAD
 import EventDetailItem from './EventDetailItem';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
+=======
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Link, useParams } from 'react-router-dom';
+>>>>>>> 5175638 (New Inbox, Fix small bug)
 import eventApi from '../../../apis/event.api';
 import { useContext } from 'react';
 import { AppContext } from '../../../context/app.context';
 import { toast } from 'react-toastify';
+<<<<<<< HEAD
+=======
+import path from '../../../constant/path';
+import classNames from 'classnames';
+>>>>>>> 5175638 (New Inbox, Fix small bug)
 
 export default function EventDetail() {
   const { newId } = useParams();
@@ -75,11 +85,116 @@ export default function EventDetail() {
     <div className="mx-auto my-20 w-full px-20">
       <div>
         {eventData?.data.data && (
+<<<<<<< HEAD
           <EventDetailItem
             eventProp={eventData?.data.data}
             handleJoinEvent={handleJoinEvent}
           />
         )}
+=======
+          <div className="mb-3 h-[600px] w-full rounded-md border border-black bg-[#F7F7F7] p-3">
+            <div className="flex p-2">
+              <Link to={path.newFeed}>BACK</Link>
+              <p className="ml-3 text-ellipsis border-l-2 border-black pl-3 text-justify text-[#686868]">
+                <span className="font-bold"></span>
+                {eventData?.data.data.type === 0 ? 'Seminar' : 'Workshop'}
+              </p>
+            </div>
+            <div className="grid h-[85%] grid-cols-10">
+              <div className="col-span-3 h-full overflow-hidden p-2">
+                <img
+                  src={eventData?.data.data.coverImage}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="col-span-7 pl-2">
+                <div>
+                  <p className="mt-2 text-3xl font-[500]">
+                    {eventData?.data.data.title}
+                  </p>
+                </div>
+                <p className="mt-2 text-ellipsis text-justify text-[#686868]">
+                  aaaa
+                  {/* <span className='font-bold'>Time</span>: {startDate.getHours()}:{startDate.getMinutes()} - {endDate.getHours()}:{endDate.getMinutes()} <span className='font-bold'> On</span> {endDate.getDay().toString()}.{startDate.getMonth().toString()}.{endDate.getFullYear().toString()} */}
+                </p>
+                <p className="mb-5 text-ellipsis text-justify text-[#686868]">
+                  <span className="font-bold">Location</span>:{' '}
+                  {eventData?.data.data.location}
+                </p>
+                <div>
+                  <p className="mb-16 text-lg font-[400]">
+                    {eventData?.data.data.description}
+                  </p>
+                </div>
+
+                <p className="text-ellipsis text-justify text-[#686868]">
+                  {eventData?.data.data.tag}
+                </p>
+                {profile?.role == 3 &&
+                  !(
+                    attendenceData?.data?.data?.data &&
+                    attendenceData?.data?.data?.data.find(
+                      (x) => x.student.id == profile.studentId,
+                    )
+                  ) && (
+                    <div className="">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleJoinEvent();
+                        }}
+                        className="w-full rounded-md bg-black p-1.5 text-white"
+                      >
+                        Join
+                      </button>
+                    </div>
+                  )}
+                {profile?.role == 3 &&
+                  attendenceData?.data?.data?.data &&
+                  attendenceData?.data?.data?.data.find(
+                    (x) => x.student.id == profile.studentId,
+                  ) && (
+                    <div
+                      className={classNames(
+                        'w-full rounded-md bg-black p-1.5 text-center text-white',
+                        {
+                          'bg-red-500':
+                            attendenceData?.data?.data?.data &&
+                            attendenceData?.data?.data?.data.find(
+                              (x) => x.student.id == profile!.studentId,
+                            ) &&
+                            attendenceData?.data?.data?.data.find(
+                              (x) => x.student.id == profile!.studentId,
+                            )?.status == 0,
+                          'bg-green-500':
+                            attendenceData?.data?.data?.data &&
+                            attendenceData?.data?.data?.data.find(
+                              (x) => x.student.id == profile!.studentId,
+                            ) &&
+                            attendenceData?.data?.data?.data.find(
+                              (x) => x.student.id == profile!.studentId,
+                            )?.status == 1,
+                        },
+                      )}
+                    >
+                      {profile?.role == 3 &&
+                      attendenceData?.data?.data?.data &&
+                      attendenceData?.data?.data?.data.find(
+                        (x) => x.student.id == profile.studentId,
+                      ) &&
+                      attendenceData?.data?.data?.data.find(
+                        (x) => x.student.id == profile.studentId,
+                      )?.status == 0
+                        ? 'Absent'
+                        : 'Present'}
+                    </div>
+                  )}
+              </div>
+            </div>
+          </div>
+        )}
+
+>>>>>>> 5175638 (New Inbox, Fix small bug)
         {profile?.role == 5 && (
           <div className="mb-3 h-auto w-full rounded-md border border-black bg-[#F7F7F7] p-5">
             <div className="mb-5 grid grid-cols-9 rounded-md border border-black bg-slate-400 px-5 py-3 text-white">

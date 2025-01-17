@@ -27,6 +27,11 @@ export default function EventList() {
     staleTime: 3 * 60 * 1000,
   });
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 5175638 (New Inbox, Fix small bug)
   return (
     <div className="mx-auto mb-20 w-full px-20">
       <form

@@ -9,7 +9,13 @@ const accountApi = {
       params,
     });
   },
+<<<<<<< HEAD
 
+=======
+  getAllAccounts() {
+    return http.get<SuccessResponse<Account[]>>(URL);
+  },
+>>>>>>> 5175638 (New Inbox, Fix small bug)
   getAllAccountsWithPagination({
     roles,
     page,
@@ -84,6 +90,7 @@ const accountApi = {
   createManagerAccount(data: { email: string; password: string }) {
     return http.post(`${URL}/add-manager`, data);
   },
+<<<<<<< HEAD
 
   // updateAccountStudent(data: {
   //   id: string;
@@ -97,6 +104,8 @@ const accountApi = {
   // }) {
   //   return http.put(`${URL}/${data.id}`, { ...data, role: 3 });
   // },
+=======
+>>>>>>> 5175638 (New Inbox, Fix small bug)
 };
 
 export default accountApi;

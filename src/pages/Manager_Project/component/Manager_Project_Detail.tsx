@@ -8,7 +8,11 @@ import { useStudentQueryConfig } from '../../../hooks/useQueryConfig';
 import { Project, ProjectList } from '../../../types/project.type';
 import studentApi from '../../../apis/student.api';
 import { QueryConfig as ConfigPaging } from '../../../types/event.type';
+<<<<<<< HEAD
 import { useContext, useState } from 'react';
+=======
+import { useContext, useEffect, useState } from 'react';
+>>>>>>> 5175638 (New Inbox, Fix small bug)
 import { Student } from '../../../types/student.type';
 import Pagination from '../../../components/pagination';
 import path from '../../../constant/path';
@@ -19,7 +23,11 @@ import { AppContext } from '../../../context/app.context';
 import { AxiosResponse } from 'axios';
 import { SuccessResponse } from '../../../types/utils.type';
 import accountApi from '../../../apis/account.api';
+<<<<<<< HEAD
 import { QueryAccount } from '../../../types/account.type';
+=======
+import { Account, QueryAccount } from '../../../types/account.type';
+>>>>>>> 5175638 (New Inbox, Fix small bug)
 import teamApis from '../../../apis/team.api';
 
 interface Props {
@@ -55,6 +63,10 @@ function Manager_Project_Detail({
   const [student, setStudent] = useState<Student | null>(null);
   const queryConfig = useStudentQueryConfig();
   // const { register, onSubmitSearch } = useSearchStudent();
+<<<<<<< HEAD
+=======
+  const [mentors, setMentors] = useState<Account[]>([]);
+>>>>>>> 5175638 (New Inbox, Fix small bug)
 
   const { data: studentData, refetch } = useQuery({
     queryKey: ['students', queryConfig],
@@ -78,6 +90,7 @@ function Manager_Project_Detail({
     staleTime: 3 * 60 * 1000,
   });
 
+<<<<<<< HEAD
   const mentors =
     mentorsData?.data?.data.filter((user) => {
       return (
@@ -89,6 +102,28 @@ function Manager_Project_Detail({
       );
     }) || [];
   console.log(mentors);
+=======
+  // const mentors =
+  //   ;
+  //   }) || [];
+
+  useEffect(() => {
+    if (mentorsData?.data?.data) {
+      setMentors(
+        mentorsData?.data?.data.filter((user) => {
+          return (
+            user.mentor?.accountId !=
+            project.mentorsAndLecturers.find(
+              (x) =>
+                x.roleType === 'Mentor' &&
+                x.accountId === user.mentor?.accountId,
+            )?.accountId
+          );
+        }),
+      );
+    }
+  }, [mentorsData?.data?.data, project.mentorsAndLecturers]);
+>>>>>>> 5175638 (New Inbox, Fix small bug)
 
   const addMemberMutation = useMutation({
     mutationFn: (body: {

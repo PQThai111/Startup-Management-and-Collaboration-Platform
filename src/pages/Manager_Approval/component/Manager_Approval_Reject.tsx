@@ -45,6 +45,7 @@ export default function Manager_Approval_Reject({
   });
 
   useEffect(() => {
+<<<<<<< HEAD
     if (request != undefined) {
       reset({
         Reason: '',
@@ -57,10 +58,21 @@ export default function Manager_Approval_Reject({
   const onSubmit = handleSubmit((data) => {
     rejectStartupRequestsMutation.mutate(data, {
       onSuccess: (_) => {
+=======
+    if (request) {
+      reset({ Reason: '' });
+    }
+  }, [request, reset]);
+
+  const onButtonSubmit = handleSubmit((data) => {
+    rejectStartupRequestsMutation.mutate(data, {
+      onSuccess: () => {
+>>>>>>> 5175638 (New Inbox, Fix small bug)
         queryClient.invalidateQueries({
           queryKey: ['requests', param],
           exact: true,
         });
+<<<<<<< HEAD
         toast.success('Reject Successfully !', {
           autoClose: 500,
         });
@@ -68,6 +80,14 @@ export default function Manager_Approval_Reject({
       onError: (error) => {
         console.log(error);
         toast.success('Reject Fail !', {
+=======
+        toast.success('Rejected Successfully!', {
+          autoClose: 500,
+        });
+      },
+      onError: () => {
+        toast.error('Rejection Failed!', {
+>>>>>>> 5175638 (New Inbox, Fix small bug)
           autoClose: 500,
         });
       },
@@ -75,12 +95,23 @@ export default function Manager_Approval_Reject({
   });
 
   return (
+<<<<<<< HEAD
     <div className="h-[60%] w-[50%] overflow-hidden rounded-lg bg-white p-6 shadow-lg">
       <div className="mb-2 flex items-center justify-between">
         <div className="text-3xl font-medium text-gray-700">Reject Reason</div>
         <button
           onClick={handleOpen}
           className="rounded-md bg-gray-200 px-4 py-2 text-gray-500 hover:bg-gray-300"
+=======
+    <div className="h-[35%] w-[50%] max-w-lg overflow-hidden rounded-lg bg-white p-6 shadow-lg">
+      {/* Header Section */}
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-xl font-semibold text-gray-700">Reject Request</h2>
+        <button
+          onClick={handleOpen}
+          className="rounded-md bg-gray-200 p-2 text-gray-500 hover:bg-gray-300"
+          aria-label="Close modal"
+>>>>>>> 5175638 (New Inbox, Fix small bug)
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -93,11 +124,16 @@ export default function Manager_Approval_Reject({
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
+<<<<<<< HEAD
               d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
+=======
+              d="M9 15l-6-6m0 0l6-6M3 9h12a6 6 0 0 1 0 12h-3"
+>>>>>>> 5175638 (New Inbox, Fix small bug)
             />
           </svg>
         </button>
       </div>
+<<<<<<< HEAD
       <form className="h-full overflow-y-auto py-4">
         <div className="mb-2">Project title: {request.startupIdea.title}</div>
         <div className="mb-5 h-[50%]">
@@ -133,6 +169,59 @@ export default function Manager_Approval_Reject({
           Submit
         </button>
       </form>
+=======
+
+      {/* Body Section */}
+      <div className="space-y-4">
+        <p className="text-gray-600">
+          <strong>Project Title:</strong> {request.startupIdea.title}
+        </p>
+
+        <div>
+          <label htmlFor="Reason" className="block text-gray-700">
+            Reason for Rejection
+          </label>
+          <Controller
+            control={control}
+            name="Reason"
+            render={({ field }) => (
+              <textarea
+                id="Reason"
+                {...field}
+                className={`mt-2 w-full resize-none rounded-lg border ${
+                  errors.Reason
+                    ? 'border-red-500 focus:border-red-500'
+                    : 'border-gray-300 focus:border-blue-500'
+                } bg-gray-50 p-3 text-sm text-gray-900 focus:ring focus:ring-blue-500`}
+                placeholder="Write your rejection reason here..."
+              />
+            )}
+          />
+          <p className="mt-1 text-sm text-red-500">
+            {errors?.Reason?.message ? errors?.Reason?.message : ''}
+          </p>
+        </div>
+      </div>
+
+      {/* Footer Section */}
+      <div className="mt-6 flex justify-end space-x-4">
+        <button
+          onClick={handleOpen}
+          className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-600 hover:bg-gray-50"
+          aria-label="Cancel rejection"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={onButtonSubmit}
+          type="button"
+          className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          aria-label="Submit rejection"
+        >
+          Submit
+        </button>
+      </div>
+>>>>>>> 5175638 (New Inbox, Fix small bug)
     </div>
   );
 }

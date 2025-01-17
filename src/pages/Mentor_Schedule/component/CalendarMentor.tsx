@@ -273,7 +273,11 @@ const CalendarMentor = () => {
                           >
                             <div
                               className={classNames(
+<<<<<<< HEAD
                                 `mx-auto h-10 w-[80%] cursor-pointer rounded px-9 py-2`,
+=======
+                                `mx-auto flex h-10 w-[80%] cursor-pointer items-center justify-center rounded px-9 py-2 text-white`,
+>>>>>>> 5175638 (New Inbox, Fix small bug)
                                 {
                                   'bg-blue-400 hover:bg-blue-300':
                                     findSlot.status == 0,
@@ -283,7 +287,11 @@ const CalendarMentor = () => {
                                     findSlot.status == 2,
                                   'bg-green-500 hover:bg-green-500/75':
                                     findSlot.status == 3,
+<<<<<<< HEAD
                                   'bg-red-500 hover:bg-green-500/75':
+=======
+                                  'bg-red-500/60 hover:bg-red-500/60':
+>>>>>>> 5175638 (New Inbox, Fix small bug)
                                     findSlot.status == 4,
                                   'bg-red-500 hover:bg-red-500/75':
                                     findSlot.status == 5,
@@ -294,7 +302,25 @@ const CalendarMentor = () => {
                                 setChooseSlot(findSlot);
                                 setIsSlotOpen(true);
                               }}
+<<<<<<< HEAD
                             ></div>
+=======
+                            >
+                              {findSlot.status == 0
+                                ? 'Available'
+                                : findSlot.status == 1
+                                  ? 'Scheduled'
+                                  : findSlot.status == 2
+                                    ? 'InProgress'
+                                    : findSlot.status == 3
+                                      ? 'Completed'
+                                      : findSlot.status == 4
+                                        ? 'Cancelled'
+                                        : findSlot.status == 5
+                                          ? 'Absent'
+                                          : ''}
+                            </div>
+>>>>>>> 5175638 (New Inbox, Fix small bug)
                           </td>
                         );
                       }
