@@ -28,10 +28,7 @@ export default function Manager_Project() {
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,
-<<<<<<< HEAD
-=======
     enabled: profile?.role === 1,
->>>>>>> 5175638 (New Inbox, Fix small bug)
   });
 
   // , refetch: currentProjectRefetch
@@ -52,10 +49,7 @@ export default function Manager_Project() {
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,
-<<<<<<< HEAD
-=======
     enabled: profile?.role !== 1,
->>>>>>> 5175638 (New Inbox, Fix small bug)
   });
 
   const handleClose = (_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -67,33 +61,6 @@ export default function Manager_Project() {
     setIsEdit(project);
   };
 
-<<<<<<< HEAD
-  console.log(projectsData?.data.data.data);
-
-  console.log(currentProjectData?.data.data);
-
-  console.log(profile?.role);
-
-  return (
-    <div className="container h-[580px] rounded-lg border border-slate-300 bg-slate-200 p-3 shadow-md">
-      <form onSubmit={onSubmitSearch} className="mb-5 grid h-8 grid-cols-12">
-        <div className="col-span-10">
-          <input
-            type="text"
-            placeholder="Search Any Project !"
-            className="block w-full rounded-md border border-slate-300 bg-white py-2 pl-9 shadow-sm placeholder:italic placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
-            {...register('SearchTerm')}
-          />
-        </div>
-        <div className="col-span-2">
-          <div className="ml-3 rounded-md border border-black text-center">
-            <button className="w-full rounded-md bg-black p-1.5 text-white">
-              Tìm kiếm
-            </button>
-          </div>
-        </div>
-      </form>
-=======
   return (
     <div className="container h-[580px] rounded-lg border border-slate-300 bg-slate-200 p-3 shadow-md">
       {profile?.role === 1 && (
@@ -116,7 +83,6 @@ export default function Manager_Project() {
         </form>
       )}
 
->>>>>>> 5175638 (New Inbox, Fix small bug)
       {/* Table Header */}
       <div className="mb-4 grid h-10 grid-cols-12 rounded-md border border-slate-500 bg-slate-500 text-white">
         <div className="col-span-2 flex items-center border-r border-white pl-10">
@@ -141,11 +107,7 @@ export default function Manager_Project() {
           Action
         </div>
       </div>
-<<<<<<< HEAD
-      <div className="min-h-[420px]">
-=======
       <div className="h-[420px] overflow-y-scroll">
->>>>>>> 5175638 (New Inbox, Fix small bug)
         {profile?.role === 1 && projectsData && (
           <>
             {projectsData?.data?.data?.data.map((project) => (
@@ -169,13 +131,6 @@ export default function Manager_Project() {
           </>
         )}
       </div>
-<<<<<<< HEAD
-      <Pagination
-        queryConfig={queryConfig}
-        PageSize={projectsData?.data.data.pagination.limit as number}
-        pathName={path.all_management}
-      />
-=======
       {profile?.role === 1 && projectsData && (
         <Pagination
           queryConfig={queryConfig}
@@ -183,7 +138,6 @@ export default function Manager_Project() {
           pathName={path.all_management}
         />
       )}
->>>>>>> 5175638 (New Inbox, Fix small bug)
     </div>
   );
 }

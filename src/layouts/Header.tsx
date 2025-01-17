@@ -52,21 +52,6 @@ const Header = () => {
       <div className="col-span-5 pl-20">
         <ul className="flex gap-7">
           <li>
-<<<<<<< HEAD
-            <Link
-              to={path.home}
-              className={classNames(
-                'krona-one-regular font-semibold text-main',
-                {
-                  'underline decoration-yellow-500 underline-offset-4':
-                    pathname == path.home,
-                  '': pathname != path.home,
-                },
-              )}
-            >
-              Home
-            </Link>
-=======
             {profile?.role === 3 && (
               <Link
                 to={path.home}
@@ -97,7 +82,6 @@ const Header = () => {
                 Home
               </Link>
             )}
->>>>>>> 5175638 (New Inbox, Fix small bug)
           </li>
           <li>
             <Link

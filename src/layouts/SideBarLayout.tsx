@@ -2,13 +2,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import path from '../constant/path';
 import classNames from 'classnames';
 import Logo from '../common/components/Logo';
-<<<<<<< HEAD
-// import IconWithNum from '../common/components/IconWithNum';
 import { Avatar, AvatarImage } from '../components/ui/avatar';
-// import { VscMail } from 'react-icons/vsc';
-=======
-import { Avatar, AvatarImage } from '../components/ui/avatar';
->>>>>>> 5175638 (New Inbox, Fix small bug)
 // import { IoMdNotificationsOutline } from 'react-icons/io';
 import {
   DropdownMenu,
@@ -218,10 +212,6 @@ export default function SideBarLayout() {
       </div>
       <div className="col-span-10 h-full">
         <div className="grid h-16 grid-cols-10 items-center gap-10 px-20 pb-5 pt-7">
-<<<<<<< HEAD
-          <div className="col-span-1"></div>
-          <div className="col-span-5 pl-20"></div>
-=======
           {profile?.role == 1 && <div className="col-span-1"></div>}
           {profile?.role == 1 && <div className="col-span-1"></div>}
           {profile?.role != 1 && (
@@ -245,7 +235,6 @@ export default function SideBarLayout() {
             </>
           )}
           <div className="col-span-4 pl-20"></div>
->>>>>>> 5175638 (New Inbox, Fix small bug)
           <div className="col-span-4 flex items-center justify-end gap-5">
             {/* <IconWithNum Icon={VscMail} number={0} /> */}
             {/* <IconWithNum Icon={IoMdNotificationsOutline} number={1} /> */}
@@ -271,12 +260,9 @@ export default function SideBarLayout() {
                       <a href="/projectManagement">My Projects</a>
                     </DropdownMenuItem>
                   )}
-<<<<<<< HEAD
-=======
                   <DropdownMenuItem>
                     <a href="/inbox">Inbox</a>
                   </DropdownMenuItem>
->>>>>>> 5175638 (New Inbox, Fix small bug)
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>

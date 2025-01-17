@@ -34,19 +34,11 @@ const studentApi = {
       `${URL}?HadTeam=${HadTeam}&SearchTerm=${SearchTerm}&PageSize=${PageSize}&PageNumber=${PageNumber}&CourseId=${CourseId}&SemesterId=${SemesterId}`,
     );
   },
-<<<<<<< HEAD
-
-=======
->>>>>>> 5175638 (New Inbox, Fix small bug)
   getStudentNoTeam(params: QueryConfig) {
     return http.get<SuccessResponse<StudentList>>(URL, {
       params,
     });
   },
-<<<<<<< HEAD
-
-=======
->>>>>>> 5175638 (New Inbox, Fix small bug)
   getStudentByAccountId(accountId: string) {
     return http.get<SuccessResponse<Student>>(
       `${URL}/GetStudentByAccId/${accountId}`,

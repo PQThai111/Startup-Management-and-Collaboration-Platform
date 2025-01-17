@@ -1,20 +1,11 @@
-<<<<<<< HEAD
-import EventDetailItem from './EventDetailItem';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
-=======
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Link, useParams } from 'react-router-dom';
->>>>>>> 5175638 (New Inbox, Fix small bug)
 import eventApi from '../../../apis/event.api';
 import { useContext } from 'react';
 import { AppContext } from '../../../context/app.context';
 import { toast } from 'react-toastify';
-<<<<<<< HEAD
-=======
 import path from '../../../constant/path';
 import classNames from 'classnames';
->>>>>>> 5175638 (New Inbox, Fix small bug)
 
 export default function EventDetail() {
   const { newId } = useParams();
@@ -85,13 +76,6 @@ export default function EventDetail() {
     <div className="mx-auto my-20 w-full px-20">
       <div>
         {eventData?.data.data && (
-<<<<<<< HEAD
-          <EventDetailItem
-            eventProp={eventData?.data.data}
-            handleJoinEvent={handleJoinEvent}
-          />
-        )}
-=======
           <div className="mb-3 h-[600px] w-full rounded-md border border-black bg-[#F7F7F7] p-3">
             <div className="flex p-2">
               <Link to={path.newFeed}>BACK</Link>
@@ -194,7 +178,6 @@ export default function EventDetail() {
           </div>
         )}
 
->>>>>>> 5175638 (New Inbox, Fix small bug)
         {profile?.role == 5 && (
           <div className="mb-3 h-auto w-full rounded-md border border-black bg-[#F7F7F7] p-5">
             <div className="mb-5 grid grid-cols-9 rounded-md border border-black bg-slate-400 px-5 py-3 text-white">

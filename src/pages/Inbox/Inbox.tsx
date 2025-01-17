@@ -1,19 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-<<<<<<< HEAD
-import converApi, { Conver } from '../../apis/conversation.api';
-// import Footer from '../../layouts/Footer';
-import Header from '../../layouts/Header';
-import InboxDetail from './components/InboxDetail';
-import { useContext, useEffect, useState } from 'react';
-import { AppContext } from '../../context/app.context';
-import classNames from 'classnames';
-
-export default function Inbox() {
-  const { profile } = useContext(AppContext);
-  const [chooseConver, setChooseConver] = useState<Conver | null>(null);
-  const { data: converData } = useQuery({
-    queryKey: ['convers'],
-=======
 import converApi, { Conver, Message } from '../../apis/conversation.api';
 // import Footer from '../../layouts/Footer';
 import Header from '../../layouts/Header';
@@ -147,7 +132,6 @@ export default function Inbox() {
 
   const { data: converData, refetch: refetchConver } = useQuery({
     queryKey: ['convers', profile?.id],
->>>>>>> 5175638 (New Inbox, Fix small bug)
     queryFn: () => {
       return converApi.getConvers();
     },
@@ -155,8 +139,6 @@ export default function Inbox() {
     staleTime: 3 * 60 * 1000,
   });
 
-<<<<<<< HEAD
-=======
   const sendMessageSearch = useCallback(
     (receiverId: string) => async (message: string) => {
       if (signalRef.current && message && receiverId) {
@@ -182,15 +164,12 @@ export default function Inbox() {
     staleTime: 3 * 60 * 1000,
   });
 
->>>>>>> 5175638 (New Inbox, Fix small bug)
   useEffect(() => {
     if (converData?.data.data) {
       setChooseConver(converData.data.data[0]);
     }
   }, [converData]);
 
-<<<<<<< HEAD
-=======
   useEffect(() => {
     if (accountsDataAll?.data?.data != null) {
       setAccounts(accountsDataAll.data.data);
@@ -212,7 +191,6 @@ export default function Inbox() {
   console.log(inputSearchAccount);
   console.log(searchAccounts);
 
->>>>>>> 5175638 (New Inbox, Fix small bug)
   return (
     <div className="h-screen">
       <Header />
@@ -221,8 +199,6 @@ export default function Inbox() {
           {/* Left Sidebar: Conversation List (3 parts) */}
           <div className="col-span-3 border-r bg-gray-100 p-4">
             <h3 className="mb-4 text-xl font-semibold">Conversations</h3>
-<<<<<<< HEAD
-=======
             <input
               onChange={(e) => {
                 setInputSearchAccounts(e.currentTarget.value);
@@ -255,7 +231,6 @@ export default function Inbox() {
               </div>
             )}
 
->>>>>>> 5175638 (New Inbox, Fix small bug)
             <ul className="space-y-2">
               {converData?.data.data &&
                 converData?.data.data.map((con) => {
@@ -288,10 +263,7 @@ export default function Inbox() {
           </div>
           {/* Right Content Area: Specific Conversation (7 parts) */}
           <InboxDetail
-<<<<<<< HEAD
-=======
             messages={messages}
->>>>>>> 5175638 (New Inbox, Fix small bug)
             converId={(chooseConver as Conver)?.id}
             userName={
               (chooseConver as Conver)?.user1Info.id != profile?.id
@@ -314,8 +286,6 @@ export default function Inbox() {
                   ? (chooseConver as Conver)?.user2Info.id
                   : ''
             }
-<<<<<<< HEAD
-=======
             sendMessage={
               chooseConver &&
               sendMessage(
@@ -326,7 +296,6 @@ export default function Inbox() {
                     : '',
               )
             }
->>>>>>> 5175638 (New Inbox, Fix small bug)
           />
         </div>
       </div>
