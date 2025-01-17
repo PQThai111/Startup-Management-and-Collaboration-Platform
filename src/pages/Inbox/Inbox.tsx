@@ -206,7 +206,7 @@ export default function Inbox() {
               className="relative mb-4 w-full rounded-md border border-slate-400 p-2 font-semibold"
             />
             {searchAccounts.length > 0 && (
-              <div className="absolute h-[18%] w-[24.7%] rounded-md border border-slate-300 bg-white p-2">
+              <div className="absolute h-[18%] w-[24.7%] overflow-y-auto rounded-md border border-slate-300 bg-white p-2">
                 <div className="floating-accounts px-2">
                   {searchAccounts.map((account) => (
                     <div
