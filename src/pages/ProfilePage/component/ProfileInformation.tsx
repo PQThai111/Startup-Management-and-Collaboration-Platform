@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ProfileContext } from '../../../context/profile.context';
 import { Button } from '../../../components/ui/button';
 import { Label } from '../../../components/ui/label';
@@ -12,7 +12,9 @@ export default function ProfileInformation() {
   const student = useContext(ProfileContext).profile;
   const [isEdit, setIsEdit] = useState(false);
 
-  const { register, handleSubmit } = useForm<{
+  console.log(student);
+
+  const { register, handleSubmit, setValue } = useForm<{
     studentName: string;
     studentCode: string;
     studentDepartment: string;
@@ -27,6 +29,14 @@ export default function ProfileInformation() {
       phoneNumber: student?.phoneNumber,
     },
   });
+
+  useEffect(() => {
+    setValue('studentName', student?.studentName as string);
+    setValue('studentCode', student?.studentCode as string);
+    setValue('studentDepartment', student?.studentDepartment as string);
+    setValue('campus', student?.campus as string);
+    setValue('phoneNumber', student?.phoneNumber as string);
+  }, [student]);
 
   const updateProfile = useMutation({
     mutationFn: (data: {

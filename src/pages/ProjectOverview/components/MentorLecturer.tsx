@@ -14,22 +14,6 @@ const MentorLecturer = ({
       <div className="col-span-2">
         <p className="text-xl font-bold">Mentor & Lecturer</p>
         <div className="">
-          <div className="mb-2 flex gap-2 border-b border-b-slate-500 pb-2">
-            <div className="w-[20%] font-semibold">Mentor:</div>
-            <div>
-              {project.mentorsAndLecturers.map((item, idx) => {
-                if (item.roleType === 'Mentor')
-                  return (
-                    <div key={idx}>
-                      <div>{item.name}</div>
-                      <div className="text-sm text-slate-500">
-                        {item.isMain ? 'Main Mentor' : 'Extra Mentor'}
-                      </div>
-                    </div>
-                  );
-              })}
-            </div>
-          </div>
           {/* Lecturer */}
           <div className="mb-2 flex gap-2 border-b border-b-slate-500 pb-2">
             <div className="w-[20%] font-semibold">Lecturer:</div>
@@ -45,14 +29,20 @@ const MentorLecturer = ({
                 );
             })}
           </div>
-          <div className="grid grid-cols-5 gap-2">
-            <p className="font-semibold">Mentor:</p>
-            <div className="col-span-4">
-              {project.mentorsAndLecturers
-                .filter((item) => item.roleType === 'Mentor')
-                .map((item) => (
-                  <div>{item.name}</div>
-                ))}
+          <div className="mb-2 flex gap-2 border-b border-b-slate-500 pb-2">
+            <div className="w-[20%] font-semibold">Mentor:</div>
+            <div>
+              {project.mentorsAndLecturers.map((item, idx) => {
+                if (item.roleType === 'Mentor')
+                  return (
+                    <div key={idx}>
+                      <div>{item.name}</div>
+                      <div className="text-sm text-slate-500">
+                        {item.isMain ? 'Main Mentor' : 'Extra Mentor'}
+                      </div>
+                    </div>
+                  );
+              })}
             </div>
           </div>
 
