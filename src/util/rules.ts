@@ -69,7 +69,7 @@ export const eventSchema = yup.object({
   Title: yup
     .string()
     .required('Title is required')
-    .matches(/^[\w\s]+$/, 'Only alphanumeric and spaces are allowed') // Allow spaces
+    // .matches(/^[\w\s]+$/, 'Only alphanumeric and spaces are allowed') // Allow spaces
     .min(5, 'Cannot be under 5 characters')
     .max(200, 'Cannot exceed 160 characters'),
   Description: yup

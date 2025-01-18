@@ -1,3 +1,4 @@
+import { AccountRole } from './../constant/account';
 import { AccountStatus } from '../constant/account';
 import { Account, QueryAccount } from '../types/account.type';
 import { SuccessResponse } from '../types/utils.type';
@@ -105,6 +106,29 @@ const accountApi = {
 
   updateAccount(data: { id: string; status: AccountStatus }) {
     return http.put(`${URL}/${data.id}`, { ...data });
+  },
+
+  createLecturerMentorAccount(data: {
+    email: string;
+    password: string;
+    role: AccountRole;
+    mentor?: {
+      name: string;
+      businessName: string;
+      businessEmail: string;
+      contactPhone: string;
+      expertise: string;
+    };
+    lecturer?: {
+      lecturerName: string;
+      phoneNumber: string;
+      expertise: string;
+      department: string;
+      yearsOfExperience: number;
+      bio: string;
+    };
+  }) {
+    return http.post(`${URL}/add-accounts`, [data]);
   },
 };
 
