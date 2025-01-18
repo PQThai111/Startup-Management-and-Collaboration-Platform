@@ -6,22 +6,21 @@ export default function Manager_Approval_Detail({
   request?: Request;
 }) {
   const categoryMap = new Map([
-    [1, 'Healthcare'],
-    [2, 'Fin Tech'],
-    [3, 'Sharing'],
-    [4, 'Economy'],
-    [5, 'Ed Tech'],
-    [6, 'E-commerce'],
-    [7, 'SaaS'],
-    [8, 'GreenTech'],
-    [9, 'AI & Machine Learning'],
-    [10, 'Prop Tech'],
-    [11, 'Ag Tech'],
-    [12, 'Logistics & Supply Chain'],
-    [13, 'Entertainment & Media'],
-    [14, 'Mobility'],
-    [15, 'Cybersecurity'],
-    [16, 'Others'],
+    [0, 'Healthcare'],
+    [1, 'Fintech'],
+    [2, 'Sharing Economy'],
+    [3, 'Ed Tech'],
+    [4, 'E-commerce'],
+    [5, 'SaaS'],
+    [6, 'GreenTech'],
+    [7, 'AI & Machine Learning'],
+    [8, 'Prop Tech'],
+    [9, 'Ag Tech'],
+    [10, 'Logistics & Supply Chain'],
+    [11, 'Entertainment & Media'],
+    [12, 'Mobility'],
+    [13, 'Cybersecurity'],
+    [14, 'Others'],
   ]);
 
   return (

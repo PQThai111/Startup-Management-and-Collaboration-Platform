@@ -164,22 +164,21 @@ function RequestStartup({
           <div className="my-2 grid grid-cols-10 border-b-2 py-4">
             <p className="col-span-10 font-semibold">Project domain : </p>
             {[
-              { value: 1, label: 'Healthcare' },
-              { value: 2, label: 'Fin Tech' },
-              { value: 3, label: 'Sharing' },
-              { value: 4, label: 'Economy' },
-              { value: 5, label: 'Ed Tech' },
-              { value: 6, label: 'E-commerce' },
-              { value: 7, label: 'SaaS' },
-              { value: 8, label: 'GreenTech' },
-              { value: 9, label: 'AI & Machine Learning' },
-              { value: 10, label: 'Prop Tech' },
-              { value: 11, label: 'Ag Tech' },
-              { value: 12, label: 'Logistics & Supply Chain' },
-              { value: 13, label: 'Entertainment & Media' },
-              { value: 14, label: 'Mobility' },
-              { value: 15, label: 'Cybersecurity' },
-              { value: 16, label: 'Others' },
+              { value: 0, label: 'Healthcare' },
+              { value: 1, label: 'Fintech' },
+              { value: 2, label: 'Sharing Economy' },
+              { value: 3, label: 'Ed Tech' },
+              { value: 4, label: 'E-commerce' },
+              { value: 5, label: 'SaaS' },
+              { value: 6, label: 'GreenTech' },
+              { value: 7, label: 'AI & Machine Learning' },
+              { value: 8, label: 'Prop Tech' },
+              { value: 9, label: 'Ag Tech' },
+              { value: 10, label: 'Logistics & Supply Chain' },
+              { value: 11, label: 'Entertainment & Media' },
+              { value: 12, label: 'Mobility' },
+              { value: 13, label: 'Cybersecurity' },
+              { value: 14, label: 'Others' },
             ].map((domain, index) => (
               <div className="col-span-3 mt-2 flex ps-4" key={index}>
                 <Controller
