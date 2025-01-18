@@ -252,7 +252,21 @@ const CalendarMentor = () => {
                                 setChooseSlot(findSlot);
                                 setIsSlotOpen(true);
                               }}
-                            ></div>
+                            >
+                              {findSlot.status == 0
+                                ? 'Available'
+                                : findSlot.status == 1
+                                  ? 'Scheduled'
+                                  : findSlot.status == 2
+                                    ? 'InProgress'
+                                    : findSlot.status == 3
+                                      ? 'Completed'
+                                      : findSlot.status == 4
+                                        ? 'Cancelled'
+                                        : findSlot.status == 5
+                                          ? 'Absent'
+                                          : ''}
+                            </div>
                           </td>
                         );
                       }

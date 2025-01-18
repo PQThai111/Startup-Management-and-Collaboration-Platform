@@ -134,7 +134,7 @@ const FilesAttachment = ({
       <ScrollArea
         className={`${!isLecturerOrMentor ? 'h-[435px]' : 'h-[490px]'} rounded-lg bg-white px-3 py-3 text-sm`}
       >
-        {documentList.map(({ description, fileName, id }) => (
+        {documentList.map(({ description, fileName, id, filePath }) => (
           <div
             className="mt-2 flex items-center gap-2"
             key={id}
@@ -143,10 +143,10 @@ const FilesAttachment = ({
             }}
           >
             <div className="flex w-full justify-between">
-              <div>
+              <button onClick={() => window.open(filePath, '__blank')}>
                 <p className="text-base font-semibold">{fileName}</p>
                 <p className="text-[#828282]">{description}</p>
-              </div>
+              </button>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <button>
