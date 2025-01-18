@@ -15,6 +15,12 @@ const authApi = {
   }) {
     return http.put(`${URL}/change-password`, body);
   },
+
+  googleLogin(token: string) {
+    return http.post<SuccessResponse<AuthResponse>>(
+      `${URL}/google-login?googleIdToken=${token}`,
+    );
+  },
 };
 
 export default authApi;

@@ -45,6 +45,17 @@ const MentorLecturer = ({
                 );
             })}
           </div>
+          <div className="grid grid-cols-5 gap-2">
+            <p className="font-semibold">Mentor:</p>
+            <div className="col-span-4">
+              {project.mentorsAndLecturers
+                .filter((item) => item.roleType === 'Mentor')
+                .map((item) => (
+                  <div>{item.name}</div>
+                ))}
+            </div>
+          </div>
+
           <div className="flex justify-between">
             <div className="flex gap-2">
               <p className="font-semibold">Semester:</p>{' '}

@@ -214,7 +214,7 @@ const ProjectOverview = () => {
   });
 
   return (
-    <ContentContainer className="h-svh px-10">
+    <ContentContainer className="mb-10 h-fit min-h-svh pb-10">
       <div className="flex items-center justify-between gap-5">
         <p className="text-4xl font-bold">Overview</p>
         {!isMember && requestId !== '' && (
@@ -351,6 +351,7 @@ const ProjectOverview = () => {
               team={project?.team}
               className="h-full rounded-xl"
               isMember={isMember}
+              id={project.id}
             />
             <form
               onSubmit={onSubmitStatus}

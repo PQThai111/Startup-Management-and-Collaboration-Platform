@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import { Button } from '../../components/ui/button';
 import {
   Card,
@@ -37,22 +37,38 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import courseApi from '../../apis/course.api';
 import dayjs from 'dayjs';
+import EditSemester from './EditSemester';
+import { SemesterStatus } from '../../types/semester.type';
+import CreateCourse from './CreateCourse';
+import EditCourse from './EditCourse';
+import { CourseStatus } from '../../types/course.type';
+import CourseInstance from './CourseInstance';
+import courseInstanceApi from '../../apis/courseInstance.api';
 
 const Admin_semester_course = () => {
   const queryClient = useQueryClient();
-  const { data: semesters } = useQuery({
-    queryKey: ['semesters'],
-    queryFn: () => semesterApi.getAllSemester(),
-  });
-  const { data: courses } = useQuery({
-    queryKey: ['courses'],
-    queryFn: () => courseApi.getCourses(),
-  });
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>();
   const [description, setDescription] = useState<string>('');
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
+
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ['semesters'],
+        queryFn: () => semesterApi.getAllSemester(),
+      },
+      {
+        queryKey: ['courses'],
+        queryFn: () => courseApi.getCourses(),
+      },
+      {
+        queryKey: ['courseInstances'],
+        queryFn: () => courseInstanceApi.getAllCourseInstances(),
+      },
+    ],
+  });
 
   const addSemester = useMutation({
     mutationFn: (data: {
@@ -95,9 +111,10 @@ const Admin_semester_course = () => {
   return (
     <div>
       <Tabs defaultValue="semester" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="semester">Semester</TabsTrigger>
           <TabsTrigger value="course">Course</TabsTrigger>
+          <TabsTrigger value="courseBySemester">Course By Semester</TabsTrigger>
         </TabsList>
         <TabsContent value="semester">
           <Card>
@@ -113,11 +130,12 @@ const Admin_semester_course = () => {
                     <TableHead>Start Date</TableHead>
                     <TableHead>End Date</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead>Action</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {semesters?.data.data &&
-                    semesters.data.data.map(
+                  {results[0]?.data?.data &&
+                    results[0]?.data?.data.data.map(
                       ({
                         description,
                         endDate,
@@ -125,6 +143,7 @@ const Admin_semester_course = () => {
                         status,
                         id,
                         name,
+                        isDeleted,
                       }) => (
                         <TableRow key={id}>
                           <TableCell>{name}</TableCell>
@@ -135,7 +154,20 @@ const Admin_semester_course = () => {
                           <TableCell>
                             {dayjs(endDate).format('YYYY-MM-DD').toString()}
                           </TableCell>
-                          <TableCell>{status}</TableCell>
+                          <TableCell>{SemesterStatus[status]}</TableCell>
+                          <TableCell>
+                            <EditSemester
+                              semester={{
+                                description,
+                                endDate,
+                                startDate,
+                                status,
+                                id,
+                                name,
+                                isDeleted,
+                              }}
+                            />
+                          </TableCell>
                         </TableRow>
                       ),
                     )}
@@ -219,26 +251,43 @@ const Admin_semester_course = () => {
                     <TableHead>Name</TableHead>
                     <TableHead>Description</TableHead>
                     <TableHead className="w-[200px]">Status</TableHead>
+                    <TableHead className="w-[200px]">Action</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {courses?.data.data &&
-                    courses.data.data.map(
-                      ({ description, status, id, name }) => (
+                  {results[1]?.data?.data &&
+                    results[1]?.data?.data.data.map(
+                      ({ description, status, id, name, isDeleted }) => (
                         <TableRow key={id}>
                           <TableCell>{name}</TableCell>
                           <TableCell>{description}</TableCell>
-                          <TableCell>{status}</TableCell>
+                          <TableCell>{CourseStatus[status]}</TableCell>
+                          <TableCell>
+                            <EditCourse
+                              course={{
+                                description,
+                                status,
+                                id,
+                                name,
+                                isDeleted,
+                              }}
+                            />
+                          </TableCell>
                         </TableRow>
                       ),
                     )}
                 </TableBody>
               </Table>
+              <CreateCourse />
             </CardContent>
-            <CardFooter>
-              <Button>Save password</Button>
-            </CardFooter>
           </Card>
+        </TabsContent>
+        <TabsContent value="courseBySemester">
+          {results[2].data?.data.data ? (
+            <CourseInstance courseInstances={results[2].data?.data.data} />
+          ) : (
+            <div>Loading....</div>
+          )}
         </TabsContent>
       </Tabs>
     </div>

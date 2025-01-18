@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import accountApi from '../../../apis/account.api';
 import { useEffect, useState } from 'react';
 import {
@@ -30,19 +30,70 @@ import {
 import { enumToObjectArray } from '../../../util/util';
 import Edit from './Edit';
 import AddAccount from './AddAccount';
+import { Input } from '../../../components/ui/input';
+import { Label } from '../../../components/ui/label';
+import { useDebouncedCallback } from 'use-debounce';
+import { Button } from '../../../components/ui/button';
+import { Account } from '../../../types/account.type';
+import { toast } from 'react-toastify';
 
 export default function Admin_account_list() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedRole, setSelectedRole] = useState<string>('Student');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const queryClient = useQueryClient();
+  const debounce = useDebouncedCallback((value) => {
+    setSearchTerm(value);
+  }, 500);
   const { data: account, isLoading } = useQuery({
-    queryKey: ['accountList', { page: currentPage, roles: selectedRole }],
+    queryKey: [
+      'accountList',
+      { page: currentPage, roles: selectedRole, SearchTerm: searchTerm },
+    ],
     queryFn: () =>
       accountApi.getAllAccountsWithPagination({
         limit: 10,
         page: currentPage,
         roles: selectedRole,
+        SearchTerm: searchTerm,
       }),
   });
+
+  const updateAccountStatus = useMutation({
+    mutationFn: (data: { id: string; status: AccountStatus }) =>
+      accountApi.updateAccount(data),
+  });
+
+  const handleDisableStudent = (item: Account) => {
+    const status =
+      item.status === AccountStatus.Active
+        ? AccountStatus.Unactive
+        : AccountStatus.Active;
+    updateAccountStatus.mutate(
+      {
+        id: item.id,
+        status,
+      },
+      {
+        onSuccess: () => {
+          toast.success('Update status successfully');
+          queryClient.invalidateQueries({
+            queryKey: [
+              'accountList',
+              {
+                page: currentPage,
+                roles: selectedRole,
+                SearchTerm: searchTerm,
+              },
+            ],
+          });
+        },
+        onError: () => {
+          toast.error('Update status failed');
+        },
+      },
+    );
+  };
 
   useEffect(() => {
     console.log(currentPage);
@@ -52,6 +103,13 @@ export default function Admin_account_list() {
     <div className="pb-5">
       <div className="flex items-center justify-between">
         <p className="text-2xl font-semibold">ALL ACCOUNTS</p>
+        <div className="flex w-80 items-center gap-5">
+          <Label>Search</Label>
+          <Input
+            defaultValue={searchTerm}
+            onChange={(e) => debounce(e.target.value)}
+          />
+        </div>
         <div className="flex gap-5">
           <AddAccount />
           <Select defaultValue="Student" onValueChange={setSelectedRole}>
@@ -85,7 +143,7 @@ export default function Admin_account_list() {
             <TableHead>Phone Number</TableHead>
             <TableHead>Role</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Action</TableHead>
+            <TableHead className="w-[200px]">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -121,6 +179,14 @@ export default function Admin_account_list() {
                 <TableCell className="">{AccountStatus[item.status]}</TableCell>
                 <TableCell className="">
                   <Edit key={item.id} account={item} />
+                  <Button
+                    className="ml-3"
+                    onClick={() => handleDisableStudent(item)}
+                  >
+                    {item.status === AccountStatus.Active
+                      ? 'Disable'
+                      : 'Enable'}
+                  </Button>
                 </TableCell>
               </TableRow>
             ))

@@ -4,8 +4,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useContext, useEffect } from 'react';
 import { AppContext } from './context/app.context';
 import { localStorageEventTarget } from './util/auth';
-// import '@nextui-org/react/styles.css';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { NextUIProvider } from '@nextui-org/react';
+
+const CLIENT_ID = import.meta.env.VITE_GG_CLIENT_ID;
 
 function App() {
   const { reset } = useContext(AppContext);
@@ -19,10 +21,10 @@ function App() {
 
   return (
     <NextUIProvider>
-      <div>
+      <GoogleOAuthProvider clientId={CLIENT_ID}>
         <AppRouter />
         <ToastContainer />
-      </div>
+      </GoogleOAuthProvider>
     </NextUIProvider>
   );
 }

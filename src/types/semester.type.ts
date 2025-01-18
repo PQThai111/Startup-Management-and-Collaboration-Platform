@@ -6,9 +6,15 @@ interface Semester {
   courseInstances: any;
   courseMilestoneInstances: any;
   id: string;
-  status: number;
+  status: SemesterStatus;
   isDeleted: boolean;
   lastUpdateDate?: string;
 }
 
+enum SemesterStatus {
+  Inactive,
+  Ongoing,
+}
+
 export type { Semester };
+export { SemesterStatus };

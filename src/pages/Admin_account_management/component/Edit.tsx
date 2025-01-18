@@ -12,7 +12,6 @@ import {
 import { Label } from '../../../components/ui/label';
 import { Account } from '../../../types/account.type';
 import semesterApi from '../../../apis/semester.api';
-import { AccountRole } from '../../../constant/account';
 import {
   Select,
   SelectContent,
@@ -90,50 +89,50 @@ const Edit = ({ account }: EditProps) => {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          {account.role === AccountRole.Student && (
-            <>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="semester" className="text-right">
-                  Semester
-                </Label>
-                <Select
-                  value={selectedSemester}
-                  onValueChange={(value) => setSelectedSemester(value)}
-                >
-                  <SelectTrigger className="col-span-3">
-                    <SelectValue placeholder="Select Semester" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {semesters?.data.data.map((semester) => (
-                      <SelectItem key={semester.id} value={semester.id}>
-                        {semester.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="course" className="text-right">
-                  Course
-                </Label>
-                <Select
-                  value={selectedCourse}
-                  onValueChange={(value) => setSelectedCourse(value)}
-                >
-                  <SelectTrigger className="col-span-3">
-                    <SelectValue placeholder="Select Course" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {courses?.data.data.map((course) => (
-                      <SelectItem key={course.id} value={course.id}>
-                        {course.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </>
-          )}
+          {/* {account.role === AccountRole.Student && ( */}
+          <>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="semester" className="text-right">
+                Semester
+              </Label>
+              <Select
+                value={selectedSemester}
+                onValueChange={(value) => setSelectedSemester(value)}
+              >
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select Semester" />
+                </SelectTrigger>
+                <SelectContent>
+                  {semesters?.data.data.map((semester) => (
+                    <SelectItem key={semester.id} value={semester.id}>
+                      {semester.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="course" className="text-right">
+                Course
+              </Label>
+              <Select
+                value={selectedCourse}
+                onValueChange={(value) => setSelectedCourse(value)}
+              >
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select Course" />
+                </SelectTrigger>
+                <SelectContent>
+                  {courses?.data.data.map((course) => (
+                    <SelectItem key={course.id} value={course.id}>
+                      {course.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </>
+          {/* )} */}
         </div>
         <DialogFooter>
           <Button onClick={handleAddAccountToCourseInstance}>

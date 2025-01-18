@@ -4,9 +4,8 @@ import Footer from '../../layouts/Footer';
 import SideBar from '../ProjectDetail/components/Sidebar';
 import { ProjectContext } from '../../context/project.context';
 import { useContext, useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import projectApi from '../../apis/project.api';
-import { Project } from '../../types/project.type';
 import { AppContext } from '../../context/app.context';
 import accountApi from '../../apis/account.api';
 import { Account } from '../../types/account.type';
@@ -14,17 +13,19 @@ import { Account } from '../../types/account.type';
 const ProjectDetail = () => {
   const projectId = useParams<{ projectId: string }>().projectId;
   const { profile } = useContext(AppContext);
-  const [project, setProject] = useState<Project>();
   const [isLecturerOrMentor, setIsLecturerOrMentor] = useState<boolean>(false);
   const [student, setStudent] = useState<Account>();
   const [isMember, setIsMember] = useState<boolean>(false);
-  const getProjectDetail = useMutation({
-    mutationFn: (projectId: string) =>
+
+  const { data: projectDetail } = useQuery({
+    queryKey: ['projectDetail', projectId],
+    queryFn: () =>
       projectApi.getProjectDetail({
-        id: projectId,
+        id: projectId as string,
         orderMilestoneByStartDate: true,
       }),
   });
+
   const nav = useNavigate();
 
   const getStudentProfile = useMutation({
@@ -36,17 +37,6 @@ const ProjectDetail = () => {
       nav('/404');
       return;
     }
-    getProjectDetail.mutate(projectId, {
-      onSuccess: (data) => {
-        setProject(data.data.data);
-        console.log(data.data.data);
-      },
-      onError: (error) => {
-        console.log(error);
-        nav('/404');
-      },
-    });
-
     getStudentProfile.mutate(undefined, {
       onSuccess: (data) => {
         setStudent(data.data.data);
@@ -56,16 +46,18 @@ const ProjectDetail = () => {
 
   useEffect(() => {
     if (
-      project &&
-      project.mentorsAndLecturers.find((item) => item.accountId === profile?.id)
+      projectDetail?.data.data &&
+      projectDetail?.data.data.mentorsAndLecturers.find(
+        (item) => item.accountId === profile?.id,
+      )
     ) {
       setIsLecturerOrMentor(true);
     }
-  }, [project]);
+  }, [projectDetail]);
 
   useEffect(() => {
     const studentCode = student?.student?.studentCode;
-    const studentIndex = project?.team.members.findIndex(
+    const studentIndex = projectDetail?.data.data?.team.members.findIndex(
       (item) => item.studentCode === studentCode,
     );
     if (studentIndex !== -1) {
@@ -73,7 +65,7 @@ const ProjectDetail = () => {
     } else {
       setIsMember(false);
     }
-  }, [student, project]);
+  }, [student, projectDetail]);
 
   return (
     <>
@@ -84,7 +76,11 @@ const ProjectDetail = () => {
         <div>
           <div className="mt-10 px-3">
             <ProjectContext.Provider
-              value={{ project, isMember, isLecturerOrMentor }}
+              value={{
+                project: projectDetail?.data.data,
+                isMember,
+                isLecturerOrMentor,
+              }}
             >
               <Outlet />
             </ProjectContext.Provider>

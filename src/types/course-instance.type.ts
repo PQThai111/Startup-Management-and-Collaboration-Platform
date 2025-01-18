@@ -1,16 +1,26 @@
 interface CourseInstance {
-  CourseId: string;
-  SemesterId: string;
+  courseId: string;
+  courseName: string;
+  semesterId: string;
+  semesterName: string;
   Course: any;
   Semester: any;
   AccountInCourseInstances: any;
   EventInCourseInstances: any;
   StudentLecturerAssignments: any;
   ProjectInCourseInstances: any;
-  Id: string;
-  Status: number;
-  IsDeleted: boolean;
-  LastUpdateDate: string;
+  id: string;
+  status: number;
+  isDeleted: boolean;
+  lastUpdateDate: string;
+}
+
+export enum CourseInstanceStatus {
+  Scheduled,
+  OnGoing,
+  Completed,
+  Cancelled,
+  Postponed,
 }
 
 export type { CourseInstance };

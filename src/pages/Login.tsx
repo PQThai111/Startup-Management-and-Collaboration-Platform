@@ -10,6 +10,7 @@ import path from '../constant/path';
 import { useContext } from 'react';
 import { AppContext } from '../context/app.context';
 import { toast } from 'react-toastify';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 
 type FormData = Pick<Schema, 'email' | 'password'>;
 const loginSchema = schema.pick(['email', 'password']);
@@ -67,6 +68,36 @@ const Login = (): JSX.Element => {
     });
   });
 
+  const loginGoogle = useMutation({
+    mutationFn: (token: string) => authApi.googleLogin(token),
+  });
+
+  const handleGGLogin = (res: CredentialResponse) => {
+    loginGoogle.mutate(res.credential as string, {
+      onSuccess: (data) => {
+        setIsAuthenticated(true);
+        setProfile(data.data.data.user);
+        // if (data.data.data.user.role == 1) {
+        //   navigate(path.all_management);
+        // } else if (data.data.data.user.role == 2) {
+        //   navigate(path.all_management);
+        // } else if (data.data.data.user.role == 3) {
+        //   navigate('/');
+        // } else if (data.data.data.user.role == 4) {
+        //   navigate(path.all_management);
+        // } else if (data.data.data.user.role == 0) {
+        //   navigate(path.admin);
+        // }
+      },
+      onError: (error) => {
+        console.log((error as any).response.data.message);
+        toast.error(`${(error as any).response.data.message}`, {
+          autoClose: 500,
+        });
+      },
+    });
+  };
+
   return (
     <>
       <div className="container7">
@@ -99,9 +130,6 @@ const Login = (): JSX.Element => {
               className="relative mb-8 h-10 w-[490px] rounded-sm"
               errorMessage={errors.password?.message}
             />
-            <a href="" className="text-white underline">
-              Forgot password ?
-            </a>
             <button
               type="submit"
               className="mt-10 h-9 w-full rounded-lg bg-orange-400 text-center text-[20px] font-bold"
@@ -109,14 +137,18 @@ const Login = (): JSX.Element => {
               Login
             </button>
           </form>
-          {/* <div className="w-[490px]">
+          <div className="flex w-[490px] flex-col items-center">
             <p className="mt-5 text-center text-white">Or?</p>
-            <Link to={path.register}>
-              <button className="mt-5 h-9 w-full rounded-lg bg-white text-center text-[20px] font-bold text-main">
-                Sign up
-              </button>
-            </Link>
-          </div> */}
+            <GoogleLogin
+              width="100%"
+              onSuccess={(credentialRes) => {
+                handleGGLogin(credentialRes);
+              }}
+              onError={() => {
+                console.log('error');
+              }}
+            />
+          </div>
         </div>
       </div>
       ;

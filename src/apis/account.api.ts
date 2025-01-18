@@ -1,3 +1,4 @@
+import { AccountStatus } from '../constant/account';
 import { Account, QueryAccount } from '../types/account.type';
 import { SuccessResponse } from '../types/utils.type';
 import http from '../util/http';
@@ -16,14 +17,16 @@ const accountApi = {
     roles,
     page,
     limit,
+    SearchTerm,
   }: {
     roles?: string;
     page: number;
     limit: number;
+    SearchTerm?: string;
   }) {
     const params = roles
-      ? { roles, PageNumber: page, PageSize: limit }
-      : { PageNumber: page, PageSize: limit };
+      ? { roles, PageNumber: page, PageSize: limit, SearchTerm }
+      : { PageNumber: page, PageSize: limit, SearchTerm };
     return http.get<
       SuccessResponse<{
         data: Account[];
@@ -85,6 +88,23 @@ const accountApi = {
 
   createManagerAccount(data: { email: string; password: string }) {
     return http.post(`${URL}/add-manager`, data);
+  },
+
+  updateAccountStudent(data: {
+    id: string;
+    student: {
+      studentName: string;
+      studentCode: string;
+      studentDepartment: string;
+      campus: string;
+      phoneNumber: string;
+    };
+  }) {
+    return http.put(`${URL}/${data.id}`, { ...data, role: 3 });
+  },
+
+  updateAccount(data: { id: string; status: AccountStatus }) {
+    return http.put(`${URL}/${data.id}`, { ...data });
   },
 };
 

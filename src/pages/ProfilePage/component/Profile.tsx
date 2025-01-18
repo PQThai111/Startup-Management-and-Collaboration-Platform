@@ -22,7 +22,7 @@ export default function Profile() {
         setStudent(response.data.data);
       },
     });
-  });
+  }, []);
 
   return (
     <div className="container mx-auto mb-10 mt-10 px-32">

@@ -27,6 +27,7 @@ import { MAX_TEAM_SIZE } from '../../../constant/team';
 import { ScrollArea } from '../../../components/ui/scroll-area';
 import { AppContext } from '../../../context/app.context';
 import teamMemberApis from '../../../apis/team-member.api';
+import EditMember from './EditMember';
 
 const Members = ({
   team,
@@ -34,12 +35,14 @@ const Members = ({
   semesterId,
   className,
   isMember,
+  id,
   ...props
 }: HTMLAttributes<HTMLDivElement> &
   Pick<Project, 'team'> & {
     courseId: string;
     semesterId: string;
     isMember: boolean;
+    id: string;
   }) => {
   const { profile } = useContext(AppContext);
   const [members, setMembers] = useState<Member[]>(team.members);
@@ -52,6 +55,8 @@ const Members = ({
   const debounce = useDebouncedCallback((value) => {
     setQuery(value);
   }, 1000);
+
+  0;
 
   const findStudent = useMutation({
     mutationFn: ({
@@ -162,7 +167,7 @@ const Members = ({
     if (lead) {
       setLeader(lead);
     }
-  }, []);
+  }, [members]);
 
   useEffect(() => {
     findStudent.mutate(
@@ -212,34 +217,42 @@ const Members = ({
                 <div className="flex items-center gap-5">
                   <p className="text-lg font-semibold">{member.studentName}</p>
                   {profile?.studentId === leader?.studentId && (
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <button className="my-2 flex items-center gap-2 hover:text-blue-500">
-                          <HiUserRemove />
-                        </button>
-                      </DialogTrigger>
-                      <DialogContent className="w-[600px]">
-                        <DialogHeader>
-                          <DialogTitle>Remove Member</DialogTitle>
-                          <DialogDescription>
-                            Remove member from your team
-                          </DialogDescription>
-                        </DialogHeader>
-                        <p className="text-lg font-bold italic">
-                          Are you sure to remove this member from your team?
-                        </p>
-                        <DialogFooter>
-                          <Button
-                            type="button"
-                            onClick={() => {
-                              handleRemoveMember(member);
-                            }}
-                          >
-                            Remove
-                          </Button>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
+                    <>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <button className="my-2 flex items-center gap-2 hover:text-blue-500">
+                            <HiUserRemove />
+                          </button>
+                        </DialogTrigger>
+                        <DialogContent className="w-[600px]">
+                          <DialogHeader>
+                            <DialogTitle>Remove Member</DialogTitle>
+                            <DialogDescription>
+                              Remove member from your team
+                            </DialogDescription>
+                          </DialogHeader>
+                          <p className="text-lg font-bold italic">
+                            Are you sure to remove this member from your team?
+                          </p>
+                          <DialogFooter>
+                            <Button
+                              type="button"
+                              onClick={() => {
+                                handleRemoveMember(member);
+                              }}
+                            >
+                              Remove
+                            </Button>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
+                      <EditMember
+                        member={member}
+                        projectId={id}
+                        setMembers={setMembers}
+                        memberList={members}
+                      />
+                    </>
                   )}
                 </div>
                 <p className="text-lg font-semibold italic">

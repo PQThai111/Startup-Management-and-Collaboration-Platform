@@ -42,7 +42,10 @@ class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config;
-        if (`${url?.split('/')[1]}` === 'login') {
+        if (
+          `${url?.split('/')[1]}` === 'login' ||
+          (url?.split('/')[1] && url?.split('/')[1].startsWith('google-login'))
+        ) {
           this.accessToken = response.data.data.access_token;
           this.refreshToken = response.data.data.refresh_token;
           saveAccessTokenAndRefreshTokenToLS(

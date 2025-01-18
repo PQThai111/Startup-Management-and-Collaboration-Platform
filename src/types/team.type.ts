@@ -3,7 +3,7 @@ export interface Member {
   note: string;
   studentName: string;
   studentCode: string;
-  memberRole: MemberRole;
+  memberRole: string;
   isLeader: boolean;
   status: number;
   isDeleted: boolean;
@@ -27,5 +27,3 @@ export interface Team {
   status: 0;
   isDeleted: false;
 }
-
-export type MemberRole = 'BE' | 'FE';
