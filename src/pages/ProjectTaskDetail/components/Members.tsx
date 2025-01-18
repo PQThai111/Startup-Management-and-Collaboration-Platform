@@ -54,7 +54,9 @@ const Members = ({
     mutationFn: () =>
       projectTaskApi.unassignTeamMember({
         id: projectTaskId,
-        teamMemberId: profile?.id as string,
+        teamMemberId: allMembers.find(
+          (item) => item.student.id === profile?.studentId,
+        )?.id as string,
       }),
   });
 
