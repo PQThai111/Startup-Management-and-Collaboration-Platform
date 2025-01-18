@@ -75,7 +75,7 @@ const CalendarLecturer = () => {
     startTime: formatDate(monday),
     endTime: formatDate(sunday),
     creatorId: project?.mentorsAndLecturers.find(
-      (item) => item.roleType === 'Lecturer',
+      (item) => item.roleType === 'Lecturer' && item.isMain,
     )?.accountId,
   };
 
@@ -86,6 +86,10 @@ const CalendarLecturer = () => {
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,
+    enabled:
+      project?.mentorsAndLecturers.find(
+        (item) => item.roleType === 'Lecturer' && item.isMain,
+      ) != null,
   });
 
   console.log(lecturerSlotsData?.data.data);
@@ -139,11 +143,13 @@ const CalendarLecturer = () => {
         <div className="flex gap-5">
           <p>
             <span className="font-bold">Lecturer: </span>
-            {
-              project?.mentorsAndLecturers.find(
-                (item) => item.roleType === 'Lecturer',
-              )?.name
-            }
+            {project?.mentorsAndLecturers.find(
+              (item) => item.roleType === 'Lecturer' && item.isMain,
+            ) != null
+              ? project?.mentorsAndLecturers.find(
+                  (item) => item.roleType === 'Lecturer' && item.isMain,
+                )?.name
+              : 'You dont have Main Lecturer'}
           </p>
         </div>
         <div className="flex gap-5">

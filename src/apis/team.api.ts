@@ -31,6 +31,23 @@ const teamApis = {
       body,
     );
   },
+  updateUserTeam({
+    teamId,
+    body,
+  }: {
+    teamId: string;
+    body: {
+      roleAssignmentId: string;
+      accountId: string;
+      roleType: number;
+      description?: string;
+    };
+  }) {
+    return http.put<SuccessResponse<any>>(
+      `${URL}/${teamId}/RoleAssignment`,
+      body,
+    );
+  },
   deleteUserTeam({
     teamId,
     accountId,

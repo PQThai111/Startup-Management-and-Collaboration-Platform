@@ -94,6 +94,8 @@ function RequestStartup({
     formData.append('startupIdeaCategory', data.StartupIdeaCategory.toString());
     formData.append('startupIdeaDescription', data.StartupIdeaDescription);
     formData.append('startupIdeaTitle', data.StartupIdeaTitle);
+    formData.append('startupIdeaStatus', '0');
+    formData.append('status', '0');
     if (file) {
       formData.append('startupIdeaCoverImage', file);
     }
@@ -104,7 +106,21 @@ function RequestStartup({
   const handleRemove = () => {
     const formData = new FormData();
     formData.append('startupIdeaId', requestStartup.startupIdea.id);
-    formData.append('StartupRequestStatus', '3');
+    formData.append(
+      'desiredLecturerAccountId',
+      requestStartup.desiredLecturerId,
+    );
+    formData.append(
+      'startupIdeaCategory',
+      requestStartup.startupIdea.category.toString(),
+    );
+    formData.append(
+      'startupIdeaDescription',
+      requestStartup.startupIdea.description,
+    );
+    formData.append('startupIdeaTitle', requestStartup.startupIdea.title);
+    // formData.append('StartupRequestStatus', requestStartup.);
+    formData.append('status', '3');
     UpdateRequestMutation.mutate({ id: requestStartup.id, body: formData });
   };
 

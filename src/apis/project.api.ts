@@ -37,8 +37,8 @@ const projectApi = {
     courseId?: string;
     semesterId?: string;
   }) {
-    return http.get<SuccessResponse<{ data: Project[] }>>(
-      `${URL}/CurrentUserProject?${courseId && `courseId=${courseId}`}&${semesterId && `semesterId=${semesterId}`}`,
+    return http.get<SuccessResponse<Project[]>>(
+      `${URL}/CurrentUserProject?isPaging=false&${courseId && `courseId=${courseId}`}&${semesterId && `semesterId=${semesterId}`}`,
     );
   },
   updateProjectV2({ id, data }: { id: string; data: FormData }) {

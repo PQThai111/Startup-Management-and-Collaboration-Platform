@@ -3,8 +3,12 @@ import {
   RefetchOptions,
   useMutation,
   useQuery,
+  useQueryClient,
 } from '@tanstack/react-query';
-import { useStudentQueryConfig } from '../../../hooks/useQueryConfig';
+import {
+  useProjectQueryConfig,
+  useStudentQueryConfig,
+} from '../../../hooks/useQueryConfig';
 import { Project, ProjectList } from '../../../types/project.type';
 import studentApi from '../../../apis/student.api';
 import { QueryConfig as ConfigPaging } from '../../../types/event.type';
@@ -21,6 +25,7 @@ import { SuccessResponse } from '../../../types/utils.type';
 import accountApi from '../../../apis/account.api';
 import { Account, QueryAccount } from '../../../types/account.type';
 import teamApis from '../../../apis/team.api';
+import classNames from 'classnames';
 
 interface Props {
   project: Project;
@@ -52,8 +57,10 @@ function Manager_Project_Detail({
   refetchProject,
 }: Props) {
   const { profile } = useContext(AppContext);
+  const queryClient = useQueryClient();
   const [student, setStudent] = useState<Student | null>(null);
   const queryConfig = useStudentQueryConfig();
+  const queryConfigPro = useProjectQueryConfig();
   // const { register, onSubmitSearch } = useSearchStudent();
   const [mentors, setMentors] = useState<Account[]>([]);
 
@@ -78,10 +85,6 @@ function Manager_Project_Detail({
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,
   });
-
-  // const mentors =
-  //   ;
-  //   }) || [];
 
   useEffect(() => {
     if (mentorsData?.data?.data) {
@@ -114,6 +117,9 @@ function Manager_Project_Detail({
       });
       refetch();
       refetchProject();
+      queryClient.invalidateQueries({
+        queryKey: ['projects', queryConfigPro],
+      });
     },
     onError: (_) => {
       toast.error('Add Member Fail !', {
@@ -156,6 +162,28 @@ function Manager_Project_Detail({
       });
       refetchProject();
       refetchMentors();
+      queryClient.invalidateQueries({
+        queryKey: ['projects', queryConfigPro],
+      });
+    },
+  });
+
+  const updateMentorRoleToProjectMutation = useMutation({
+    mutationFn: teamApis.updateUserTeam,
+    onError: (_) => {
+      toast.error('Fail to Update Mentor Role !', {
+        autoClose: 500,
+      });
+    },
+    onSuccess: () => {
+      toast.success('Update Mentor Role successfully !', {
+        autoClose: 500,
+      });
+      refetchProject();
+      refetchMentors();
+      queryClient.invalidateQueries({
+        queryKey: ['projects', queryConfigPro],
+      });
     },
   });
 
@@ -172,27 +200,44 @@ function Manager_Project_Detail({
       });
       refetchProject();
       refetchMentors();
+      queryClient.invalidateQueries({
+        queryKey: ['projects', queryConfigPro],
+      });
     },
   });
 
-  const handleRemove = (accountId: string) => {
+  const handleRemove = (accountId: string, roleType: number) => {
     if (project?.team?.teamId) {
       removeMentorToProjectMutation.mutate({
         teamId: project.team.teamId,
         accountId: accountId,
-        roleType: 1,
+        roleType: roleType,
       });
     }
   };
 
-  const handleAdd = (accountId: string) => {
+  const handleUpdate = (accountId: string, roleAssignmentId: string) => {
+    if (project?.team?.teamId) {
+      updateMentorRoleToProjectMutation.mutate({
+        teamId: project.team.teamId,
+        body: {
+          roleAssignmentId: roleAssignmentId,
+          accountId: accountId,
+          description: 'Change by manager',
+          roleType: 1,
+        },
+      });
+    }
+  };
+
+  const handleAdd = (accountId: string, roleType: number) => {
     if (project?.team?.teamId) {
       addMentorToProjectMutation.mutate({
         teamId: project.team.teamId,
         body: {
           accountId: accountId,
           description: 'Add by manager',
-          roleType: 1,
+          roleType: roleType,
         },
       });
     }
@@ -330,11 +375,17 @@ function Manager_Project_Detail({
                 Lecturer
               </div>
               <div className="w-3/4 rounded-md border border-gray-300 p-3">
-                {
-                  project.mentorsAndLecturers.find(
-                    (x) => x.roleType == 'Lecturer',
-                  )?.name
-                }
+                {project.mentorsAndLecturers.map((item, idx) => {
+                  if (item.roleType === 'Lecturer')
+                    return (
+                      <div key={idx}>
+                        <div>{item.name}</div>
+                        <div className="text-sm text-slate-500">
+                          {item.isMain ? 'Main Lecturer' : 'Extra Lecturer'}
+                        </div>
+                      </div>
+                    );
+                })}
               </div>
             </div>
             <div className="flex items-center justify-between">
@@ -345,17 +396,42 @@ function Manager_Project_Detail({
                 <div className="border-b border-b-slate-300 pb-2">
                   {project.mentorsAndLecturers
                     .filter((x) => x.roleType == 'Mentor')
-                    .map((x) => (
-                      <div className="mb-2 flex items-center justify-between rounded-md border border-gray-300 p-3">
-                        <div>{x.name}</div>
-                        <button
-                          onClick={() => {
-                            handleRemove(x.accountId);
-                          }}
-                          className="w-[15%] rounded-sm bg-red-400 px-3 py-2 text-white"
+                    .map((x, idx) => (
+                      <div
+                        key={idx}
+                        className="mb-2 flex items-center justify-between rounded-md border border-gray-300 p-3"
+                      >
+                        <div>
+                          <div>{x.name}</div>
+                          <div className="text-sm text-slate-500">
+                            {x.isMain ? 'Main Mentor' : 'Extra Mentor'}
+                          </div>
+                        </div>
+                        <div
+                          className={classNames('flex w-[28%]', {
+                            'justify-between': !x.isMain,
+                            'justify-end': x.isMain,
+                          })}
                         >
-                          Delete
-                        </button>
+                          {!x.isMain && (
+                            <button
+                              onClick={() => {
+                                handleUpdate(x.accountId, x.roleAssignmentId);
+                              }}
+                              className="rounded-sm bg-green-600 px-3 py-2 text-white"
+                            >
+                              Is Main
+                            </button>
+                          )}
+                          <button
+                            onClick={() => {
+                              handleRemove(x.accountId, x.isMain ? 1 : 3);
+                            }}
+                            className="rounded-sm bg-red-400 px-3 py-2 text-white"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
                     ))}
                 </div>
@@ -368,7 +444,14 @@ function Manager_Project_Detail({
                       <div>{x.mentor?.name}</div>
                       <button
                         onClick={() => {
-                          handleAdd(x.id);
+                          handleAdd(
+                            x.id,
+                            project.mentorsAndLecturers.find(
+                              (x) => x.roleType == 'Mentor' && x.isMain,
+                            )
+                              ? 3
+                              : 1,
+                          );
                         }}
                         className="w-[15%] rounded-sm bg-blue-400 px-3 py-2 text-white"
                       >

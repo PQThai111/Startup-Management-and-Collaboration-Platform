@@ -40,8 +40,12 @@ export default function Manager_Project_Item({
     isDeleted,
   } = projectProps;
   const { profile } = useContext(AppContext);
-  const lecturer = mentorsAndLecturers.find((x) => x.roleType == 'Lecturer')!;
-  const mentor = mentorsAndLecturers.find((x) => x.roleType == 'Mentor')!;
+  const lecturer = mentorsAndLecturers.find(
+    (x) => x.roleType == 'Lecturer' && x.isMain,
+  )!;
+  const mentor = mentorsAndLecturers.find(
+    (x) => x.roleType == 'Mentor' && x.isMain,
+  )!;
   const leader = team.members.find((x) => x.isLeader == true)!;
   const navigate = useNavigate();
 

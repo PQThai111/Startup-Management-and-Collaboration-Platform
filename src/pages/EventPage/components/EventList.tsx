@@ -27,6 +27,8 @@ export default function EventList() {
     staleTime: 3 * 60 * 1000,
   });
 
+
+
   return (
     <div className="mx-auto mb-20 w-full px-20">
       <form

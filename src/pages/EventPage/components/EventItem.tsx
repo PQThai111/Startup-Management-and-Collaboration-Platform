@@ -18,6 +18,8 @@ export default function EventItem({ eventProps }: { eventProps: Event }) {
   let start = new Date(startDate);
   let end = new Date(endDate);
 
+
+
   return (
     <Link
       to={`${path.newFeed}` + '/' + `${id}`}

@@ -33,10 +33,16 @@ export default function CreateProject() {
 
   const createRequestMutation = useMutation({
     mutationFn: startupRequestsApi.createStartupRequests,
-    onError: (_) => {
-      toast.error('Fail to create request !', {
-        autoClose: 500,
-      });
+    onError: (e: any) => {
+      console.log(e);
+      toast.error(
+        e?.response?.data?.errors
+          ? e?.response?.data?.errors[0]
+          : e?.response?.data?.message,
+        {
+          autoClose: 1000,
+        },
+      );
     },
     onSuccess: () => {
       toast.success('Create request successfully !', {

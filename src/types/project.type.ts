@@ -22,6 +22,8 @@ export interface Project {
     name: string;
     roleType: 'Mentor' | 'Lecturer';
     description: string;
+    isMain: boolean;
+    roleAssignmentId: string;
   }[];
   memberWanted: string;
   memberWantedStatus: boolean;

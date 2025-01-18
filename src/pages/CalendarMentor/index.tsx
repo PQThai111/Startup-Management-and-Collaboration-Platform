@@ -75,7 +75,7 @@ const CalendarMentor = () => {
     startTime: formatDate(monday),
     endTime: formatDate(sunday),
     creatorId: project?.mentorsAndLecturers.find(
-      (item) => item.roleType === 'Mentor',
+      (item) => item.roleType === 'Mentor' && item.isMain,
     )?.accountId,
   };
 
@@ -86,9 +86,11 @@ const CalendarMentor = () => {
     },
     placeholderData: (prevData) => prevData,
     staleTime: 3 * 60 * 1000,
+    enabled:
+      project?.mentorsAndLecturers.find(
+        (item) => item.roleType === 'Mentor' && item.isMain,
+      ) != null,
   });
-
-  console.log(mentorSlotsData?.data.data);
 
   const handleSlotClose = () => {
     setIsSlotOpen(!isSlotOpen);
@@ -139,11 +141,13 @@ const CalendarMentor = () => {
         <div className="flex gap-5">
           <p>
             <span className="font-bold">Mentor: </span>
-            {
-              project?.mentorsAndLecturers.find(
-                (item) => item.roleType === 'Mentor',
-              )?.name
-            }
+            {project?.mentorsAndLecturers.find(
+              (item) => item.roleType === 'Mentor' && item.isMain,
+            ) != null
+              ? project?.mentorsAndLecturers.find(
+                  (item) => item.roleType === 'Mentor' && item.isMain,
+                )?.name
+              : 'You dont have Main Mentor'}
           </p>
         </div>
         <div className="flex gap-5">
