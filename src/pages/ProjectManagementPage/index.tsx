@@ -4,7 +4,6 @@ import Header from '../../layouts/Header';
 import projectApi from '../../apis/project.api';
 import { useContext, useEffect, useState } from 'react';
 import { Project } from '../../types/project.type';
-import config from '../../constant/config';
 import { useNavigate } from 'react-router-dom';
 import { ProjectStatus } from '../../constant/project';
 import { Progress } from '../../components/ui/progress';
