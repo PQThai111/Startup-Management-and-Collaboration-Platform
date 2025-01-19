@@ -147,10 +147,7 @@ const ProjectManagementPage = () => {
                     </div>
                   </div>
                   <div className="h-full w-3/5">
-                    <img
-                      src={`${config.baseURLWithoutApi}${project.coverImage}`}
-                      className="h-full w-full"
-                    />
+                    <img src={project.coverImage} className="h-full w-full" />
                   </div>
                 </CardContent>
               </Card>

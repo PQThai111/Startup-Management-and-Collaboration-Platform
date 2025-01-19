@@ -1,4 +1,4 @@
-import { HTMLAttributes, useState } from 'react';
+import { HTMLAttributes, useContext, useState } from 'react';
 import { Project } from '../../../types/project.type';
 import {
   DropdownMenu,
@@ -37,6 +37,7 @@ import {
   AlertDialogTrigger,
 } from '../../../components/ui/alert-dialog';
 import { StartupCategory } from '../../../constant/startup_category';
+import { AppContext } from '../../../context/app.context';
 
 interface EditOverviewProps {
   projectCode: string;
@@ -58,6 +59,7 @@ const Overview = ({
 }) => {
   const [projectDetail, setProjectDetail] = useState<Project>(project);
   const nav = useNavigate();
+  const { profile } = useContext(AppContext);
 
   const { register, handleSubmit, setValue, watch } =
     useForm<EditOverviewProps>();
@@ -161,11 +163,13 @@ const Overview = ({
                   </button>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <AlertDialogTrigger>
-                    <button>Delete Project</button>
-                  </AlertDialogTrigger>
-                </DropdownMenuItem>{' '}
+                {profile?.role != 3 && (
+                  <DropdownMenuItem>
+                    <AlertDialogTrigger>
+                      <button>Delete Project</button>
+                    </AlertDialogTrigger>
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           )}
