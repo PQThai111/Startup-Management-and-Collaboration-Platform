@@ -18,8 +18,6 @@ export default function EventItem({ eventProps }: { eventProps: Event }) {
   let start = new Date(startDate);
   let end = new Date(endDate);
 
-
-
   return (
     <Link
       to={`${path.newFeed}` + '/' + `${id}`}
@@ -27,7 +25,7 @@ export default function EventItem({ eventProps }: { eventProps: Event }) {
     >
       <div className="col-span-3 h-full overflow-hidden p-2">
         <img
-          src="https://s3-alpha-sig.figma.com/img/0f72/2667/d6a634bbd4e7c1dfc12adaf9e8ce1984?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PZae~MRFDyeiqgAfKt4RLCHnU5~VtTfmFV7mqTlM1gH9R7oI8ORJFXCcZfRl-H71sOFoMQ~Pl2maVdMMR6ozMIJj-Qb9uXRzpGiWkFgelhVMoh0JY36zO3ZT0zB2ViscAIRuO0XmWGZLOBDs7fcF1Sb~5uOHv8dIjCdIS1QVAj8XZOM4FbD3gW5eRO4Hl8o54iOFbGqHJAfQikZGyv4cJppvIShWwk3mzuis3XhOgLRyig7YVgUn3WPhbe08kVvwttKYbVbM5gwmAkVfXBd-HWyxQ1AAkbwSz~m-cb9zXzzRjvVeTGgztWvNts6ps0yUrCaednr5RjFjGz4eVMwS3w__"
+          src={eventProps.coverImage}
           className="h-full w-full object-cover"
         />
       </div>
